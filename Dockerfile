@@ -22,7 +22,7 @@ ENV TZ=Asia/Seoul
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Set Working Directory
-WORKDIR /workspaces/app
+WORKDIR /workspaces/news
 
 # Create a non-root user 'tripod'
 ARG USERNAME=tripod
@@ -41,7 +41,7 @@ RUN echo "parse_git_branch() { git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's
     && echo 'export PS1="\[\\033[01;32m\]\u\[\\033[00m\] ➜ \[\\033[01;34m\]\\w\[\\033[00m\]\[\\033[01;32m\]\$(parse_git_branch)\[\\033[00m\] \$ "' >> /home/$USERNAME/.bashrc
 
 # (Production) Copy requirements and install
-COPY requirements.txt /workspaces/app/
+COPY requirements.txt /workspaces/news/
 RUN pip install --no-cache-dir -r requirements.txt
 
 # (Production) Copy source code

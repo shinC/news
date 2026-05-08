@@ -64,8 +64,8 @@ docker-compose up -d --build
 ### 6.2 컨테이너 내부 접속
 컨테이너가 실행된 후, 내부 쉘(`bash`)에 접속하여 개발 작업을 수행할 수 있습니다:
 ```bash
-# 실행 중인 'app' 서비스 컨테이너에 bash로 접속
-docker-compose exec app bash
+# 실행 중인 'news' 서비스 컨테이너에 bash로 접속
+docker-compose exec news bash
 ```
 접속 후에는 앞서 설정한 커스텀 프롬프트와 Python 3.14 환경을 동일하게 사용할 수 있습니다.
 

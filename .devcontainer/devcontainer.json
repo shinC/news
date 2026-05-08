@@ -1,8 +1,8 @@
 {
-    "name": "Python Dev Environment Template",
+    "name": "news",
     "dockerComposeFile": ["../docker-compose.yml"],
-    "service": "app",
-    "workspaceFolder": "/workspaces/app",
+    "service": "news",
+    "workspaceFolder": "/workspaces/news",
     "customizations": {
         "vscode": {
             "extensions": [

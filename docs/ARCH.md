@@ -1,4 +1,4 @@
-# Architecture & Design (ARCH) - Template
+# Architecture & Design (ARCH) - news
 
 ## 1. Tech Stack
 - **Language**: Python 3.14
@@ -30,4 +30,4 @@
 - `src/utils/`: Generic utility functions.
 
 ---
-*Note: This is a template. Please update with project-specific details.*
+*Project: news*

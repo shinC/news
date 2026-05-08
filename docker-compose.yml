@@ -1,12 +1,12 @@
 services:
-  app:
+  news:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: dev_container
+    container_name: news_container
     volumes:
       # Use :cached for better performance on Mac/OrbStack
-      - .:/workspaces/app:cached
+      - .:/workspaces/news:cached
     environment:
       - PYTHONUNBUFFERED=1
     # keep the container running indefinitely for Dev Container

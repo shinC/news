@@ -1,6 +1,6 @@
-# Python Development Template (Dev Container)
+# news
 
-이 프로젝트는 최신 Python 3.14 환경을 기반으로 한 범용 개발 템플릿입니다. VS Code Dev Container를 사용하여 즉시 표준화된 개발 환경을 구축할 수 있습니다.
+이 프로젝트는 최신 Python 3.14 환경을 기반으로 한 뉴스 스크래핑 시스템입니다. VS Code Dev Container를 사용하여 즉시 표준화된 개발 환경을 구축할 수 있습니다.
 
 ## 주요 특징
 - **Python 3.14**: 최신 안정화 버전 Python 제공.
@@ -18,7 +18,7 @@
 ### 2. 일반 도커 환경
 ```bash
 docker compose up -d --build
-docker compose exec app bash
+docker compose exec news bash
 ```
 
 ## 프로젝트 구조
@@ -39,4 +39,4 @@ docker compose exec app bash
 - [아키텍처 설계 가이드](docs/ARCH.md)
 
 ---
-Created by Antigravity Template Engine.
+Created for news scraping project.
