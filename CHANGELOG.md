@@ -1,8 +1,17 @@
 # Changelog
 
 ## [Unreleased]
-
 ### Added
+- Added `yfinance` to `requirements.txt` to fetch US market indices and sector ETFs.
+- Added `src/core/market.py` to collect S&P 500, NASDAQ, Dow Jones, and Top/Bottom performing sectors.
+- Updated `src/main.py` and `src/core/formatter.py` to include market data at the top of the Markdown report.
+- Added `docs/PRD.md` and `docs/ARCH.md` for US Economy News Scraper.
+- Added `config/settings.py` with Google News configuration for "US Economy Business".
+- Added `src/core/scraper.py` using `newspaper4k` and `GoogleNewsSource`.
+- Added `src/core/analyzer.py` for NLP-based article clustering using TF-IDF and Cosine Similarity.
+- Added `src/core/formatter.py` to output clustered articles as Markdown.
+- Added `src/main.py` pipeline.
+
 - Added `.dockerignore` for best practices.
 - Added `.gitignore` to exclude environment files, logs, and IDE settings.
 - Added `requirements.txt` with pinned stable versions for core libraries (BeautifulSoup4, Playwright, Pydantic, etc.).

@@ -5,3 +5,7 @@ requests==2.33.1
 pytest==9.0.3
 lxml==6.1.0
 python-dotenv==1.2.2
+newspaper4k[gnews,nlp]>=0.9.3
+pandas>=2.2.0
+scikit-learn>=1.4.0
+yfinance>=0.2.37

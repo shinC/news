@@ -1,21 +1,26 @@
-# Project Requirements Document (PRD)
+# Project Requirements Document (PRD) - US Economy News Scraper
 
-## 1. Project Purpose
-Build a robust news scraping system that can collect, parse, and store news articles from various sources.
+## 1. 프로젝트 목적 (Project Purpose)
+미국 경제 및 증시 동향을 한눈에 파악하고 요약할 수 있도록 주요 뉴스 사이트에서 관련 기사를 수집 및 가공하여 헤드라인 위주로 제공하는 시스템을 구축한다.
 
-## 2. Target Sources
-- [ ] Naver News (Example)
-- [ ] Daum News (Example)
-- [ ] Google News (Example)
-- (Final sources to be defined by user)
+## 2. 주요 대상 사이트 (Target Sources)
+- 구글 뉴스(Google News)의 **"미국 경제/비즈니스"** 카테고리 활용.
 
-## 3. Key Features
-- Web scraping (requests/playwright/selenium)
-- Data parsing (article content, metadata, dates)
-- Data storage (CSV/JSON/Database)
-- Scheduling/Automation
+## 3. 핵심 기능 (Key Features)
+1. **시황 파악 (Market Data)**
+   - `yfinance`를 활용하여 미국 3대 지수(S&P 500, 나스닥, 다우존스)의 등락률 수집.
+   - 주요 11개 산업 섹터 ETF의 데이터를 비교하여 가장 크게 상승/하락한 섹터 도출.
+2. **뉴스 수집 (News Scraping)**
+   - `newspaper4k` 라이브러리의 `gnews` 확장을 사용하여 기사 메타데이터(제목, 발행일, 내용) 수집.
+   - 최근 48시간(2일) 이내 발행된 기사만 수집.
+3. **데이터 처리 (Data Processing)**
+   - **중복/유사 기사 그룹화**: NLP 기법(TF-IDF 등)을 통해 유사한 주제를 다루는 기사들을 클러스터링하여 중복도(이슈 중요도) 산출.
+4. **정렬 및 출력 (Sorting & Presentation)**
+   - **1순위**: 시간순 (최신순 우선)
+   - **2순위**: 중복도 (같은 시간대일 경우 여러 매체에서 많이 다룬 기사 우선)
+   - **출력 형태**: 마크다운(`.md`) 파일 최상단에 **데이터 출처(야후 파이낸스)와 시황 요약**을 명시하고, 이어서 뉴스 목록을 저장.
 
-## 4. Success Criteria
-- [ ] Successfully scrapes at least one news source.
-- [ ] Parsed data is clean and consistent.
-- [ ] Can run within the provided Docker/OrbStack environment.
+## 4. 성공 기준 (Success Criteria)
+- 구글 뉴스에서 정상적으로 2일 치 경제 관련 기사를 수집해야 함.
+- 수집된 기사가 최신순 및 중복도 기준으로 정확히 정렬되어 마크다운 파일로 저장되어야 함.
+- `newspaper4k` 모듈을 통한 기사 본문과 메타데이터 추출이 원활하게 작동해야 함.
