@@ -162,8 +162,12 @@ cython_debug/
 # Local data and secrets
 data/*
 !data/.gitkeep
+ki_apikey/
 config/*.local.yaml
 secrets/
+
+# Temporary files
+scratch/
 
 # OS specific
 .DS_Store

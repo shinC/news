@@ -1,39 +1,86 @@
-# Architecture & Design (ARCH) - US Economy News Scraper
+# Architecture & Design (ARCH) - Global Financial News Pipeline
 
 ## 1. 기술 스택 (Tech Stack)
-- **Language**: Python 3.14
-- **Core Library**: `newspaper4k[gnews,nlp]` (Google News 통합 및 기사 본문/요약 추출)
-- **Market Data**: `yfinance` (야후 파이낸스 기반 주가지수 및 섹터 데이터 수집)
-- **Data Processing**: 
-  - `pandas` (데이터 정렬 및 전처리)
-  - `scikit-learn` (TF-IDF 및 코사인 유사도 기반 기사 클러스터링)
-- **Environment**: Docker / Dev Container
+- **Language**: Python 3.10+
+- **Market Data**:
+    - `yfinance`: 미국 지수, 섹터 및 특징주 데이터 수집
+    - `Kiwoom API (NEXT)`: 한국 실시간 거래대금 상위 종목 수집
+    - `requests` & `BeautifulSoup`: 네이버 금융 시황 및 테마 데이터 크롤링
+- **News Scraping**:
+    - `newspaper4k`: 구글 뉴스 연동, 본문 추출, 자연어 처리(NLP) 기반 요약 및 키워드 생성
+- **Data Processing**:
+    - `pandas`: 데이터 전처리, 정렬 및 정규화
+    - `scikit-learn`: TF-IDF 및 코사인 유사도 기반 기사 클러스터링
+- **Automation & AI**:
+    - `Github Actions` / `Docker`: 자동 실행 환경
+    - `LLM (Gemini/OpenAI)`: 최종 요약 리포트 및 블로그 포스트 생성
 
 ## 2. 디렉토리 구조 (Directory Structure)
 ```text
 .
 ├── docs/
-│   ├── PRD.md             # 요구사항 정의서
-│   └── ARCH.md            # 아키텍처 및 설계 문서
+│   ├── PRD.md              # 요구사항 정의서
+│   └── ARCH.md             # 아키텍처 및 설계 문서
+├── tests/                  # 단위 테스트 및 기능 검증 스크립트
 ├── src/
+│   ├── main.py             # 미국 뉴스 파이프라인 엔트리포인트
+│   ├── main_kr.py          # 한국 뉴스 파이프라인 엔트리포인트
+│   ├── search_company.py   # 특정 기업 뉴스 검색 유틸리티
 │   ├── core/
-│   │   ├── market.py      # yfinance 연동 및 지수/섹터 시황 수집
-│   │   ├── scraper.py     # 구글 뉴스(newspaper4k) 연동 및 2일 이내 기사 수집
-│   │   ├── analyzer.py    # 유사 기사 그룹화 및 중복도 산출
-│   │   └── formatter.py   # 시황 및 뉴스를 마크다운 포맷으로 변환 및 저장
-│   └── main.py            # 실행 진입점 및 파이프라인 조율
+│   │   ├── market.py       # 미국 시황 데이터 수집 (yfinance)
+│   │   ├── market_kr.py    # 한국 시황 데이터 수집 (Naver/Kiwoom)
+│   │   ├── scraper.py      # 미국 뉴스 스크래핑 (Google News)
+│   │   ├── scraper_kr.py   # 한국 뉴스 스크래핑 (Naver Finance)
+│   │   ├── analyzer.py     # 기사 유사도 분석 및 클러스터링
+│   │   ├── formatter.py    # 마크다운 리포트 생성 및 저장
+│   │   └── kiwoom_api.py   # 키움 API NEXT 연동 모듈
+│   └── utils/              # 공통 유틸리티 (로깅, 날짜 처리 등)
 ├── config/
-│   └── settings.py        # 대상 카테고리("미국 경제/비즈니스"), 기간 등 환경설정
+│   └── settings.py         # 마켓별 설정 (키워드, 기간, 카테고리 등)
 └── data/
-    └── output/            # 생성된 마크다운 결과물 저장 폴더
+    └── output/             # 생성된 리포트 저장 폴더
 ```
 
 ## 3. 데이터 파이프라인 (Data Pipeline)
-1. `main.py` 실행 시 `market.py`를 호출하여 미국 3대 지수 및 섹터 시황을 먼저 수집.
-2. 이어서 설정값(`settings.py`)을 로드하여 `scraper.py`를 통해 기사 수집.
-3. 획득한 데이터는 `analyzer.py`로 전달되며, 기사 내용 간의 유사도를 검사하여 클러스터(동일 이슈 그룹)를 형성하고 빈도수(중복도) 계산.
-4. 데이터는 1순위 발행 시간(최신순), 2순위 클러스터 빈도(내림차순)로 정렬됨.
-5. 정렬된 데이터는 `formatter.py`를 거쳐 `data/output/` 내의 `.md` 파일로 가시화 및 저장됨.
+
+### 3.1. 기본 시황/뉴스 파이프라인 (main.py / main_kr.py)
+1. **시황 수집**: `market.py` 또는 `market_kr.py`를 통해 지수 및 거래대금 상위 종목 수집.
+2. **동적 키워드 추출**: 수집된 특징주(상위 종목) 명칭을 뉴스 검색의 동적 키워드로 활용.
+3. **뉴스 수집**: `scraper.py` 또는 `scraper_kr.py`를 호출하여 관련 기사 수집 및 본문 파싱.
+4. **유사도 분석**: `analyzer.py`에서 TF-IDF 기반으로 유사 기사를 그룹화하여 중복도 점수 계산.
+5. **정렬 및 저장**: `formatter.py`를 통해 가중치 기반 정렬 후 마크다운 파일로 출력.
+
+### 3.2. 기업 뉴스 검색 파이프라인 (search_company.py)
+1. 사용자가 입력한 `--market` 및 `--companies` 인자 수신.
+2. 대상 마켓에 맞는 `fetch_company_news_us/kr` 함수 호출.
+3. 제목과 본문에 기업명이 모두 포함된 기사만 엄격히 필터링.
+4. 기업별로 그룹화된 리서치 리포트 생성.
+
+## 4. 실행 명령어 (Execution Commands)
+
+### 4.1. 데일리 시황 및 뉴스 수집
+- **미국 마켓 수집**:
+  ```bash
+  python src/main.py
+  ```
+- **한국 마켓 수집**:
+  ```bash
+  python src/main_kr.py
+  ```
+
+### 4.2. 특정 기업 뉴스 집중 검색
+- **미국 기업 검색** (예: Apple, Microsoft):
+  ```bash
+  python src/search_company.py --market us --companies AAPL MSFT --days 3
+  ```
+- **한국 기업 검색** (예: 삼성전자, SK하이닉스):
+  ```bash
+  python src/search_company.py --market kr --companies 삼성전자 SK하이닉스 --days 3
+  ```
+
+### 4.3. 결과물 확인
+- 모든 결과물은 `data/output/` 디렉토리에 마크다운(`.md`) 파일로 생성됩니다.
+- 주요 파일명: `us_economy_news.md`, `kr_economy_news.md`, `company_news_us.md`, `company_news_kr.md`
 
 ---
 *Project: news*

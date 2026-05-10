@@ -5,10 +5,11 @@ import os
 # src 디렉토리를 경로에 추가
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from core.scraper import fetch_news
+from core.scraper_kr import fetch_news
 from core.analyzer import analyze_and_sort
 from core.formatter import save_to_markdown
-from core.market import get_market_data
+from core.market_kr import get_market_data
+from config.settings import settings_kr
 
 def setup_logging():
     logging.basicConfig(
@@ -18,20 +19,20 @@ def setup_logging():
 
 def main():
     setup_logging()
-    logger = logging.getLogger("main")
+    logger = logging.getLogger("main_kr")
     
-    logger.info("=== US Economy News Scraper 시작 ===")
+    logger.info("=== Korea Economy News Scraper 시작 ===")
     
     # 0. 시황 데이터 수집
-    logger.info("0단계: 미국 주가지수 및 섹터 시황 수집 시작")
+    logger.info("0단계: 한국 주가지수 및 섹터 시황 수집 시작")
     market_data = get_market_data()
 
     # 1. 기사 수집 (거래대금 상위 종목명을 동적 키워드로 전달)
-    logger.info("1단계: 기사 수집 (Scraping) 시작")
+    logger.info("1단계: 한국 기사 수집 (Scraping) 시작")
     
     dynamic_keywords = []
     if market_data and "top_stocks" in market_data:
-        # 거래대금 상위 종목의 티커(ticker)를 키워드로 추가
+        # 거래대금 상위 종목의 종목명(ticker)을 키워드로 추가
         dynamic_keywords = [stock["ticker"] for stock in market_data["top_stocks"]]
         logger.info(f"동적 키워드 {len(dynamic_keywords)}개를 추출했습니다.")
         
@@ -47,9 +48,15 @@ def main():
     
     # 3. 마크다운 저장
     logger.info("3단계: 결과물 저장 (Formatting) 시작")
-    save_to_markdown(sorted_news, market_data)
+    save_to_markdown(
+        news_data=sorted_news, 
+        market_data=market_data,
+        report_title="Korea Economy & Business News Report",
+        index_title="한국 주요 3대 지수 (전일 대비)",
+        output_filename=settings_kr.output_filename
+    )
     
-    logger.info("=== US Economy News Scraper 완료 ===")
+    logger.info("=== Korea Economy News Scraper 완료 ===")
 
 if __name__ == "__main__":
     main()

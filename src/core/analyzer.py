@@ -61,15 +61,14 @@ def analyze_and_sort(news_data: List[Dict[str, Any]], similarity_threshold: floa
     df['cluster_size'] = df.index.map(cluster_size_map)
     df['cluster_id'] = df.index.map(cluster_id_map)
     
-    # 3. 정렬 수행
+    # 정렬 수행
     # publish_date가 None인 경우를 처리하기 위해 과거 시간으로 채움
     df['publish_date'] = pd.to_datetime(df['publish_date'], utc=True, errors='coerce')
     
-    # 정렬 기준 1: 시간순 (내림차순, 최신 우선)
-    # 정렬 기준 2: 중복도 (클러스터 크기, 내림차순, 많이 다뤄진 이슈 우선)
-    # pandas sort_values 사용. 최신순과 클러스터 크기를 동시에 고려.
-    # 일반적으로 최신 뉴스가 중요하므로 시간에 비중을 둡니다.
-    df = df.sort_values(by=['publish_date', 'cluster_size'], ascending=[False, False])
+    # 정렬 기준 1: 키워드 가중치 (내림차순)
+    # 정렬 기준 2: 시간순 (내림차순, 최신 우선)
+    # 정렬 기준 3: 중복도 (클러스터 크기, 내림차순, 많이 다뤄진 이슈 우선)
+    df = df.sort_values(by=['priority_score', 'publish_date', 'cluster_size'], ascending=[False, False, False])
     
     logger.info(f"총 {len(clusters)}개의 이슈 클러스터가 형성되었습니다.")
     
