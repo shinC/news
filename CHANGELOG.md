@@ -2,6 +2,16 @@
 
 ## [Unreleased]
 ### Added
+- [News Scraper] 구글 뉴스 직접 웹 스크래핑 헬퍼 함수 (`fetch_google_news_web`) 추가.
+- [News Scraper] 구글 뉴스 암호화 URL 복원 로직 (`decode_google_news_url`) 구현.
+- [News Scraper] "MSN", "Google News" 등 무의미한 정크 타이틀 필터링 로직 강화.
+- [Market KR] 한국 종목 뉴스 수집 기간을 2일에서 3일로 확대하여 누락 방지.
+
+### Changed
+- [News Scraper] 뉴스 수집 우선순위 재조정: 구글 뉴스 RSS 검색을 최우선으로 하고 네이버/야후를 보완재로 사용.
+- [News Scraper] 정렬 알고리즘 고도화: 단순 키워드 매칭보다 원본 검색 엔진의 랭킹(`original_rank`)을 최우선으로 반영하도록 수정.
+- [Docs] PRD 및 ARCH 문서를 최신 수집 및 정렬 정책에 맞게 업데이트.
+### Added
 - Added `yfinance` to `requirements.txt` to fetch US market indices and sector ETFs.
 - Added `src/core/market.py` to collect S&P 500, NASDAQ, Dow Jones, and Top/Bottom performing sectors.
 - Added logic in `src/core/market.py` to collect the top 50 high-volume US stocks sorted by percentage increase.

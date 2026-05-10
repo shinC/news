@@ -26,8 +26,8 @@ from src.core.scraper_kr import fetch_company_news_kr
 def fetch_stock_reason_kr(stock_name: str) -> List[str]:
     """종목명 기반으로 엄격한 필터링(제목+본문 포함)을 거친 뉴스 기사 헤드라인을 최대 5개 가져옵니다."""
     try:
-        # fetch_company_news_kr를 통해 본문 필터링이 적용된 뉴스 수집 (최근 2일)
-        news_data = fetch_company_news_kr([stock_name], days=2)
+        # fetch_company_news_kr를 통해 본문 필터링이 적용된 뉴스 수집 (최근 3일)
+        news_data = fetch_company_news_kr([stock_name], days=3)
         news_list = []
         for article in news_data:
             # 반환된 리스트에서 헤드라인 추출
@@ -141,12 +141,24 @@ def get_market_data() -> Dict[str, Any]:
     }
 
     # 1. 3대 지수 수집
+    market_date = None
     try:
         url_sise = "https://finance.naver.com/sise/"
         res = requests.get(url_sise, headers=headers)
         res.raise_for_status()
         soup = BeautifulSoup(res.text, 'lxml')
         
+        # 장 중이라면 현재 시간, 장 마감 후라면 마감 시간 추출 (id="time" 등 활용 가능)
+        # 네이버 금융 메인 sise 페이지의 시간 요소 추출
+        time_elem = soup.select_one("#time")
+        if time_elem:
+            try:
+                import pandas as pd
+                # 2026.05.08 16:11 기준 -> 2026-05-08
+                date_str = time_elem.text.split()[0]
+                market_date = pd.to_datetime(date_str).to_pydatetime()
+            except: pass
+
         indices_map = {
             "KOSPI": ("KOSPI_now", "KOSPI_change"),
             "KOSDAQ": ("KOSDAQ_now", "KOSDAQ_change"),
@@ -177,6 +189,9 @@ def get_market_data() -> Dict[str, Any]:
                 }
     except Exception as e:
         logger.error(f"지수 수집 실패: {e}")
+
+    market_info["market_date"] = market_date
+    logger.info(f"수집된 한국 시장 기준 날짜: {market_date}")
 
     # 2. 테마 (섹터) 등락률 수집
     try:
