@@ -30,12 +30,16 @@ def main():
     logger.info("1단계: 기사 수집 (Scraping) 시작")
     
     dynamic_keywords = []
-    if market_data and "top_stocks" in market_data:
-        # 거래대금 상위 종목의 티커(ticker)를 키워드로 추가
-        dynamic_keywords = [stock["ticker"] for stock in market_data["top_stocks"]]
-        logger.info(f"동적 키워드 {len(dynamic_keywords)}개를 추출했습니다.")
+    market_date = None
+    if market_data:
+        if "top_stocks" in market_data:
+            # 거래대금 상위 종목의 티커(ticker)를 키워드로 추가
+            dynamic_keywords = [stock["ticker"] for stock in market_data["top_stocks"]]
+            logger.info(f"동적 키워드 {len(dynamic_keywords)}개를 추출했습니다.")
         
-    raw_news = fetch_news(dynamic_keywords=dynamic_keywords)
+        market_date = market_data.get("market_date")
+        
+    raw_news = fetch_news(dynamic_keywords=dynamic_keywords, market_date=market_date)
     
     if not raw_news:
         logger.warning("수집된 기사가 없습니다. 마크다운 저장으로 넘어갑니다.")

@@ -5,17 +5,17 @@ from src.core.scraper import fetch_company_news_us
 
 logger = logging.getLogger(__name__)
 
-def fetch_stock_reason_us(ticker: str) -> list:
+def fetch_stock_reason_us(ticker: str, market_date=None) -> list:
     """티커를 기반으로 엄격한 필터링(제목+본문 포함)을 거친 뉴스 기사 헤드라인을 최대 5개 가져옵니다."""
     try:
-        # fetch_company_news_us를 통해 본문 필터링이 적용된 뉴스 수집 (최근 2일)
-        news_data = fetch_company_news_us([ticker], days=2)
+        # fetch_company_news_us를 통해 본문 필터링이 적용된 뉴스 수집 (최근 3일)
+        news_data = fetch_company_news_us([ticker], days=3, market_date=market_date)
         news_list = []
         for article in news_data:
             # 반환된 리스트에서 헤드라인 추출
             if article.get('company') == ticker:
                 news_list.append(article.get('title'))
-            if len(news_list) >= 5:
+            if len(news_list) >= 10:
                 break
         return news_list
     except Exception as e:
@@ -71,10 +71,10 @@ def get_market_data() -> Dict[str, Any]:
     }
 
     # 1. 3대 지수 수집
+    market_date = None
     for name, ticker in INDICES.items():
         try:
             stock = yf.Ticker(ticker)
-            # 최근 2일 데이터를 가져와서 등락률 계산
             hist = stock.history(period="5d")
             if len(hist) >= 2:
                 last_close = hist['Close'].iloc[-1]
@@ -84,10 +84,16 @@ def get_market_data() -> Dict[str, Any]:
                     "price": round(last_close, 2),
                     "change_pct": round(change_pct, 2)
                 }
+                # 기준 날짜 추출 (가장 마지막 데이터의 날짜)
+                if market_date is None:
+                    market_date = hist.index[-1].to_pydatetime()
             else:
                 logger.warning(f"{name} ({ticker}) 데이터를 충분히 가져오지 못했습니다.")
         except Exception as e:
             logger.error(f"{name} ({ticker}) 수집 실패: {e}")
+
+    market_info["market_date"] = market_date
+    logger.info(f"수집된 시장 기준 날짜: {market_date}")
 
     # 2. 섹터 ETF 등락률 수집 및 비교
     sector_performance = []
@@ -177,7 +183,7 @@ def get_market_data() -> Dict[str, Any]:
             # 4단계: 선정된 10개 종목에 대해서만 뉴스 검색 진행
             for stock in top_100:
                 if stock['ticker'] in top_gainer_tickers:
-                    stock['reason'] = fetch_stock_reason_us(stock['ticker'])
+                    stock['reason'] = fetch_stock_reason_us(stock['ticker'], market_date=market_info.get("market_date"))
                 else:
                     stock['reason'] = []
                     
