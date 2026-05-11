@@ -34,12 +34,27 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                     f.write(f"- **{name}**: {info['price']} ({sign}{info['change_pct']}%)\n")
                 f.write("\n")
                 
-            top_sector = market_data.get("top_sector")
+            top_themes_detailed = market_data.get("top_themes_detailed", [])
             bottom_sector = market_data.get("bottom_sector")
-            if top_sector and bottom_sector:
-                f.write("### 섹터 동향 (장 마감 기준)\n")
-                f.write(f"- 🚀 **가장 많이 상승한 섹터**: {top_sector['name']} (+{round(top_sector['change_pct'], 2)}%)\n")
-                f.write(f"- 📉 **가장 많이 하락한 섹터**: {bottom_sector['name']} ({round(bottom_sector['change_pct'], 2)}%)\n")
+            
+            if top_themes_detailed:
+                f.write("### 주요 섹터 및 테마 동향\n")
+                f.write("> **조건**: 해당 테마 내 10% 이상 상승 또는 거래대금 1,000억 이상인 핵심 종목 요약\n\n")
+                for i, theme in enumerate(top_themes_detailed):
+                    icon = "🚀" if i == 0 else "📈"
+                    formatted_stocks = []
+                    for s in theme['stocks']:
+                        if s.get("is_fallback"):
+                            formatted_stocks.append(f"**{s['name']}**")
+                        else:
+                            formatted_stocks.append(f"**{s['name']}**({'+' if s['change_pct'] > 0 else ''}{s['change_pct']}%)")
+                    
+                    stock_list_str = ", ".join(formatted_stocks) if formatted_stocks else "해당 조건의 종목 없음"
+                    f.write(f"{icon} **{theme['name']}** (+{round(theme['change_pct'], 2)}%)\n")
+                    f.write(f"  - {stock_list_str}\n\n")
+                
+                if bottom_sector:
+                    f.write(f"📉 **가장 부진한 섹터**: {bottom_sector['name']} ({round(bottom_sector['change_pct'], 2)}%)\n")
                 f.write("\n")
                 
             top_stocks = market_data.get("top_stocks", [])
@@ -52,6 +67,9 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                 # 뉴스 수집 대상이 된 상위 10개 상승 종목만 따로 필터링
                 stocks_with_news = []
                 
+                # 한국 시장 여부 확인
+                is_kr = "Korea" in report_title or "한국" in report_title
+                
                 for i, stock in enumerate(top_stocks, 1):
                     ticker = stock['ticker']
                     price = stock['price']
@@ -62,14 +80,34 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                     if reason: # 이유(뉴스 리스트)가 존재하면 따로 저장
                         stocks_with_news.append(stock)
                     
-                    # 거래대금을 보기 쉽게 밀리언/빌리언 단위로 변환
-                    if trading_value >= 1e9:
-                        tv_str = f"${trading_value/1e9:.2f}B"
+                    # 화폐 및 단위 설정
+                    if is_kr:
+                        # 가격 포맷 (천단위 콤마 + 원)
+                        try:
+                            formatted_price = f"{int(float(price)):,}원"
+                        except:
+                            formatted_price = f"{price}원"
+                            
+                        # 거래대금 포맷 (조/억 단위)
+                        if trading_value >= 1e12:
+                            cho = int(trading_value // 1e12)
+                            eok = int((trading_value % 1e12) // 1e8)
+                            tv_str = f"{cho}조 {eok:,}억원" if eok > 0 else f"{cho}조원"
+                        else:
+                            eok = int(trading_value // 1e8)
+                            tv_str = f"{eok:,}억원"
+                            
+                        price_display = formatted_price
                     else:
-                        tv_str = f"${trading_value/1e6:.2f}M"
+                        # 미국 시장 (기존 방식)
+                        if trading_value >= 1e9:
+                            tv_str = f"${trading_value/1e9:.2f}B"
+                        else:
+                            tv_str = f"${trading_value/1e6:.2f}M"
+                        price_display = f"${price}"
                         
                     sign = "+" if change_pct > 0 else ""
-                    f.write(f"| {i} | **{ticker}** | ${price} | {sign}{change_pct}% | {tv_str} |\n")
+                    f.write(f"| {i} | **{ticker}** | {price_display} | {sign}{change_pct}% | {tv_str} |\n")
                 f.write("\n")
                 
                 if stocks_with_news:
