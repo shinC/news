@@ -8,127 +8,217 @@ from config.settings import settings
 
 logger = logging.getLogger(__name__)
 
+def fetch_google_news_rss(query: str, hl: str = 'en-US', gl: str = 'US', ceid: str = 'US:en', max_results: int = 7) -> List[Dict[str, Any]]:
+    """구글 뉴스 RSS 피드를 파싱하여 기사 목록을 반환합니다."""
+    import requests
+    from bs4 import BeautifulSoup
+    import urllib.parse
+    
+    encoded_query = urllib.parse.quote(query)
+    url = f"https://news.google.com/rss/search?q={encoded_query}&hl={hl}&gl={gl}&ceid={ceid}"
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
+    }
+    
+    articles = []
+    try:
+        res = requests.get(url, headers=headers, timeout=10)
+        res.raise_for_status()
+        soup = BeautifulSoup(res.text, 'xml')
+        
+        items = soup.find_all('item')
+        for item in items[:max_results]:
+            articles.append({
+                "title": item.title.text,
+                "url": item.link.text,
+                "publish_date_raw": item.pubDate.text,
+                "source": "google_rss"
+            })
+    except Exception as e:
+        logger.error(f"Google News RSS Error ({query}): {e}")
+        
+    return articles
+
 def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None) -> List[Dict[str, Any]]:
     """
-    구글 뉴스에서 '미국 경제/비즈니스' 카테고리의 최근 기사를 수집합니다.
+    설정된 여러 카테고리에 대해 구글 뉴스 RSS에서 최신 기사를 수집합니다.
     """
-    logger.info(f"구글 뉴스 수집 시작: 카테고리={settings.topic}, 기간={settings.period}, 기준날짜={market_date}")
+    logger.info(f"구글 뉴스 다중 카테고리 수집 시작 (기간: {settings.period})")
     
-    # GNews 기반의 GoogleNewsSource 생성
-    try:
-        source = GoogleNewsSource(
-            country=settings.country,
-            period=settings.period,
-            max_results=settings.max_results,
-        )
-    except Exception as e:
-        logger.error(f"GoogleNewsSource 초기화 실패: {e}")
-        return []
-
-    # 'US Economy Business' 키워드로 기사 검색
-    source.build(keyword="US Economy Business")
-    logger.info(f"검색된 기사 수: {len(source.articles)}")
+    all_news_data = []
+    categories = settings.categories
     
-    # 기사 다운로드
-    logger.info("기사 다운로드 시작...")
-    downloaded_articles = source.download_articles()
-    
-    news_data = []
-    
-    # 합쳐진 우선순위 키워드 구성
+    # 우선순위 키워드 구성
     base_keywords = getattr(settings, 'priority_keywords', [])
     priority_keywords = base_keywords + (dynamic_keywords if dynamic_keywords else [])
     
-    # 기준 날짜 설정 (market_date가 있으면 그 날을 기준으로, 없으면 현재 시간 기준)
+    # 기준 날짜 설정
     reference_date = market_date if market_date else datetime.now(pytz.utc)
     if reference_date.tzinfo is None:
         reference_date = reference_date.replace(tzinfo=pytz.utc)
     else:
         reference_date = reference_date.astimezone(pytz.utc)
 
-    # 날짜 필터링 (설정된 period 기준)
-    days = 2
+    # 날짜 필터링 (3일)
+    days = 3
     if settings.period.endswith('d'):
         try:
             days = int(settings.period[:-1])
         except: pass
-    
-    # 기준 날짜로부터 과거로 days만큼 필터링
     cutoff_date = reference_date - timedelta(days=days)
-    # market_date가 기준일 경우, 그 날 이후의 최신 뉴스가 시황과 섞이지 않도록 상한선도 설정 가능
     upper_cutoff = reference_date + timedelta(days=1) 
-    
-    logger.info(f"뉴스 수집 기간 필터: {cutoff_date} ~ {upper_cutoff}")
 
-    for article in downloaded_articles:
-        try:
-            article.parse()
-            article.nlp()
-            
-            # 기사 날짜 확인 및 필터링
-            pub_date = article.publish_date
-            
-            # 1. 날짜 추출 보완 로직 (newspaper4k가 놓친 경우 대비)
-            if not pub_date:
-                try:
-                    # soup 등을 이용해 추가 추출 시도 가능 (현재는 기본 로직 유지)
-                    pass
-                except: pass
+    import newspaper
+    config = newspaper.Config()
+    config.request_timeout = 10
+    config.browser_user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
 
-            if pub_date:
-                if pub_date.tzinfo is None:
-                    pub_date = pub_date.replace(tzinfo=pytz.utc)
-                else:
-                    pub_date = pub_date.astimezone(pytz.utc)
+    for cat_name, query in categories.items():
+        logger.info(f"카테고리 수집 중: {cat_name} (쿼리: {query})")
+        rss_articles = fetch_google_news_rss(query, max_results=settings.max_results_per_section)
+        
+        for item in rss_articles:
+            try:
+                raw_url = item['url']
+                url = decode_google_news_url(raw_url)
                 
-                # 기간 외 기사 제외
-                if pub_date < cutoff_date or pub_date > upper_cutoff:
-                    logger.debug(f"기간 외 기사 제외 ({pub_date}): {article.title}")
-                    continue
-            else:
-                # [고도화] 실제 날짜가 없거나 확인이 안되면 수집 금지
-                logger.warning(f"발행일을 알 수 없는 기사 제외: {article.title}")
-                continue
+                article = newspaper.Article(url, language='en', config=config)
+                article.download()
+                article.parse()
+                
+                # 본문이 비어있을 경우 메타 설명을 대안으로 사용
+                if not article.text or len(article.text) < 50:
+                    from bs4 import BeautifulSoup
+                    soup = BeautifulSoup(article.html, 'lxml')
+                    meta_desc = soup.find('meta', attrs={'name': 'description'}) or \
+                                soup.find('meta', attrs={'property': 'og:description'}) or \
+                                soup.find('meta', attrs={'name': 'twitter:description'})
+                    if meta_desc:
+                        article.text = meta_desc.get('content', '')
+                
+                article.nlp()
+                
+                # RSS 제목을 우선 사용
+                title = item.get('title', article.title)
+                junk_titles = ["MSN", "Google News", "Home", "AOL.com", "Yahoo Finance", "Business", "News"]
+                if any(jt.lower() == (title or "").strip().lower() for jt in junk_titles) or len(title or "") < 10:
+                    title = item.get('title')
 
-            # 우선순위 키워드 포함 여부 검사
-            priority_score = 0
-            text_to_check = (article.title + " " + article.summary + " " + " ".join(article.keywords)).lower()
-            for keyword in priority_keywords:
-                if keyword.lower() in text_to_check:
-                    priority_score += 1
+                summary_text = article.summary if article.summary else article.text[:300] if article.text else ""
+                
+                # 최종 Fallback: Yahoo Finance 검색 요약
+                if not summary_text or "Google News" in summary_text:
+                    from core.utils import get_yahoo_summary
+                    fallback_summary = get_yahoo_summary(title)
+                    if fallback_summary:
+                        summary_text = fallback_summary
+                
+                pub_date = article.publish_date
+                if not pub_date and item.get('publish_date_raw'):
+                    try:
+                        from dateutil import parser as date_parser
+                        pub_date = date_parser.parse(item['publish_date_raw'])
+                    except: pass
+                
+                if pub_date:
+                    if pub_date.tzinfo is None:
+                        pub_date = pub_date.replace(tzinfo=pytz.utc)
+                    else:
+                        pub_date = pub_date.astimezone(pytz.utc)
+                    
+                    if pub_date < cutoff_date or pub_date > upper_cutoff:
+                        logger.debug(f"기간 외 기사 제외 ({pub_date}): {article.title}")
+                        continue
+                else:
+                    if not item.get('publish_date_raw'):
+                        logger.warning(f"발행일을 알 수 없는 기사 제외: {article.title}")
+                        continue
+                    pub_date = datetime.now(pytz.utc)
 
-            data = {
-                "title": article.title,
-                "url": article.url,
-                "publish_date": pub_date,
-                "authors": article.authors,
-                "summary": article.summary,
-                "text": article.text,
-                "keywords": article.keywords,
-                "priority_score": priority_score
-            }
-            news_data.append(data)
-        except Exception as e:
-            logger.error(f"기사 파싱 실패 ({article.url}): {e}")
-            
-    logger.info(f"파싱 완료된 기사 수: {len(news_data)}")
-    return news_data
+                # 우선순위 키워드 포함 여부 검사
+                priority_score = 0
+                text_to_check = (article.title + " " + summary_text + " " + " ".join(article.keywords)).lower()
+                for keyword in priority_keywords:
+                    if keyword.lower() in text_to_check:
+                        priority_score += 1
+
+                # 키워드 정리
+                keywords = [k for k in article.keywords if k.lower() not in ['google', 'news', 'home']]
+
+                all_news_data.append({
+                    "category": cat_name,
+                    "title": title,
+                    "url": url,
+                    "publish_date": pub_date,
+                    "authors": article.authors,
+                    "summary": summary_text,
+                    "text": article.text,
+                    "keywords": keywords,
+                    "priority_score": priority_score
+                })
+            except Exception as e:
+                logger.error(f"기사 파싱 실패 ({item['url']}): {e}")
+                
+    logger.info(f"총 {len(all_news_data)}개의 기사가 수집되었습니다.")
+    return all_news_data
 
 def decode_google_news_url(url: str) -> str:
     """구글 뉴스 URL을 원래의 기사 URL로 디코딩합니다."""
-    if "news.google.com" in url:
+    if "news.google.com" not in url:
+        return url
+    
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Referer': 'https://news.google.com/'
+    }
+    
+    try:
+        import requests
+        import re
+        
+        # 1. GNews 유틸리티 시도
         try:
-            # GNews 유틸리티 시도
             from gnews.utils import decode_google_news_url as decoder
-            return decoder(url)
-        except:
-            try:
-                import requests
-                res = requests.get(url, timeout=5, allow_redirects=True)
-                return res.url
-            except Exception:
-                return url
-    return url
+            decoded = decoder(url)
+            if decoded and "news.google.com" not in decoded:
+                return decoded
+        except: pass
+        
+        # 2. 직접 요청 및 HTML 파싱
+        res = requests.get(url, headers=headers, timeout=10, allow_redirects=True)
+        
+        if "news.google.com" not in res.url:
+            return res.url
+            
+        # HTML 본문에서 실제 URL 추출 시도 (가장 신뢰도 높은 패턴부터)
+        patterns = [
+            r'data-url="([^"]+)"',
+            r'data-n-au="([^"]+)"',
+            r'window\.location\.replace\("([^"]+)"\)',
+            r'url=(https?://[^&"]+)',
+            r'content="0;url=(https?://[^"]+)"'
+        ]
+        
+        for pattern in patterns:
+            match = re.search(pattern, res.text, re.I)
+            if match:
+                decoded_url = match.group(1)
+                if "google.com" not in decoded_url:
+                    return decoded_url
+        
+        # <a> 태그 중에서 google을 포함하지 않는 링크 검색
+        match = re.search(r'<a[^>]+href="(https?://[^"]+)"[^>]*>', res.text)
+        if match:
+            link = match.group(1)
+            if "google.com" not in link:
+                return link
+                
+        return res.url
+    except Exception as e:
+        logger.warning(f"URL 디코딩 실패 ({url}): {e}")
+        return url
 
 def fetch_google_news_web(query: str, hl: str = 'en-US', gl: str = 'US', ceid: str = 'US:en') -> List[Dict[str, Any]]:
     """구글 뉴스 검색 페이지를 직접 스크래핑하여 기사 목록을 반환합니다."""

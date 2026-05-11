@@ -23,7 +23,7 @@ def main():
     
     logger.info("=== Korea Economy News Scraper 시작 ===")
     
-    # 0. 시황 데이터 수집
+    # 0단계: 한국 주가지수 및 섹터 시황 수집
     logger.info("0단계: 한국 주가지수 및 섹터 시황 수집 시작")
     market_data = get_market_data()
 

@@ -154,7 +154,7 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                 
                 # 기사 제목에 순번(번호) 추가
                 f.write(f"#### {global_idx}. [{title}]({url})\n")
-                f.write(f"- **발행일시**: {date_str} | **중복도(Cluster Size)**: {cluster_size}\n")
+                f.write(f"- **발행일시**: {date_str}\n")
                 
                 summary = item.get('summary', '')
                 if summary:
@@ -162,10 +162,10 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                     
                 keywords = item.get('keywords', [])
                 if keywords:
-                    f.write(f"- **키워드**: {', '.join(keywords)}\n")
-                
-                if priority_score > 0:
-                    f.write(f"- ⭐️ **주요 키워드 우선순위 가중치**: {priority_score}점\n")
+                    # 'google' 단독 키워드 등 불필요한 키워드 필터링
+                    filtered_keywords = [k for k in keywords if k.lower() not in ['google', 'news', 'home']]
+                    if filtered_keywords:
+                        f.write(f"- **키워드**: {', '.join(filtered_keywords)}\n")
                 
                 f.write("\n")
                 global_idx += 1
