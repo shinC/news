@@ -1,5 +1,6 @@
 import logging
 import requests
+import re
 from bs4 import BeautifulSoup
 from typing import List, Dict, Any
 from datetime import datetime, timedelta
@@ -24,9 +25,6 @@ def decode_google_news_url(url: str) -> str:
     }
     
     try:
-        import requests
-        import re
-        
         # 1. GNews 유틸리티 시도
         try:
             from gnews.utils import decode_google_news_url as decoder
@@ -36,34 +34,49 @@ def decode_google_news_url(url: str) -> str:
         except: pass
         
         # 2. 직접 요청 및 HTML 파싱
-        res = requests.get(url, headers=headers, timeout=10, allow_redirects=True)
+        session = requests.Session()
+        res = session.get(url, headers=headers, timeout=10, allow_redirects=True)
         
         if "news.google.com" not in res.url:
             return res.url
             
-        # HTML 본문에서 실제 URL 추출 시도 (가장 신뢰도 높은 패턴부터)
+        # HTML 본문에서 실제 URL 추출 시도
         patterns = [
             r'data-url="([^"]+)"',
             r'data-n-au="([^"]+)"',
             r'window\.location\.replace\("([^"]+)"\)',
             r'url=(https?://[^&"]+)',
-            r'content="0;url=(https?://[^"]+)"'
+            r'content="0;url=(https?://[^"]+)"',
+            r'\["https://[^"]+"\]'
         ]
         
         for pattern in patterns:
             match = re.search(pattern, res.text, re.I)
             if match:
-                decoded_url = match.group(1)
+                decoded_url = match.group(1 if "(" in pattern else 0).strip('[]" ')
                 if "google.com" not in decoded_url:
                     return decoded_url
         
-        # <a> 태그 중에서 google을 포함하지 않는 링크 검색
-        match = re.search(r'<a[^>]+href="(https?://[^"]+)"[^>]*>', res.text)
-        if match:
-            link = match.group(1)
-            if "google.com" not in link:
+        # 모든 <a> 태그 중 외부 링크 검색
+        soup = BeautifulSoup(res.text, 'lxml')
+        for a in soup.find_all('a', href=True):
+            link = a['href']
+            if link.startswith('http') and "google.com" not in link:
                 return link
-                
+        
+        # 최후의 수단: base64 디코딩 시도
+        if '/articles/' in url:
+            import base64
+            encoded = url.split('/articles/')[1].split('?')[0]
+            padding = len(encoded) % 4
+            if padding: encoded += '=' * (4 - padding)
+            try:
+                decoded_bytes = base64.urlsafe_b64decode(encoded)
+                match_url = re.search(rb'https?://[^\x00-\x1f\x7f-\xff]+', decoded_bytes)
+                if match_url:
+                    return match_url.group(0).decode('utf-8')
+            except: pass
+
         return res.url
     except Exception:
         return url
@@ -134,9 +147,15 @@ def fetch_google_news_rss(query: str, hl: str = 'ko', gl: str = 'KR', ceid: str 
         
         items = soup.find_all('item')
         for item in items[:max_results]:
+            # description에서 HTML 태그 제거하여 순수 텍스트 요약 추출
+            raw_desc = item.description.text if item.description else ""
+            desc_soup = BeautifulSoup(raw_desc, 'html.parser')
+            clean_desc = desc_soup.get_text(separator=' ', strip=True)
+            
             articles.append({
                 "title": item.title.text,
                 "url": item.link.text,
+                "description": clean_desc,
                 "publish_date_raw": item.pubDate.text,
                 "source": "google_rss"
             })
@@ -181,6 +200,59 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
     config.request_timeout = 10
     config.browser_user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
 
+    # 0. 네이버 주요뉴스 헤드라인 수집
+    try:
+        logger.info("네이버 주요뉴스 헤드라인 수집 시작")
+        res = requests.get('https://finance.naver.com/news/mainnews.naver', timeout=10)
+        soup = BeautifulSoup(res.text, 'lxml')
+        main_news_links = soup.select('li.block1 dd.articleSubject a')[:settings_kr.max_results_per_section]
+        for a in main_news_links:
+            try:
+                title = a.text.strip()
+                url = 'https://finance.naver.com' + a['href']
+                
+                article = newspaper.Article(url, language='ko', config=config)
+                article.download()
+                article.parse()
+                article.nlp()
+                
+                summary_text = article.summary if (article.summary and len(article.summary) > 500) else article.text[:1000] if article.text else ""
+                
+                pub_date = article.publish_date or datetime.now(kst)
+                if pub_date.tzinfo is None:
+                    pub_date = kst.localize(pub_date)
+                else:
+                    pub_date = pub_date.astimezone(kst)
+                
+                # 우선순위 부여 로직
+                priority_score = 1
+                text_to_check = (title + " " + summary_text + " " + " ".join(article.keywords if isinstance(article.keywords, list) else [])).lower()
+                for keyword in priority_keywords:
+                    if keyword.lower() in text_to_check:
+                        priority_score += 1
+                        
+                keywords = article.keywords
+                if not isinstance(keywords, list):
+                    keywords = []
+                filtered_keywords = [k for k in keywords if isinstance(k, str) and k.lower() not in ['google', 'news', 'home']]
+                
+                all_news_data.append({
+                    "category": "주요뉴스",
+                    "title": title,
+                    "url": url,
+                    "publish_date": pub_date,
+                    "authors": article.authors,
+                    "summary": summary_text,
+                    "text": article.text,
+                    "keywords": filtered_keywords,
+                    "priority_score": priority_score
+                })
+            except Exception as e:
+                logger.error(f"주요뉴스 파싱 실패 ({url}): {e}")
+    except Exception as e:
+        logger.error(f"네이버 주요뉴스 수집 전체 실패: {e}")
+
+
     for cat_name, query in categories.items():
         logger.info(f"카테고리 수집 중: {cat_name} (쿼리: {query})")
         rss_articles = fetch_google_news_rss(query, max_results=settings_kr.max_results_per_section)
@@ -194,15 +266,23 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
                 article.download()
                 article.parse()
                 
-                # 본문이 비어있을 경우 메타 설명을 대안으로 사용
-                if not article.text or len(article.text) < 30:
-                    from bs4 import BeautifulSoup
-                    soup = BeautifulSoup(article.html, 'lxml')
-                    meta_desc = soup.find('meta', attrs={'name': 'description'}) or \
-                                soup.find('meta', attrs={'property': 'og:description'}) or \
-                                soup.find('meta', attrs={'name': 'twitter:description'})
-                    if meta_desc:
-                        article.text = meta_desc.get('content', '')
+                # 본문이 비어있거나 구글 뉴스 기본 문구인 경우 RSS 요약/메타 설명을 대안으로 사용
+                BOILERPLATE = "Comprehensive up-to-date news coverage"
+                is_boilerplate = article.text and BOILERPLATE in article.text
+                
+                if not article.text or len(article.text) < 30 or is_boilerplate:
+                    # 1순위: RSS에서 제공하는 요약
+                    if item.get('description') and BOILERPLATE not in item.get('description'):
+                        article.text = item['description']
+                    # 2순위: 메타 설명 (단, 구글 뉴스 URL이 아닐 때만)
+                    elif "news.google.com" not in url:
+                        from bs4 import BeautifulSoup
+                        soup = BeautifulSoup(article.html, 'lxml')
+                        meta_desc = soup.find('meta', attrs={'name': 'description'}) or \
+                                    soup.find('meta', attrs={'property': 'og:description'}) or \
+                                    soup.find('meta', attrs={'name': 'twitter:description'})
+                        if meta_desc:
+                            article.text = meta_desc.get('content', '')
                 
                 article.nlp()
                 
@@ -212,14 +292,28 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
                 if any(jt.lower() == (title or "").strip().lower() for jt in junk_titles) or len(title or "") < 10:
                     title = item.get('title')
                 
-                summary_text = article.summary if article.summary else article.text[:300] if article.text else ""
+                # 요약본 생성: 1000자 내외로 넉넉하게 추출하여 최종 AI 요약의 품질을 보장합니다.
+                # nlp() 결과가 너무 짧으면 본문 앞부분을 충분히 가져옵니다.
+                if article.summary and len(article.summary) > 500:
+                    summary_text = article.summary
+                else:
+                    summary_text = article.text[:1000] if article.text else ""
                 
-                # 최종 Fallback: Naver 뉴스 검색 요약
-                if not summary_text or len(summary_text) < 50 or "Google News" in summary_text:
-                    from core.utils import get_naver_summary
+                # 최종 Fallback: 요약이 비었거나 너무 짧거나 제목과 너무 비슷한 경우, 네이버 검색 요약
+                
+                # 제목과 요약의 유사도 체크 (단순 단어 포함 비율)
+                title_words = set(re.sub(r'[^\w\s]', ' ', title).split())
+                summary_words = set(re.sub(r'[^\w\s]', ' ', summary_text).split())
+                common_words = title_words.intersection(summary_words)
+                is_too_similar = len(common_words) > len(title_words) * 0.7 and len(summary_text) < 200
+                
+                if not summary_text or len(summary_text) < 200 or BOILERPLATE in summary_text or is_too_similar:
+                    from src.core.utils import get_naver_summary
                     fallback_summary = get_naver_summary(title)
-                    if fallback_summary:
+                    if fallback_summary and len(fallback_summary) > len(summary_text):
                         summary_text = fallback_summary
+                    elif item.get('description') and len(item['description']) > len(summary_text):
+                        summary_text = item['description']
                 
                 pub_date = article.publish_date
                 if not pub_date and item.get('publish_date_raw'):
@@ -253,7 +347,10 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
                         priority_score += 1
 
                 # 키워드 정리
-                keywords = [k for k in article.keywords if k.lower() not in ['google', 'news', 'home']]
+                keywords = article.keywords
+                if not isinstance(keywords, list):
+                    keywords = []
+                filtered_keywords = [k for k in keywords if isinstance(k, str) and k.lower() not in ['google', 'news', 'home']]
 
                 all_news_data.append({
                     "category": cat_name,
@@ -376,6 +473,27 @@ def fetch_company_news_kr(companies: List[str], days: int = 3) -> List[Dict[str,
                     
                     title = new_title if (new_title and not is_junk) else info['title']
                     text = article.text if article.text else info['summary']
+                    
+                    # 본문이 비어있거나 구글 뉴스 기본 문구인 경우 요약 정보로 대체
+                    BOILERPLATE = "Comprehensive up-to-date news coverage"
+                    if not text or len(text) < 50 or BOILERPLATE in text:
+                        text = info['summary']
+                    
+                    summary = article.summary if (article.summary and len(article.summary) > 500) else article.text[:1000] if article.text else info['summary']
+                    
+                    # 보완: 요약이 여전히 너무 짧거나 제목과 비슷하면 네이버 검색을 통해 보강
+                    title_words = set(re.sub(r'[^\w\s]', ' ', title).split())
+                    summary_words = set(re.sub(r'[^\w\s]', ' ', summary or "").split())
+                    common_words = title_words.intersection(summary_words)
+                    is_too_similar = len(common_words) > len(title_words) * 0.7 and len(summary or "") < 200
+
+                    if not summary or len(summary) < 200 or BOILERPLATE in summary or is_too_similar:
+                        from src.core.utils import get_naver_summary
+                        fallback_summary = get_naver_summary(title)
+                        if fallback_summary and len(fallback_summary) > len(summary or ""):
+                            summary = fallback_summary
+                        else:
+                            summary = info['summary']
                     
                     if not title or not text: continue
                     

@@ -161,9 +161,11 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                     f.write(f"- **요약**: {summary[:300]}...\n")
                     
                 keywords = item.get('keywords', [])
+                if not isinstance(keywords, list):
+                    keywords = []
                 if keywords:
                     # 'google' 단독 키워드 등 불필요한 키워드 필터링
-                    filtered_keywords = [k for k in keywords if k.lower() not in ['google', 'news', 'home']]
+                    filtered_keywords = [k for k in keywords if isinstance(k, str) and k.lower() not in ['google', 'news', 'home']]
                     if filtered_keywords:
                         f.write(f"- **키워드**: {', '.join(filtered_keywords)}\n")
                 

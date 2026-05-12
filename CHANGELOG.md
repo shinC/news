@@ -11,6 +11,10 @@
 - [News Scraper] 뉴스 수집 우선순위 재조정: 구글 뉴스 RSS 검색을 최우선으로 하고 네이버/야후를 보완재로 사용.
 - [News Scraper] 정렬 알고리즘 고도화: 단순 키워드 매칭보다 원본 검색 엔진의 랭킹(`original_rank`)을 최우선으로 반영하도록 수정.
 - [Docs] PRD 및 ARCH 문서를 최신 수집 및 정렬 정책에 맞게 업데이트.
+
+### Fixed
+- [News Scraper] US 뉴스 스크래퍼(`scraper.py`)의 요약 품질 개선: 본문 추출 실패 시 구글/야후 검색 스니펫을 활용하는 다중 폴백 시스템 및 제목 유사도 체크 로직 추가.
+- [News Scraper] 구글 뉴스 암호화 URL (`/articles/`) 디코딩 로직 보강 및 예외 처리 강화.
 ### Added
 - Added `yfinance` to `requirements.txt` to fetch US market indices and sector ETFs.
 - Added `src/core/market.py` to collect S&P 500, NASDAQ, Dow Jones, and Top/Bottom performing sectors.

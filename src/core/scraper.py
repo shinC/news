@@ -1,4 +1,8 @@
 import logging
+import requests
+import re
+from bs4 import BeautifulSoup
+import urllib.parse
 from typing import List, Dict, Any
 from datetime import datetime, timedelta
 import pytz
@@ -10,9 +14,6 @@ logger = logging.getLogger(__name__)
 
 def fetch_google_news_rss(query: str, hl: str = 'en-US', gl: str = 'US', ceid: str = 'US:en', max_results: int = 7) -> List[Dict[str, Any]]:
     """구글 뉴스 RSS 피드를 파싱하여 기사 목록을 반환합니다."""
-    import requests
-    from bs4 import BeautifulSoup
-    import urllib.parse
     
     encoded_query = urllib.parse.quote(query)
     url = f"https://news.google.com/rss/search?q={encoded_query}&hl={hl}&gl={gl}&ceid={ceid}"
@@ -28,9 +29,15 @@ def fetch_google_news_rss(query: str, hl: str = 'en-US', gl: str = 'US', ceid: s
         
         items = soup.find_all('item')
         for item in items[:max_results]:
+            # description에서 HTML 태그 제거하여 순수 텍스트 요약 추출
+            raw_desc = item.description.text if item.description else ""
+            desc_soup = BeautifulSoup(raw_desc, 'html.parser')
+            clean_desc = desc_soup.get_text(separator=' ', strip=True)
+            
             articles.append({
                 "title": item.title.text,
                 "url": item.link.text,
+                "description": clean_desc,
                 "publish_date_raw": item.pubDate.text,
                 "source": "google_rss"
             })
@@ -86,15 +93,23 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
                 article.download()
                 article.parse()
                 
-                # 본문이 비어있을 경우 메타 설명을 대안으로 사용
-                if not article.text or len(article.text) < 50:
-                    from bs4 import BeautifulSoup
-                    soup = BeautifulSoup(article.html, 'lxml')
-                    meta_desc = soup.find('meta', attrs={'name': 'description'}) or \
-                                soup.find('meta', attrs={'property': 'og:description'}) or \
-                                soup.find('meta', attrs={'name': 'twitter:description'})
-                    if meta_desc:
-                        article.text = meta_desc.get('content', '')
+                # 본문이 비어있거나 구글 뉴스 기본 문구인 경우 RSS 요약/메타 설명을 대안으로 사용
+                BOILERPLATE = "Comprehensive up-to-date news coverage"
+                is_boilerplate = article.text and BOILERPLATE in article.text
+                
+                if not article.text or len(article.text) < 50 or is_boilerplate:
+                    # 1순위: RSS에서 제공하는 요약
+                    if item.get('description') and BOILERPLATE not in item.get('description'):
+                        article.text = item['description']
+                    # 2순위: 메타 설명 (단, 구글 뉴스 URL이 아닐 때만)
+                    elif "news.google.com" not in url:
+                        from bs4 import BeautifulSoup
+                        soup = BeautifulSoup(article.html, 'lxml')
+                        meta_desc = soup.find('meta', attrs={'name': 'description'}) or \
+                                    soup.find('meta', attrs={'property': 'og:description'}) or \
+                                    soup.find('meta', attrs={'name': 'twitter:description'})
+                        if meta_desc:
+                            article.text = meta_desc.get('content', '')
                 
                 article.nlp()
                 
@@ -104,14 +119,48 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
                 if any(jt.lower() == (title or "").strip().lower() for jt in junk_titles) or len(title or "") < 10:
                     title = item.get('title')
 
-                summary_text = article.summary if article.summary else article.text[:300] if article.text else ""
-                
-                # 최종 Fallback: Yahoo Finance 검색 요약
-                if not summary_text or "Google News" in summary_text:
-                    from core.utils import get_yahoo_summary
-                    fallback_summary = get_yahoo_summary(title)
-                    if fallback_summary:
+                # 요약본 생성: 1000자 내외로 넉넉하게 추출하여 최종 AI 요약의 품질을 보장합니다.
+                # nlp() 결과가 너무 짧으면 본문 앞부분을 충분히 가져옵니다.
+                if article.summary and len(article.summary) > 500:
+                    summary_text = article.summary
+                else:
+                    summary_text = article.text[:1000] if article.text else ""
+
+                # 최종 Fallback: 요약이 비었거나 너무 짧거나 제목과 비슷한 경우
+                if not summary_text or len(summary_text) < 250 or BOILERPLATE in summary_text or is_too_similar:
+                    from src.core.utils import get_yahoo_summary, get_google_summary
+                    
+                    # 1순위 백업: 카테고리가 비즈니스/경제 관련이면 야후 파이낸스 우선
+                    if cat_name in ['Business', 'Economy', 'Finance']:
+                        fallback_summary = get_yahoo_summary(title)
+                    else:
+                        fallback_summary = get_google_summary(title)
+                    
+                    # 2순위 백업: 1순위가 실패하면 다른 엔진 시도
+                    if not fallback_summary or len(fallback_summary) < 150:
+                        if cat_name in ['Business', 'Economy', 'Finance']:
+                            fallback_summary = get_google_summary(title)
+                        else:
+                            fallback_summary = get_yahoo_summary(title)
+
+                    if fallback_summary and len(fallback_summary) > len(summary_text):
                         summary_text = fallback_summary
+                    elif item.get('description') and len(item['description']) > len(summary_text):
+                        summary_text = item['description']
+                
+                # 요약문이 여전히 너무 짧거나 제목과 같으면 RSS 설명이라도 최후의 수단으로 사용
+                if len(summary_text) < 150 and item.get('description'):
+                    summary_text = item['description']
+                
+                # 요약문에서 불필요한 공백 및 '...' 등 정리
+                summary_text = re.sub(r'\s+', ' ', summary_text).strip()
+                # '...'으로 끝나는 경우 제목 중복일 가능성이 높으므로 한 번 더 체크
+                if summary_text.endswith('...') and len(summary_text) < 200:
+                    # 최후의 보루: 구글 검색 스니펫 강제 재시도
+                    from src.core.utils import get_google_summary
+                    fs = get_google_summary(title)
+                    if fs and len(fs) > len(summary_text):
+                        summary_text = fs
                 
                 pub_date = article.publish_date
                 if not pub_date and item.get('publish_date_raw'):
@@ -175,9 +224,6 @@ def decode_google_news_url(url: str) -> str:
     }
     
     try:
-        import requests
-        import re
-        
         # 1. GNews 유틸리티 시도
         try:
             from gnews.utils import decode_google_news_url as decoder
@@ -187,34 +233,60 @@ def decode_google_news_url(url: str) -> str:
         except: pass
         
         # 2. 직접 요청 및 HTML 파싱
-        res = requests.get(url, headers=headers, timeout=10, allow_redirects=True)
+        session = requests.Session()
+        res = session.get(url, headers=headers, timeout=10, allow_redirects=True)
         
         if "news.google.com" not in res.url:
             return res.url
             
-        # HTML 본문에서 실제 URL 추출 시도 (가장 신뢰도 높은 패턴부터)
+        # HTML 본문에서 실제 URL 추출 시도
+        # 신규 패턴: "https://..." 형태의 문자열 검색
         patterns = [
             r'data-url="([^"]+)"',
             r'data-n-au="([^"]+)"',
             r'window\.location\.replace\("([^"]+)"\)',
             r'url=(https?://[^&"]+)',
-            r'content="0;url=(https?://[^"]+)"'
+            r'content="0;url=(https?://[^"]+)"',
+            r'\["https://[^"]+"\]'
         ]
         
         for pattern in patterns:
             match = re.search(pattern, res.text, re.I)
             if match:
-                decoded_url = match.group(1)
+                decoded_url = match.group(1 if "(" in pattern else 0).strip('[]" ')
                 if "google.com" not in decoded_url:
                     return decoded_url
         
-        # <a> 태그 중에서 google을 포함하지 않는 링크 검색
-        match = re.search(r'<a[^>]+href="(https?://[^"]+)"[^>]*>', res.text)
-        if match:
-            link = match.group(1)
-            if "google.com" not in link:
+        # BeautifulSoup을 사용하여 <a> 태그 및 meta refresh 등 추가 검사
+        soup = BeautifulSoup(res.text, 'lxml')
+        
+        # meta refresh check
+        meta_refresh = soup.find('meta', attrs={'http-equiv': 'refresh'})
+        if meta_refresh:
+            content = meta_refresh.get('content', '')
+            match = re.search(r'url=(https?://[^"]+)', content, re.I)
+            if match and "google.com" not in match.group(1):
+                return match.group(1)
+        
+        # 모든 <a> 태그 중 외부 링크 검색
+        for a in soup.find_all('a', href=True):
+            link = a['href']
+            if link.startswith('http') and "google.com" not in link:
                 return link
-                
+        
+        # 최후의 수단: base64 디코딩 시도 (일부 구형/특수 패턴 대응)
+        if '/articles/' in url:
+            import base64
+            encoded = url.split('/articles/')[1].split('?')[0]
+            padding = len(encoded) % 4
+            if padding: encoded += '=' * (4 - padding)
+            try:
+                decoded_bytes = base64.urlsafe_b64decode(encoded)
+                match_url = re.search(rb'https?://[^\x00-\x1f\x7f-\xff]+', decoded_bytes)
+                if match_url:
+                    return match_url.group(0).decode('utf-8')
+            except: pass
+
         return res.url
     except Exception as e:
         logger.warning(f"URL 디코딩 실패 ({url}): {e}")
@@ -408,7 +480,38 @@ def fetch_company_news_us(companies: List[str], days: int = 3, market_date: date
                             title = new_title
                         
                         text = article.text if article.text else text
-                        summary = article.summary if article.summary else summary
+                        
+                        # 본문이 비어있거나 구글 뉴스 기본 문구인 경우 요약 정보로 대체
+                        BOILERPLATE = "Comprehensive up-to-date news coverage"
+                        if not text or len(text) < 50 or BOILERPLATE in text:
+                            text = info['summary']
+                        
+                        summary = article.summary if (article.summary and len(article.summary) > 500) else article.text[:1000] if article.text else summary
+                        
+                        # 보완: 요약이 여전히 너무 짧거나 제목과 비슷하면 검색 엔진을 통해 보강
+                        title_words = set(re.sub(r'[^\w\s]', ' ', title).lower().split())
+                        summary_words = set(re.sub(r'[^\w\s]', ' ', summary or "").lower().split())
+                        common_words = title_words.intersection(summary_words)
+                        
+                        # 제목 단어의 80% 이상이 포함되면서 요약이 250자 미만인 경우 "제목 중복"으로 간주
+                        is_too_similar = len(common_words) > len(title_words) * 0.8 and len(summary or "") < 250
+
+                        if not summary or len(summary) < 250 or BOILERPLATE in summary or is_too_similar:
+                            from src.core.utils import get_yahoo_summary, get_google_summary
+                            # 기업 뉴스는 야후 파이낸스 우선
+                            fallback_summary = get_yahoo_summary(title)
+                            if not fallback_summary or len(fallback_summary) < 150:
+                                fallback_summary = get_google_summary(title)
+                                
+                            if fallback_summary and len(fallback_summary) > len(summary or ""):
+                                summary = fallback_summary
+                            else:
+                                summary = info['summary']
+                        
+                        # 요약문 최종 정리
+                        if summary:
+                            summary = re.sub(r'\s+', ' ', summary).strip()
+                            
                         keywords = article.keywords
                         authors = article.authors
                     except Exception as e:

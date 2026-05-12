@@ -43,6 +43,11 @@
   - `market_date` 기준 시점 동기화: 주말이나 공휴일 수집 시에도 해당 장마감 시점의 뉴스를 정확히 매칭하도록 개선
   - GNews + yfinance 하이브리드 수집 체계 구축으로 수집 범위 및 정확도 대폭 향상 (Intel-Apple 등 주요 이슈 누락 해결)
 
+- [x] 11. 현재 문제점 수정요청
+ - 주요뉴스 헤드라인 데이터 수집 못함.
+ - " name 're' is not defined
+05/12/2026 01:35:47 PM - 기사 파싱 실패 (https://news.google.com/rss/articles/CBMiTkFVX3lxTFBtYml6MUUyZkdCRTZSTUM4eFZwb09zRlhnVEN0QkNRSkd6LVY2Wm1iTTVEVF9BYzFrbzZlVnk1cWM2cnlhQ19GTFZIMDZHZw?oc=5): name 're' is not defined" 오류발생
+ -  개발 수정하는데 너무 오래 걸림. 테스트는 전체 기사로 하지 말고 몇개 기사 테스트하고 확인.
 ## 3. 향후 요구사항 (Backlog)
 
 - [ ] 뉴스 스크래핑 시스템 핵심 기능 구현
