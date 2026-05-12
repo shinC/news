@@ -292,28 +292,39 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
                 if any(jt.lower() == (title or "").strip().lower() for jt in junk_titles) or len(title or "") < 10:
                     title = item.get('title')
                 
-                # 요약본 생성: 1000자 내외로 넉넉하게 추출하여 최종 AI 요약의 품질을 보장합니다.
-                # nlp() 결과가 너무 짧으면 본문 앞부분을 충분히 가져옵니다.
-                if article.summary and len(article.summary) > 500:
-                    summary_text = article.summary
-                else:
-                    summary_text = article.text[:1000] if article.text else ""
+                # 요약문 생성 로직 개선: 500자 제한을 없애고 품질 기반으로 선택
+                summary_text = ""
                 
-                # 최종 Fallback: 요약이 비었거나 너무 짧거나 제목과 너무 비슷한 경우, 네이버 검색 요약
+                # 1단계: newspaper4k NLP 요약문 검증
+                if article.summary and len(article.summary.strip()) > 100:
+                    # 제목과 너무 비슷한지 체크
+                    title_words = set(re.sub(r'[^\w\s]', ' ', title).split())
+                    summary_words = set(re.sub(r'[^\w\s]', ' ', article.summary).split())
+                    common_words = title_words.intersection(summary_words)
+                    is_too_similar = len(common_words) > len(title_words) * 0.7 and len(article.summary) < 200
+                    
+                    if not is_too_similar:
+                        summary_text = article.summary
                 
-                # 제목과 요약의 유사도 체크 (단순 단어 포함 비율)
-                title_words = set(re.sub(r'[^\w\s]', ' ', title).split())
-                summary_words = set(re.sub(r'[^\w\s]', ' ', summary_text).split())
-                common_words = title_words.intersection(summary_words)
-                is_too_similar = len(common_words) > len(title_words) * 0.7 and len(summary_text) < 200
+                # 2단계: NLP 요약이 부실하면 본문 앞부분 또는 RSS 설명 사용
+                if not summary_text or len(summary_text) < 200:
+                    rss_desc = item.get('description', '')
+                    if len(rss_desc) > len(summary_text) and BOILERPLATE not in rss_desc:
+                        summary_text = rss_desc
+                        
+                    if (not summary_text or len(summary_text) < 150) and article.text and len(article.text) > 200:
+                        summary_text = article.text[:1000]
+
+                # 3단계: 최종 Fallback (요약이 부실한 경우 네이버 검색 요약 활용)
+                title_words_final = set(re.sub(r'[^\w\s]', ' ', title).split())
+                summary_words_final = set(re.sub(r'[^\w\s]', ' ', summary_text or "").split())
+                is_too_similar = len(title_words_final.intersection(summary_words_final)) > len(title_words_final) * 0.7 and len(summary_text or "") < 200
                 
                 if not summary_text or len(summary_text) < 200 or BOILERPLATE in summary_text or is_too_similar:
                     from src.core.utils import get_naver_summary
                     fallback_summary = get_naver_summary(title)
-                    if fallback_summary and len(fallback_summary) > len(summary_text):
+                    if fallback_summary and len(fallback_summary) > len(summary_text or ""):
                         summary_text = fallback_summary
-                    elif item.get('description') and len(item['description']) > len(summary_text):
-                        summary_text = item['description']
                 
                 pub_date = article.publish_date
                 if not pub_date and item.get('publish_date_raw'):

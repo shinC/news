@@ -158,7 +158,7 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                 
                 summary = item.get('summary', '')
                 if summary:
-                    f.write(f"- **요약**: {summary[:300]}...\n")
+                    f.write(f"- **요약**: {summary[:1500]}...\n")
                     
                 keywords = item.get('keywords', [])
                 if not isinstance(keywords, list):
@@ -221,7 +221,7 @@ def save_company_news_to_markdown(news_data: List[Dict[str, Any]], market_type: 
                 
                 summary = item.get('summary', '')
                 if summary:
-                    f.write(f"- **요약**: {summary[:300]}...\n")
+                    f.write(f"- **요약**: {summary[:1500]}...\n")
                     
                 keywords = item.get('keywords', [])
                 if keywords:

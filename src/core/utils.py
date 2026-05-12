@@ -140,13 +140,29 @@ def get_google_summary(title: str) -> str:
         }
         
         res = requests.get(url, headers=headers, timeout=5)
-        soup = BeautifulSoup(res.text, 'lxml')
+        # 구글이 차단된 경우 (JS 활성화 메시지 등) 야후 검색으로 자동 전환
+        if "enable javascript" in res.text.lower() or "unusual traffic" in res.text.lower():
+            logger.warning("Google Search blocked. Falling back to Yahoo Search.")
+            return get_yahoo_summary(title)
+
+        snippets = []
+        for d in soup.select("div[jsname='sE79S'], .GI77S, .mCbY7l, .B6fVDf, .VwiC3b, .yXK7ab"):
+            text = d.get_text(strip=True)
+            if len(text) > 50:
+                snippets.append(text)
         
-        # 구글 뉴스 검색 결과에서 스니펫(기사 요약 문구) 추출
-        # 1. 특정 스니펫 클래스 시도
-        desc = soup.select_one("div[jsname='sE79S'], .GI77S, .mCbY7l, .B6fVDf")
-        if desc:
-            return desc.get_text(strip=True)
+        if not snippets:
+            return get_yahoo_summary(title)
+        
+        if snippets:
+            # 제목과 너무 비슷한 것 제외하고 가장 긴 것 선택
+            snippets.sort(key=len, reverse=True)
+            for s in snippets:
+                title_words = set(clean_title.lower().split())
+                s_words = set(s.lower().split())
+                if len(title_words.intersection(s_words)) < len(title_words) * 0.9:
+                    return s
+            return snippets[0]
 
         # 2. article 태그 순회하며 제목 제외 텍스트 추출
         for article in soup.select('article'):
@@ -170,4 +186,41 @@ def get_google_summary(title: str) -> str:
                 
     except Exception as e:
         logger.debug(f"Exception in get_google_summary: {e}")
+    return ""
+
+def get_article_text_playwright(url: str) -> str:
+    """실제 브라우저를 띄워 기사 본문을 강제로 추출합니다 (차단 우회 최후의 수단)."""
+    import re
+    import logging
+    from playwright.sync_api import sync_playwright
+    
+    logger = logging.getLogger(__name__)
+    logger.info(f"Playwright: Fetching body for {url}")
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            context = browser.new_context(
+                user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'
+            )
+            page = context.new_page()
+            try:
+                page.goto(url, timeout=20000, wait_until='domcontentloaded')
+                # 본문으로 추정되는 요소들 텍스트 추출
+                content = page.evaluate("""() => {
+                    const selectors = ['article', '.article-body', '.story-body', '.main-content', 'main', '#content'];
+                    for (let sel of selectors) {
+                        let el = document.querySelector(sel);
+                        if (el && el.innerText.length > 300) return el.innerText;
+                    }
+                    return document.body.innerText;
+                }""")
+            except:
+                content = ""
+            
+            browser.close()
+            if content and len(content) > 150:
+                clean_text = re.sub(r'\s+', ' ', content).strip()
+                return clean_text[:1200]
+    except Exception as e:
+        logger.error(f"Playwright 실패 ({url}): {e}")
     return ""
