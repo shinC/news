@@ -126,6 +126,42 @@ def get_yahoo_summary(title: str) -> str:
         logger.debug(f"Exception in get_yahoo_summary: {e}")
     return ""
 
+def get_naver_api_summary(query: str) -> str:
+    """네이버 뉴스 검색 API를 사용하여 기사 요약(스니펫)을 가져옵니다."""
+    from config.settings import settings
+    import requests
+    import re
+    import html
+    
+    client_id = settings.naver_client_id
+    client_secret = settings.naver_client_secret
+    
+    if not client_id or not client_secret:
+        return ""
+        
+    url = f"https://openapi.naver.com/v1/search/news.json?query={urllib.parse.quote(query)}&display=5&sort=sim"
+    headers = {
+        "X-Naver-Client-Id": client_id,
+        "X-Naver-Client-Secret": client_secret
+    }
+    
+    try:
+        response = requests.get(url, headers=headers, timeout=5)
+        if response.status_code == 200:
+            data = response.json()
+            items = data.get('items', [])
+            if items:
+                # 첫 번째 결과의 description 사용 (HTML 태그 제거)
+                desc = items[0].get('description', '')
+                clean_desc = re.sub(r'<[^>]+>', '', desc) # HTML 태그 제거
+                clean_desc = html.unescape(clean_desc) # HTML 엔티티 제거
+                return clean_desc
+    except Exception as e:
+        import logging
+        logging.getLogger(__name__).debug(f"Naver API Error: {e}")
+        
+    return ""
+
 def get_google_summary(title: str) -> str:
     """구글 뉴스 검색을 통해 기사 스니펫(Snippet)을 가져옵니다."""
     try:

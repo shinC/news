@@ -1,4 +1,9 @@
+import os
 from pydantic import BaseModel, Field
+from dotenv import load_dotenv
+
+# .env 파일 로드
+load_dotenv()
 
 class Settings(BaseModel):
     # Google News 검색 설정
@@ -7,6 +12,10 @@ class Settings(BaseModel):
     period: str = "3d"      # 최근 3일
     max_results: int = 50   
     max_results_per_section: int = 7 # 섹션당 최대 7개
+    
+    # 네이버 API 설정 (환경 변수에서 로드)
+    naver_client_id: str = os.getenv("NAVER_CLIENT_ID", "")
+    naver_client_secret: str = os.getenv("NAVER_CLIENT_SECRET", "")
 
     # 출력 설정
     output_dir: str = "data/output"

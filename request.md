@@ -48,6 +48,17 @@
  - " name 're' is not defined
 05/12/2026 01:35:47 PM - 기사 파싱 실패 (https://news.google.com/rss/articles/CBMiTkFVX3lxTFBtYml6MUUyZkdCRTZSTUM4eFZwb09zRlhnVEN0QkNRSkd6LVY2Wm1iTTVEVF9BYzFrbzZlVnk1cWM2cnlhQ19GTFZIMDZHZw?oc=5): name 're' is not defined" 오류발생
  -  개발 수정하는데 너무 오래 걸림. 테스트는 전체 기사로 하지 말고 몇개 기사 테스트하고 확인.
+- [x] 12. 구글뉴스 접속 금지에 따른 코드 수정 [완료]
+ - 문제점
+  - 빈번한 접속으로 구글 뉴스 RSS 접속 차단
+  - 뉴스 URL 디코딩을 위한 리다이텍팅
+  - 호출시간에 약간의 지연을 랜덤하게 삽입
+ - 해결책.
+  - 우선은 본문을 가져오기 위해 url 디코딩한 후 호출하는 부분은 삭제.(구글 url 그대로 수집)
+  - 구글 rss는 종목별로 10번 정도 호출, 그리고 정해놓은 산업별로 1번씩정도만 호출.
+  - 본문은 우선 가져오지 말고 제목과 링크만 수집. 
+  - 우선은 미국뉴스 수집에만 적용. 
+
 ## 3. 향후 요구사항 (Backlog)
 
 - [ ] 뉴스 스크래핑 시스템 핵심 기능 구현

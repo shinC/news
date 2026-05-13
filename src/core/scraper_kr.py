@@ -2,11 +2,10 @@ import logging
 import requests
 import re
 from bs4 import BeautifulSoup
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from datetime import datetime, timedelta
 import pytz
 import urllib.parse
-from gnews import GNews
 from newspaper import Article
 from config.settings import settings_kr
 
@@ -129,14 +128,27 @@ def fetch_google_news_web(query: str, hl: str = 'ko', gl: str = 'KR', ceid: str 
         
     return articles
 
-def fetch_google_news_rss(query: str, hl: str = 'ko', gl: str = 'KR', ceid: str = 'KR:ko', max_results: int = 7) -> List[Dict[str, Any]]:
-    """구글 뉴스 RSS 피드를 파싱하여 기사 목록을 반환합니다."""
-    import urllib.parse
+def fetch_google_news_rss(query: str = None, topic_id: str = None, hl: str = 'ko', gl: str = 'KR', ceid: str = 'KR:ko', max_results: int = 7) -> List[Dict[str, Any]]:
+    """구글 뉴스 RSS 피드를 직접 파싱하여 기사 목록을 반환합니다.
+    query가 있으면 검색 RSS를, topic_id가 있으면 토픽 RSS를 호출합니다.
+    """
+    import time
+    import random
     
-    encoded_query = urllib.parse.quote(query)
-    url = f"https://news.google.com/rss/search?q={encoded_query}&hl={hl}&gl={gl}&ceid={ceid}"
+    # 랜덤 지연 추가 (차단 방지)
+    delay = random.uniform(1.0, 2.5)
+    time.sleep(delay)
+    
+    if topic_id:
+        url = f"https://news.google.com/rss/topics/{topic_id}?hl={hl}&gl={gl}&ceid={ceid}"
+    elif query:
+        encoded_query = urllib.parse.quote(query)
+        url = f"https://news.google.com/rss/search?q={encoded_query}&hl={hl}&gl={gl}&ceid={ceid}"
+    else:
+        return []
+
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'
     }
     
     articles = []
@@ -271,10 +283,13 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
                 is_boilerplate = article.text and BOILERPLATE in article.text
                 
                 if not article.text or len(article.text) < 30 or is_boilerplate:
-                    # 1순위: RSS에서 제공하는 요약
-                    if item.get('description') and BOILERPLATE not in item.get('description'):
+                    from src.core.utils import get_naver_api_summary
+                    api_summary = get_naver_api_summary(item['title'])
+                    
+                    if api_summary:
+                        article.text = api_summary
+                    elif item.get('description') and BOILERPLATE not in item.get('description'):
                         article.text = item['description']
-                    # 2순위: 메타 설명 (단, 구글 뉴스 URL이 아닐 때만)
                     elif "news.google.com" not in url:
                         from bs4 import BeautifulSoup
                         soup = BeautifulSoup(article.html, 'lxml')
@@ -417,11 +432,9 @@ def fetch_company_news_kr(companies: List[str], days: int = 3) -> List[Dict[str,
             return t
 
         try:
-            # Source 1: Google News Search (RSS version of web search)
-            # 직접적인 웹 스크래핑이 차단되므로 브라우저 결과와 가장 유사한 RSS 검색을 최우선으로 사용합니다.
+            # Source 1: Google News Search (Direct RSS)
             logger.info(f"Source 1: Fetching Google News Search for {company}...")
-            google_news_client = GNews(language='ko', country='KR', period=f'{days}d', max_results=20)
-            gn_news = google_news_client.get_news(company)
+            gn_news = fetch_google_news_rss(query=company, max_results=20)
             
             for idx, item in enumerate(gn_news):
                 raw_url = item.get('url', '')

@@ -11,9 +11,23 @@ from config.settings import settings
 
 logger = logging.getLogger(__name__)
 
-def fetch_google_news_rss(query: str, hl: str = 'en-US', gl: str = 'US', ceid: str = 'US:en', max_results: int = 7) -> List[Dict[str, Any]]:
-    encoded_query = urllib.parse.quote(query)
-    url = f"https://news.google.com/rss/search?q={encoded_query}&hl={hl}&gl={gl}&ceid={ceid}"
+def fetch_google_news_rss(query: str = None, topic_id: str = None, hl: str = 'en-US', gl: str = 'US', ceid: str = 'US:en', max_results: int = 7) -> List[Dict[str, Any]]:
+    import time
+    import random
+    
+    # 랜덤 지연 추가 (구글 차단 방지)
+    delay = random.uniform(1.5, 3.5)
+    logger.info(f"Google RSS 차단 방지를 위해 {delay:.2f}초 대기합니다...")
+    time.sleep(delay)
+    
+    if topic_id:
+        url = f"https://news.google.com/rss/topics/{topic_id}?hl={hl}&gl={gl}&ceid={ceid}"
+    elif query:
+        encoded_query = urllib.parse.quote(query)
+        url = f"https://news.google.com/rss/search?q={encoded_query}&hl={hl}&gl={gl}&ceid={ceid}"
+    else:
+        return []
+
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'}
     articles = []
     try:
@@ -23,9 +37,15 @@ def fetch_google_news_rss(query: str, hl: str = 'en-US', gl: str = 'US', ceid: s
         for item in soup.find_all('item'):
             raw_desc = item.description.text if item.description else ""
             clean_desc = BeautifulSoup(raw_desc, 'html.parser').get_text(separator=' ', strip=True)
-            articles.append({"title": item.title.text, "url": item.link.text, "description": clean_desc, "publish_date_raw": item.pubDate.text})
+            articles.append({
+                "title": item.title.text, 
+                "url": item.link.text, 
+                "description": clean_desc, 
+                "publish_date_raw": item.pubDate.text
+            })
             if len(articles) >= max_results: break
-    except: pass
+    except Exception as e: 
+        logger.error(f"Google RSS Error: {e}")
     return articles
 
 def decode_google_news_url(url: str) -> str:
@@ -58,8 +78,15 @@ def get_best_summary(title, article_text, rss_desc, is_finance=False):
     if not summary and article_text and len(article_text) > 300:
         summary = article_text[:1200]
     if not summary or len(summary) < 200 or check_similarity(title, summary):
-        from src.core.utils import get_yahoo_summary, get_google_summary
-        fallback = get_yahoo_summary(title) if is_finance else get_google_summary(title)
+        from src.core.utils import get_yahoo_summary, get_google_summary, get_naver_api_summary
+        
+        # 1순위: 네이버 API (품질 및 안정성 최고)
+        fallback = get_naver_api_summary(title)
+        
+        # 2순위: 야후/구글 검색 스니펫
+        if not fallback or len(fallback) < 150:
+            fallback = get_yahoo_summary(title) if is_finance else get_google_summary(title)
+            
         if fallback and len(fallback) > 150:
             summary = fallback
     if not summary or len(summary) < 150 or check_similarity(title, summary):
@@ -73,26 +100,48 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
     ref_date = market_date if market_date else datetime.now(pytz.utc)
     if ref_date.tzinfo is None: ref_date = ref_date.replace(tzinfo=pytz.utc)
     cutoff = ref_date - timedelta(days=3)
-    config = newspaper.Config()
-    config.request_timeout = 10
-    config.browser_user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'
 
     for cat, query in settings.categories.items():
         logger.info(f"Fetching {cat}...")
-        for item in fetch_google_news_rss(query, max_results=settings.max_results_per_section):
+        # 카테고리(산업)별로 1번 호출. max_results는 설정값(보통 7) 사용
+        rss_articles = fetch_google_news_rss(query, max_results=settings.max_results_per_section)
+        for item in rss_articles:
             try:
-                url = decode_google_news_url(item['url'])
-                article = newspaper.Article(url, language='en', config=config)
-                article.download()
-                article.parse()
-                article.nlp()
-                title = item.get('title', article.title)
-                summary = get_best_summary(title, article.text, item.get('description'), is_finance=(cat in ['Finance', 'Economy']))
-                pub = article.publish_date or ref_date
+                url = item['url'] # URL 디코딩 생략 (차단 방지)
+                title = item.get('title', '')
+                
+                # 본문 파싱 생략, 대신 네이버 API로 고품질 스니펫 수집
+                from src.core.utils import get_naver_api_summary
+                summary = get_naver_api_summary(title)
+                
+                # 네이버 API 실패 시 RSS 요약 사용
+                if not summary or len(summary) < 150:
+                    summary = item.get('description', '')
+                
+                # 날짜 파싱
+                pub = None
+                if item.get('publish_date_raw'):
+                    try:
+                        from dateutil import parser as date_parser
+                        pub = date_parser.parse(item['publish_date_raw'])
+                    except: pass
+                
+                if not pub: pub = ref_date
                 if pub.tzinfo is None: pub = pub.replace(tzinfo=pytz.utc)
                 if pub < cutoff: continue
-                all_data.append({"category": cat, "title": title, "url": url, "publish_date": pub, "summary": summary, "text": article.text, "keywords": article.keywords, "priority_score": 0})
-            except: pass
+                
+                all_data.append({
+                    "category": cat, 
+                    "title": title, 
+                    "url": url, 
+                    "publish_date": pub, 
+                    "summary": summary, 
+                    "text": summary, # 본문 대신 요약 사용
+                    "keywords": [], 
+                    "priority_score": 0
+                })
+            except Exception as e: 
+                logger.error(f"Category Parsing Error: {e}")
     return all_data
 
 def fetch_company_news_us(company, company_full_name: str = None, days: int = 3, market_date: datetime = None) -> List[Dict[str, Any]]:
@@ -108,7 +157,52 @@ def fetch_company_news_us(company, company_full_name: str = None, days: int = 3,
     news_data = []
     ref_date = market_date if market_date else datetime.now(pytz.utc)
     cutoff = ref_date - timedelta(days=days)
+    seen = set()
     
+    # 1. Google News RSS (본문 스크래핑 제외, 제목/링크만)
+    # 종목별로 10개 기사 수집
+    logger.info(f"[{ticker_str}] Fetching Google News RSS...")
+    gn_articles = fetch_google_news_rss(company_full_name, max_results=10)
+    for item in gn_articles:
+        try:
+            url = item['url']
+            if url in seen: continue
+            seen.add(url)
+            
+            title = item.get('title', '')
+            
+            # 본문 스크래핑 대신 네이버 API 요약 사용
+            from src.core.utils import get_naver_api_summary
+            summary = get_naver_api_summary(title)
+            
+            if not summary or len(summary) < 150:
+                summary = item.get('description', '')
+            
+            pub = None
+            if item.get('publish_date_raw'):
+                try:
+                    from dateutil import parser as date_parser
+                    pub = date_parser.parse(item['publish_date_raw'])
+                except: pass
+            
+            if not pub: pub = ref_date
+            if pub.tzinfo is None: pub = pub.replace(tzinfo=pytz.utc)
+            if pub < cutoff: continue
+            
+            news_data.append({
+                "company": ticker_str, 
+                "title": title, 
+                "url": url, 
+                "summary": summary, 
+                "text": summary, # 본문 없이 요약만 사용
+                "publish_date": pub, 
+                "priority_score": 0, 
+                "original_rank": len(news_data)
+            })
+        except Exception as e:
+            logger.error(f"Google News RSS Parsing Error: {e}")
+
+    # 2. Yahoo Finance (원래대로 유지)
     try: yf_news = yf.Ticker(ticker_str).news
     except: yf_news = []
     
@@ -116,7 +210,6 @@ def fetch_company_news_us(company, company_full_name: str = None, days: int = 3,
     config.request_timeout = 10
     config.browser_user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'
     
-    seen = set()
     for item in yf_news:
         try:
             c = item.get('content', {})
@@ -131,6 +224,16 @@ def fetch_company_news_us(company, company_full_name: str = None, days: int = 3,
             
             title = article.title or c.get('title', '')
             summary = get_best_summary(title, article.text, c.get('summary'), is_finance=True)
-            news_data.append({"company": ticker_str, "title": title, "url": url, "summary": summary, "text": article.text, "publish_date": ref_date, "priority_score": 0, "original_rank": len(news_data)})
+            news_data.append({
+                "company": ticker_str, 
+                "title": title, 
+                "url": url, 
+                "summary": summary, 
+                "text": article.text, 
+                "publish_date": ref_date, 
+                "priority_score": 0, 
+                "original_rank": len(news_data)
+            })
         except: pass
+        
     return news_data
