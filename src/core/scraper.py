@@ -142,8 +142,60 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
                 })
             except Exception as e: 
                 logger.error(f"Category Parsing Error: {e}")
-    return all_data
 
+    # 2. 야후 파이낸스 카테고리 뉴스 추가 (Top Stories)
+    logger.info("Fetching Yahoo Finance Macro & Market News...")
+    try:
+        import feedparser
+        
+        seen_urls = set([item['url'] for item in all_data])
+        rss_url = "https://finance.yahoo.com/news/rssindex"
+        
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
+        res = requests.get(rss_url, headers=headers, timeout=10)
+        
+        if res.status_code == 200:
+            d = feedparser.parse(res.content)
+            for item in d.entries[:10]: # 상위 10개만 수집
+                url = item.get('link', '')
+                if not url or url in seen_urls: continue
+                seen_urls.add(url)
+                
+                title = item.get('title', '')
+                
+                # 네이버 API 요약 활용
+                from src.core.utils import get_naver_api_summary
+                summary = get_naver_api_summary(title)
+                
+                if not summary or len(summary) < 150:
+                    summary = item.get('summary', '') or item.get('description', '')
+                    summary = BeautifulSoup(summary, 'html.parser').get_text(separator=' ', strip=True)
+                    
+                pub = ref_date
+                pub_str = item.get('published') or item.get('pubDate')
+                if pub_str:
+                    try:
+                        from dateutil import parser as date_parser
+                        pub = date_parser.parse(str(pub_str))
+                    except: pass
+                
+                if pub.tzinfo is None: pub = pub.replace(tzinfo=pytz.utc)
+                if pub < cutoff: continue
+                
+                all_data.append({
+                    "category": "Macro & Market", 
+                    "title": title, 
+                    "url": url, 
+                    "publish_date": pub, 
+                    "summary": summary, 
+                    "text": summary, 
+                    "keywords": [], 
+                    "priority_score": 0
+                })
+    except Exception as e:
+        logger.error(f"Yahoo Macro RSS Error: {e}")
+
+    return all_data
 def fetch_company_news_us(company, company_full_name: str = None, days: int = 3, market_date: datetime = None) -> List[Dict[str, Any]]:
     # company가 리스트로 들어오는 경우(market.py 호환성) 처리
     ticker_str = company[0] if isinstance(company, list) else company

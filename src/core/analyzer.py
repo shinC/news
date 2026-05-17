@@ -66,9 +66,9 @@ def analyze_and_sort(news_data: List[Dict[str, Any]], similarity_threshold: floa
     df['publish_date'] = pd.to_datetime(df['publish_date'], utc=True, errors='coerce')
     
     # 정렬 기준 1: 키워드 가중치 (내림차순)
-    # 정렬 기준 2: 시간순 (내림차순, 최신 우선)
-    # 정렬 기준 3: 중복도 (클러스터 크기, 내림차순, 많이 다뤄진 이슈 우선)
-    df = df.sort_values(by=['priority_score', 'publish_date', 'cluster_size'], ascending=[False, False, False])
+    # 정렬 기준 2: 중복도 (클러스터 크기, 내림차순, 많이 다뤄진 이슈 우선)
+    # 정렬 기준 3: 시간순 (내림차순, 최신 우선)
+    df = df.sort_values(by=['priority_score', 'cluster_size', 'publish_date'], ascending=[False, False, False])
     
     logger.info(f"총 {len(clusters)}개의 이슈 클러스터가 형성되었습니다.")
     
