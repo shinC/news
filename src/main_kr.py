@@ -34,8 +34,8 @@ def main():
     market_date = None
     if market_data:
         if "top_stocks" in market_data:
-            # 거래대금 상위 종목의 종목명(ticker)을 키워드로 추가
-            dynamic_keywords = [stock["ticker"] for stock in market_data["top_stocks"]]
+            # 거래대금 상위 종목 중 특징주(이유가 있는 종목)의 종목명(ticker)을 키워드로 추가
+            dynamic_keywords = [stock["ticker"] for stock in market_data["top_stocks"] if stock.get("reason")]
             logger.info(f"동적 키워드 {len(dynamic_keywords)}개를 추출했습니다.")
         
         market_date = market_data.get("market_date")

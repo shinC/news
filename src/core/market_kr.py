@@ -187,8 +187,10 @@ def get_market_data() -> Dict[str, Any]:
                     seen.add(t)
             unique_st.sort(key=lambda x: x.get("trading_value", 0), reverse=True)
             top_100 = unique_st[:100]
-            top_gn = sorted(top_100, key=lambda x: x.get("change_pct", 0), reverse=True)[:10]
-            gn_tk = [s["ticker"] for s in top_gn]
+            top_gn = sorted(top_100, key=lambda x: x.get("change_pct", 0), reverse=True)[:20]
+            top_vol = top_100[:20]
+            gn_tk = list(set([s["ticker"] for s in top_gn] + [s["ticker"] for s in top_vol]))
+            
             for s in top_100:
                 if s["ticker"] in gn_tk: s["reason"] = fetch_stock_reason_kr(s["ticker"])
                 else: s["reason"] = []

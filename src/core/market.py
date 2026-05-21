@@ -176,13 +176,14 @@ def get_market_data() -> Dict[str, Any]:
             
             top_100 = filtered_stocks
             
-            # 3단계: 상위 100개 중 상승률(change_pct)이 가장 높은 10개 종목 선정
-            top_gainers_in_top_100 = sorted(top_100, key=lambda x: x['change_pct'], reverse=True)[:10]
-            top_gainer_tickers = [s['ticker'] for s in top_gainers_in_top_100]
+            # 3단계: 상위 100개 중 상승률 상위 20개 및 거래대금 상위 20개 선정 (중복 제거)
+            top_gn = sorted(top_100, key=lambda x: x['change_pct'], reverse=True)[:20]
+            top_vol = top_100[:20]
+            gn_tk_set = set([s['ticker'] for s in top_gn] + [s['ticker'] for s in top_vol])
             
-            # 4단계: 선정된 10개 종목에 대해서만 뉴스 검색 진행
+            # 4단계: 선정된 종목들에 대해서만 뉴스 검색 진행
             for stock in top_100:
-                if stock['ticker'] in top_gainer_tickers:
+                if stock['ticker'] in gn_tk_set:
                     stock['reason'] = fetch_stock_reason_us(stock['ticker'], market_date=market_info.get("market_date"))
                 else:
                     stock['reason'] = []

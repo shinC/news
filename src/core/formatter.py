@@ -60,7 +60,7 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
             top_stocks = market_data.get("top_stocks", [])
             if top_stocks:
                 f.write("### 🔥 거래대금 기준 특징주 상위 100 (거래대금 순)\n")
-                f.write("> **참고**: 거래대금 상위 100개 종목 중 상승률이 가장 높은 Top 10 종목에 대해 관련 뉴스를 검색하여 표 아래에 제공합니다.\n\n")
+                f.write("> **참고**: 거래대금 상위 100개 종목 중 상승률 상위 20개 및 거래대금 상위 20개 종목에 대해 관련 뉴스를 검색하여 표 아래에 제공합니다.\n\n")
                 f.write("| 순위 | 종목 | 현재가 | 등락률(%) | 거래대금(대략) |\n")
                 f.write("|---|---|---|---|---|\n")
                 
@@ -116,7 +116,22 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                         ticker = stock['ticker']
                         sign = "+" if stock['change_pct'] > 0 else ""
                         change_pct_str = f"{sign}{stock['change_pct']}%"
-                        f.write(f"#### {ticker} ({change_pct_str})\n")
+                        trading_value = stock.get('trading_value', 0)
+                        if is_kr:
+                            if trading_value >= 1e12:
+                                cho = int(trading_value // 1e12)
+                                eok = int((trading_value % 1e12) // 1e8)
+                                tv_str = f"{cho}조 {eok:,}억원" if eok > 0 else f"{cho}조원"
+                            else:
+                                eok = int(trading_value // 1e8)
+                                tv_str = f"{eok:,}억원"
+                        else:
+                            if trading_value >= 1e9:
+                                tv_str = f"${trading_value/1e9:.2f}B"
+                            else:
+                                tv_str = f"${trading_value/1e6:.2f}M"
+                                
+                        f.write(f"#### {ticker} ({change_pct_str}) | 거래대금: {tv_str}\n")
                         reasons = stock.get('reason', [])
                         for news_title in reasons:
                             f.write(f"- {news_title}\n")

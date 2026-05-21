@@ -40,7 +40,7 @@ class KiwoomAPI:
 
     def get_top_trading_value(self, market_code: str = "000") -> List[Dict[str, Any]]:
         """거래대금 상위 종목을 조회합니다 (ka10032).
-        KRX와 NXT 데이터를 각각 가져와 합산합니다.
+        stex_tp="3" (통합)을 사용하여 KRX 및 NXT 합산 데이터를 가져옵니다.
         """
         if not self.token and not self.get_token():
             return []
@@ -52,76 +52,44 @@ class KiwoomAPI:
             "api-id": "ka10032"
         }
         
-        def fetch_data(stex_tp):
-            body = {
-                "mrkt_tp": market_code,
-                "stex_tp": stex_tp,
-                "mang_stk_incls": "0",
-                "data_limit": "100"
-            }
-            try:
-                res = requests.post(url, headers=headers, json=body, timeout=10)
-                if res.status_code == 200:
-                    return res.json().get("trde_prica_upper", [])
-            except Exception as e:
-                logger.error(f"Kiwoom API fetch error (stex_tp={stex_tp}): {e}")
+        body = {
+            "mrkt_tp": market_code,
+            "stex_tp": "3",  # 통합 (KRX + NXT)
+            "mang_stk_incls": "0",
+            "data_limit": "100"
+        }
+        
+        try:
+            res = requests.post(url, headers=headers, json=body, timeout=10)
+            if res.status_code == 200:
+                data = res.json().get("trde_prica_upper", [])
+            else:
+                data = []
+        except Exception as e:
+            logger.error(f"Kiwoom API fetch error (stex_tp=3): {e}")
             return []
 
-        # KRX (1)와 NXT (2) 데이터 각각 수집
-        krx_data = fetch_data("1")
-        nxt_data = fetch_data("2")
-        
-        stock_map = {}
-        
-        # KRX 데이터 처리
-        for item in krx_data:
+        formatted_stocks = []
+        for item in data:
             name = item.get("stk_nm", "").strip()
             ticker = item.get("stk_cd", "").strip()
+            if not name or not ticker:
+                continue
             try:
                 price = item.get("cur_prc", "0").replace("+", "").replace("-", "").replace(",", "")
                 change_pct = float(item.get("flu_rt", "0").replace("+", "").replace("%", ""))
                 tv = float(item.get("trde_prica", "0")) * 1000000 
-                stock_map[ticker] = {
-                    "name": name,
-                    "ticker": ticker,
+                
+                formatted_stocks.append({
+                    "ticker": name,       # 종목명 (메인 스크립트 호환용)
+                    "ticker_cd": ticker,  # 종목코드
                     "price": price,
                     "change_pct": change_pct,
                     "trading_value": tv
-                }
-            except: continue
-
-        # NXT 데이터 합산
-        for item in nxt_data:
-            ticker = item.get("stk_cd", "").strip().replace("_NX", "") # 접미사 제거하여 매칭
-            try:
-                tv = float(item.get("trde_prica", "0")) * 1000000
-                if ticker in stock_map:
-                    stock_map[ticker]["trading_value"] += tv
-                else:
-                    # KRX에 없는 종목이 NXT에 있을 경우 (드묾)
-                    name = item.get("stk_nm", "").strip()
-                    price = item.get("cur_prc", "0").replace("+", "").replace("-", "").replace(",", "")
-                    change_pct = float(item.get("flu_rt", "0").replace("+", "").replace("%", ""))
-                    stock_map[ticker] = {
-                        "name": name,
-                        "ticker": ticker,
-                        "price": price,
-                        "change_pct": change_pct,
-                        "trading_value": tv
-                    }
-            except: continue
-
-        stocks = list(stock_map.values())
-        formatted_stocks = []
-        for s in stocks:
-            formatted_stocks.append({
-                "ticker": s["name"], # 종목명 (메인 스크립트 호환용)
-                "ticker_cd": s["ticker"], # 종목코드
-                "price": s["price"],
-                "change_pct": s["change_pct"],
-                "trading_value": s["trading_value"]
-            })
-            
+                })
+            except Exception:
+                continue
+                
         return formatted_stocks
     def get_theme_ranking(self) -> List[Dict[str, Any]]:
         """테마그룹별 등락률 순위를 조회합니다 (ka90001)."""
