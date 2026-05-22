@@ -61,14 +61,14 @@ class SettingsKR(BaseModel):
 
     # 수집 카테고리 (KR)
     categories: dict = {
-        "비즈니스": "비즈니스",
-        "경제": "경제",
-        "세계": "세계",
-        "정치": "정치",
-        "금융": "금융",
-        "과학기술": "과학기술",
-        "로봇": "로봇",
-        "인터넷보안": "인터넷보안"
+        "비즈니스": "CAAqJggKIiBDQkFTRWdvSUwyMHZNRGx6TVdZU0FtdHZHZ0pMVWlnQVAB",
+        "경제": "CAAqJggKIiBDQkFTRWdvSUwyMHZNRGx6TVdZU0FtdHZHZ0pMVWlnQVAB",  # 비즈니스 토픽과 동일 적용
+        "세계": "CAAqJggKIiBDQkFTRWdvSUwyMHZNRGx1YlY4U0FtdHZHZ0pMVWlnQVAB",
+        "정치": "CAAqIQgKIhtDQkFTRGdvSUwyMHZNRFp4WkRNU0FtdHZLQUFQAQ", # 대한민국(정치/사회)
+        "금융": "CAAqIQgKIhtDQkFTRGdvSUwyMHZNREpmTjNRU0FtdHZLQUFQAQ",
+        "과학기술": "CAAqKAgKIiJDQkFTRXdvSkwyMHZNR1ptZHpWbUVnSnJieG9DUzFJb0FBUAE",
+        "로봇": "CAAqJAgKIh5DQkFTRUFvS0wyMHZNREp3TUhRMVpoSUNhMjhvQUFQAQ", # 사용자 제공 토픽
+        "인터넷보안": "CAAqIggKIhxDQkFTRHdvSkwyMHZNRE5xWm01NEVnSnJieWdBUAE"
     }
 
     # 네이버 증권 뉴스 수집 경로 (카테고리별)

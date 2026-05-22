@@ -174,7 +174,9 @@ def get_market_data() -> Dict[str, Any]:
     except: pass
     try:
         kiwoom = KiwoomAPI()
+        # 사용자의 지적대로, 코스피/코스닥을 따로 가져와 합치면 실제 전체 시장 기준 랭킹이 왜곡되므로 다시 전체(000)로 롤백합니다.
         all_st = kiwoom.get_top_trading_value("000")
+        
         if not all_st: all_st = _fetch_naver_top_stocks()
         if all_st:
             unique_st = []

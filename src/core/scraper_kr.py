@@ -265,9 +265,13 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
         logger.error(f"네이버 주요뉴스 수집 전체 실패: {e}")
 
 
-    for cat_name, query in categories.items():
-        logger.info(f"카테고리 수집 중: {cat_name} (쿼리: {query})")
-        rss_articles = fetch_google_news_rss(query, max_results=settings_kr.max_results_per_section)
+    for cat_name, query_or_topic in categories.items():
+        if query_or_topic.startswith("CAAq"):
+            logger.info(f"카테고리 수집 중: {cat_name} (토픽 ID: {query_or_topic})")
+            rss_articles = fetch_google_news_rss(topic_id=query_or_topic, max_results=settings_kr.max_results_per_section)
+        else:
+            logger.info(f"카테고리 수집 중: {cat_name} (쿼리: {query_or_topic})")
+            rss_articles = fetch_google_news_rss(query=query_or_topic, max_results=settings_kr.max_results_per_section)
         
         for item in rss_articles:
             try:
