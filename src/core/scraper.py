@@ -101,10 +101,13 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
     if ref_date.tzinfo is None: ref_date = ref_date.replace(tzinfo=pytz.utc)
     cutoff = ref_date - timedelta(days=3)
 
-    for cat, query in settings.categories.items():
-        logger.info(f"Fetching {cat}...")
-        # 카테고리(산업)별로 1번 호출. max_results는 설정값(보통 7) 사용
-        rss_articles = fetch_google_news_rss(query, max_results=settings.max_results_per_section)
+    for cat, query_or_topic in settings.categories.items():
+        if query_or_topic.startswith("CAAq"):
+            logger.info(f"Fetching {cat} (Topic ID)...")
+            rss_articles = fetch_google_news_rss(topic_id=query_or_topic, max_results=settings.max_results_per_section)
+        else:
+            logger.info(f"Fetching {cat} (Query)...")
+            rss_articles = fetch_google_news_rss(query=query_or_topic, max_results=settings.max_results_per_section)
         for item in rss_articles:
             try:
                 url = item['url'] # URL 디코딩 생략 (차단 방지)

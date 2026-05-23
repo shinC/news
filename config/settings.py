@@ -29,14 +29,14 @@ class Settings(BaseModel):
 
     # 수집 카테고리 (US)
     categories: dict = {
-        "Business": "Business",
-        "Economy": "Economy",
-        "Finance": "Finance",
-        "Science & technology": "Science & technology",
-        "Robotics": "Robotics",
-        "Internet security": "Internet security",
-        "World": "World",
-        "Politics": "Politics"
+        "Business": "CAAqJggKIiBDQkFTRWdvSUwyMHZNRGx6TVdZU0FtVnVHZ0pWVXlnQVAB",
+        "Economy": "CAAqJggKIiBDQkFTRWdvSUwyMHZNRGx6TVdZU0FtVnVHZ0pWVXlnQVAB", # Business와 동일
+        "Finance": "CAAqIQgKIhtDQkFTRGdvSUwyMHZNREpmTjNRU0FtVnVLQUFQAQ",
+        "Science & technology": "CAAqJggKIiBDQkFTRWdvSUwyMHZNRGRqTVhZU0FtVnVHZ0pWVXlnQVAB",
+        "Robotics": "CAAqJAgKIh5DQkFTRUFvS0wyMHZNREp3TUhRMVpoSUNaVzRvQUFQAQ",
+        "Internet security": "CAAqIggKIhxDQkFTRHdvSkwyMHZNRE5xWm01NEVnSmxiaWdBUAE",
+        "World": "CAAqJggKIiBDQkFTRWdvSUwyMHZNRGx1YlY4U0FtVnVHZ0pWVXlnQVAB",
+        "Politics": "CAAqIQgKIhtDQkFTRGdvSUwyMHZNRFZ4ZERBU0FtVnVLQUFQAQ"
     }
 
 settings = Settings()
