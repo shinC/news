@@ -8,6 +8,10 @@
 - [Market KR] 한국 종목 뉴스 수집 기간을 2일에서 3일로 확대하여 누락 방지.
 
 ### Changed
+- [News Scraper] 구글 뉴스 암호화 URL 해독 방식을 로컬 디코딩 라이브러리(`googlenewsdecoder`)로 변경하여 봇 차단을 우회.
+- [News Scraper] 카테고리/종목/매크로 미국 뉴스 스크래핑 시 네이버 API 요약 의존성을 제거하고 RSS 기본 description을 사용하도록 변경.
+- [News Scraper] 매크로 뉴스 수집 채널을 야후 RSS에서 구글 뉴스 RSS("Stock market today" 검색어 기반 5개 뉴스)로 대체.
+- [News Scraper] 미국 종목 뉴스 수집 시 구글 RSS 수집 한도를 10개에서 5개로 제한하고, 구글 검색 결과가 없을 경우에만 야후 파이낸스(`yfinance`)를 백업으로 호출하도록 분기 처리.
 - [News Scraper] 뉴스 수집 우선순위 재조정: 구글 뉴스 RSS 검색을 최우선으로 하고 네이버/야후를 보완재로 사용.
 - [News Scraper] 정렬 알고리즘 고도화: 단순 키워드 매칭보다 원본 검색 엔진의 랭킹(`original_rank`)을 최우선으로 반영하도록 수정.
 - [Docs] PRD 및 ARCH 문서를 최신 수집 및 정렬 정책에 맞게 업데이트.

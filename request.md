@@ -58,6 +58,19 @@
   - 구글 rss는 종목별로 10번 정도 호출, 그리고 정해놓은 산업별로 1번씩정도만 호출.
   - 본문은 우선 가져오지 말고 제목과 링크만 수집. 
   - 우선은 미국뉴스 수집에만 적용. 
+- [] 13. 구글 뉴스 수집 변경
+
+  - 13-1. 카테고리 및 매크로 뉴스
+  
+  - 매크로 뉴스 수집은 아래 예제처럼 "Stock market today" 으로 구글검색해서 장마감 뉴스 5개 수집
+    query = "Stock market today"
+    rss_url = f"https://news.google.com/rss/search?q={urllib.parse.quote(query)}&hl=en-US&gl=US&ceid=US:en"
+  - 카테고리 뉴스 수집은 그대로 유지.
+  - googlenewsdecoder 를 통해 진짜 url 수집
+  - naver api를 통해 요약 생성하는 부분은 삭제.
+  - 13-2. 특정 종목/기업뉴스
+  - 구글 뉴스 rss 검색해서 상위 5개 기사만 수집. 네이버 API요약을 삭제
+  - googlenewsdecoder 를 통해 진짜 url 수집 
 
 ## 3. 향후 요구사항 (Backlog)
 

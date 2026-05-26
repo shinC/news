@@ -47,6 +47,7 @@ def get_naver_summary(title: str) -> str:
                     
         if link_tag:
             real_url = link_tag['href']
+            SEARCH_URL_CACHE[title] = real_url
             # 3. 해당 링크를 직접 파싱 시도
             article = newspaper.Article(real_url, config=config)
             article.download()
@@ -106,6 +107,7 @@ def get_yahoo_summary(title: str) -> str:
         if link_tag:
             href = link_tag['href']
             real_url = "https://finance.yahoo.com" + href if href.startswith('/') else href
+            SEARCH_URL_CACHE[title] = real_url
             # 3. 직접 파싱 시도
             article = newspaper.Article(real_url, config=config)
             article.download()
@@ -259,4 +261,112 @@ def get_article_text_playwright(url: str) -> str:
                 return clean_text[:1200]
     except Exception as e:
         logger.error(f"Playwright 실패 ({url}): {e}")
+    return ""
+
+def batch_decode_google_urls(urls: list) -> dict:
+    """
+    구글 뉴스 암호화 URL 리스트를 입력받아, 배치(Batch)로 해독하여 
+    {google_url: real_url} 맵핑 딕셔너리를 반환합니다.
+    429 차단을 회피하기 위해 최대 20개 단위로 청킹하고, 청크 사이에 지연을 둡니다.
+    """
+    import time
+    import logging
+    from googlenewsdecoder import decoderv4
+    
+    logger = logging.getLogger("decode")
+    
+    # 중복 제거 및 구글 URL 필터링
+    google_urls = list(set([u for u in urls if u and ("news.google.com" in u or "articles" in u or "read" in u)]))
+    if not google_urls:
+        return {}
+        
+    logger.info(f"배치 디코딩 시작: 총 {len(google_urls)}개의 구글 뉴스 URL")
+    
+    mapping = {}
+    chunk_size = 20
+    for i in range(0, len(google_urls), chunk_size):
+        chunk = google_urls[i:i+chunk_size]
+        logger.info(f"디코딩 진행 중... ({i+1}~{min(i+chunk_size, len(google_urls))}/{len(google_urls)})")
+        
+        try:
+            # decoderv4 호출 (내부적으로 batchexecute 배치 POST 1번 쏨)
+            results = decoderv4(chunk)
+            
+            for orig_url, res in zip(chunk, results):
+                if isinstance(res, dict) and res.get("status"):
+                    mapping[orig_url] = res.get("url")
+                else:
+                    # 실패 시 기존 URL 유지
+                    mapping[orig_url] = orig_url
+        except Exception as e:
+            logger.error(f"배치 디코딩 중 에러 발생: {e}")
+            for orig_url in chunk:
+                mapping[orig_url] = orig_url
+                
+        # 청크 사이에 지연 시간 추가 (차단 안전핀)
+        if i + chunk_size < len(google_urls):
+            time.sleep(1.0)
+            
+    return mapping
+
+SEARCH_URL_CACHE = {}
+
+def search_real_url_fallback(title: str, is_kr: bool = False) -> str:
+    """
+    구글 뉴스 디코딩 실패 시 최후의 폴백으로,
+    기사 제목의 핵심부(앞 6개 단어)를 네이버/야후 뉴스 검색에 검색하여
+    첫 번째 검색 결과의 원본 URL을 반환합니다.
+    """
+    import urllib.parse
+    import requests
+    import re
+    from bs4 import BeautifulSoup
+    
+    # 꼬리표 잘라내기
+    clean_title = title.split(" - ")[0].split(" | ")[0]
+    clean_title = re.sub(r'[^\w\s가-힣]', ' ', clean_title) # 한국어 매칭 보강
+    clean_title = re.sub(r'\s+', ' ', clean_title).strip()
+    if not clean_title:
+        return ""
+        
+    # 검색 성공률을 극대화하기 위해 앞 6개 단어만 추출
+    words = clean_title.split()
+    if len(words) > 6:
+        query_title = " ".join(words[:6])
+    else:
+        query_title = clean_title
+        
+    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'
+    headers = {'User-Agent': user_agent}
+    
+    try:
+        if is_kr:
+            query = urllib.parse.quote(query_title)
+            url = f"https://search.naver.com/search.naver?where=news&query={query}"
+            res = requests.get(url, headers=headers, timeout=5)
+            soup = BeautifulSoup(res.text, 'lxml')
+            
+            # 네이버 뉴스 링크 우선 추출
+            link_tag = soup.select_one("a[href*='n.news.naver.com']")
+            if not link_tag:
+                for a in soup.select("div.news_area a, div.news_contents a, a.news_tit, a.el_title"):
+                    if a.get('href') and a['href'].startswith('http'):
+                        link_tag = a
+                        break
+            if link_tag:
+                return link_tag['href']
+        else:
+            # 야후 파이낸스 검색
+            query = urllib.parse.quote(clean_title)
+            url = f"https://finance.yahoo.com/search?q={query}"
+            res = requests.get(url, headers=headers, timeout=5)
+            soup = BeautifulSoup(res.text, 'lxml')
+            
+            link_tag = soup.select_one("a[href*='/news/'], a.subtle-link, div.stream-item a")
+            if link_tag:
+                href = link_tag['href']
+                return "https://finance.yahoo.com" + href if href.startswith('/') else href
+    except Exception as e:
+        logger.debug(f"Fallback search failed for {title}: {e}")
+        
     return ""

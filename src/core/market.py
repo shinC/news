@@ -14,7 +14,11 @@ def fetch_stock_reason_us(ticker: str, market_date=None) -> list:
         for article in news_data:
             # 반환된 리스트에서 헤드라인 추출
             if article.get('company') == ticker:
-                news_list.append(article.get('title'))
+                news_list.append({
+                    "title": article.get('title'),
+                    "url": article.get('url'),
+                    "publish_date": article.get('publish_date')
+                })
             if len(news_list) >= 10:
                 break
         return news_list
