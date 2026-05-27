@@ -1,5 +1,8 @@
 import yfinance as yf
 import logging
+import pandas as pd
+import requests
+from io import StringIO
 from typing import Dict, Any
 from src.core.scraper import fetch_company_news_us
 
@@ -61,6 +64,45 @@ TOP_TICKERS = [
     "ZS", "ALGN", "EBAY", "SIRI", "ILMN", "MTCH", "ZM", "OKTA", "DOCU", "MDB",
     "PTON", "CRSP", "ENPH", "FSLR", "SEDG", "RUN", "SPWR", "PLUG"
 ]
+
+def get_dynamic_tickers() -> list:
+    """위키피디아에서 S&P 500과 Nasdaq 100 티커를 동적으로 수집하고, 주요 인기 티커를 추가합니다."""
+    try:
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
+        # S&P 500
+        res_sp = requests.get('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies', headers=headers, timeout=10)
+        sp500 = pd.read_html(StringIO(res_sp.text))[0]['Symbol'].tolist()
+        
+        # Nasdaq 100
+        res_ndx = requests.get('https://en.wikipedia.org/wiki/Nasdaq-100', headers=headers, timeout=10)
+        tables = pd.read_html(StringIO(res_ndx.text))
+        nasdaq100 = []
+        for t in tables:
+            if 'Ticker' in t.columns:
+                nasdaq100 = t['Ticker'].tolist()
+                break
+                
+        # 인기 특징주 (위 지수에 없을 수 있는 종목들) - Yahoo Finance Most Actives 250개 동적 수집
+        extra = []
+        try:
+            url = "https://query1.finance.yahoo.com/v1/finance/screener/predefined/saved"
+            params = {"scrIds": "most_actives", "count": 250}
+            resp = requests.get(url, params=params, headers=headers, timeout=10)
+            if resp.status_code == 200:
+                quotes = resp.json().get('finance', {}).get('result', [{}])[0].get('quotes', [])
+                extra = [q['symbol'] for q in quotes if 'symbol' in q]
+        except Exception as api_e:
+            logger.warning(f"Yahoo API most_actives 수집 실패: {api_e}")
+            extra = ["PLTR", "ARM", "COIN", "RIVN", "SMCI", "SOUN", "DJT", "HOOD", "RDDT", "MSTR", "WDC", "SNDK"]
+        
+        combined = list(set(sp500 + nasdaq100 + extra + TOP_TICKERS))
+        # yfinance 티커 형식에 맞춤 (예: BRK.B -> BRK-B)
+        combined = [t.replace('.', '-') for t in combined]
+        logger.info(f"동적 티커 수집 완료: 총 {len(combined)}개 종목")
+        return combined
+    except Exception as e:
+        logger.warning(f"동적 티커 수집 실패, 기본 TOP_TICKERS로 대체합니다: {e}")
+        return TOP_TICKERS
 
 def get_market_data() -> Dict[str, Any]:
     """
@@ -126,13 +168,14 @@ def get_market_data() -> Dict[str, Any]:
     # 3. 거래대금 상위 특징주(상승률 순 50개) 수집
     logger.info("거래대금 기준 상위 특징주 수집 시작...")
     try:
+        target_tickers = get_dynamic_tickers()
         # download 대량 데이터 (빠름)
-        data = yf.download(TOP_TICKERS, period="5d", progress=False)
+        data = yf.download(target_tickers, period="5d", progress=False)
         stocks_info = []
         
         # yf.download 반환 데이터 프레임은 멀티인덱스 컬럼을 가질 수 있음
         # 컬럼 형태: (Price_Type, Ticker)
-        for ticker in TOP_TICKERS:
+        for ticker in target_tickers:
             try:
                 # yf 버전에 따라 멀티인덱스 접근 방식이 다를 수 있음
                 if hasattr(data.columns, 'levels'):
