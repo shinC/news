@@ -209,24 +209,55 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                                 if pub_date:
                                     try:
                                         # dateutil parser might produce naive or aware datetimes, but strftime works either way
-                                        date_str = f" ({pub_date.strftime('%m-%d %H:%M')})"
+                                        date_str = pub_date.strftime('%Y-%m-%d')
                                     except:
-                                        date_str = f" ({pub_date})"
-                                f.write(f"- [{title}]({url}){date_str}\n")
+                                        date_str = str(pub_date)
+                                
+                                if date_str:
+                                    f.write(f"- [{title}]({url}) [{date_str}]\n")
+                                else:
+                                    f.write(f"- [{title}]({url})\n")
                             else:
                                 f.write(f"- {item}\n")
                         f.write("\n")
         
         f.write("---\n\n")
+        
+        # 마감시황 뉴스 분리
+        macro_news_list = [item for item in news_data if item.get('category') == "Macro & Market"]
+        other_news_list = [item for item in news_data if item.get('category') != "Macro & Market"]
+        
+        if macro_news_list:
+            f.write("## 📰 마감시황\n\n")
+            for idx, item in enumerate(macro_news_list, 1):
+                pub_date = item.get('publish_date')
+                date_str = pub_date.strftime('%Y-%m-%d') if pd.notnull(pub_date) else "Unknown Date"
+                title = item.get('title', 'No Title')
+                url = item.get('url', '#')
+                
+                f.write(f"#### {idx}. [{title}]({url})\n")
+                f.write(f"- **발행일시**: {date_str}\n")
+                summary = item.get('summary', '')
+                if summary:
+                    f.write(f"- **요약**: {summary[:1500]}...\n")
+                keywords = item.get('keywords', [])
+                if not isinstance(keywords, list):
+                    keywords = []
+                filtered_keywords = [k for k in keywords if isinstance(k, str) and k.lower() not in ['google', 'news', 'home']]
+                if filtered_keywords:
+                    f.write(f"- **키워드**: {', '.join(filtered_keywords)}\n")
+                f.write("\n")
+            f.write("---\n\n")
+            
         f.write("## 📰 주요 뉴스 헤드라인 (섹션별 & 중요도순)\n\n")
         
-        if not news_data:
+        if not other_news_list:
             f.write("수집된 뉴스가 없습니다.\n")
             return
             
         # 카테고리별로 그룹화
         grouped_news = {}
-        for item in news_data:
+        for item in other_news_list:
             cat = item.get('category', '기타')
             if cat not in grouped_news:
                 grouped_news[cat] = []
@@ -242,7 +273,7 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                 priority_score = item.get('priority_score', 0)
                 
                 pub_date = item.get('publish_date')
-                date_str = pub_date.strftime('%Y-%m-%d %H:%M') if pd.notnull(pub_date) else "Unknown Date"
+                date_str = pub_date.strftime('%Y-%m-%d') if pd.notnull(pub_date) else "Unknown Date"
                 
                 title = item.get('title', 'No Title')
                 url = item.get('url', '#')
@@ -335,7 +366,7 @@ def save_company_news_to_markdown(news_data: List[Dict[str, Any]], market_type: 
             
             for idx, item in enumerate(items, 1):
                 pub_date = item.get('publish_date')
-                date_str = pub_date.strftime('%Y-%m-%d %H:%M') if pd.notnull(pub_date) else "Unknown Date"
+                date_str = pub_date.strftime('%Y-%m-%d') if pd.notnull(pub_date) else "Unknown Date"
                 
                 title = item.get('title', 'No Title')
                 url = item.get('url', '#')

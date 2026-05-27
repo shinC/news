@@ -50,10 +50,11 @@ def fetch_google_news_rss(query: str = None, topic_id: str = None, hl: str = 'en
             clean_desc = BeautifulSoup(raw_desc, 'html.parser').get_text(separator=' ', strip=True)
             
             raw_url = item.link.text if item.link else ""
+            decoded_url = decode_google_news_url(raw_url)
             
             articles.append({
                 "title": item.title.text if item.title else "", 
-                "url": raw_url, 
+                "url": decoded_url, 
                 "description": clean_desc, 
                 "publish_date_raw": item.pubDate.text if item.pubDate else ""
             })

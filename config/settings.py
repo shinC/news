@@ -71,6 +71,12 @@ class SettingsKR(BaseModel):
         "인터넷보안": "CAAqIggKIhxDQkFTRHdvSkwyMHZNRE5xWm01NEVnSnJieWdBUAE"
     }
 
+    # 한국 매크로 뉴스 수집을 위한 RSS 피드 설정 (확장 가능 구조)
+    macro_rss_feeds: list = [
+        {"url": "https://news.einfomax.co.kr/rss/S1N2.xml", "keywords": ["증시-마감", "코스피-마감", "코스닥-마감", "장마감", "마감시황", "사이드카"]},
+        {"url": "https://www.fnnews.com/rss/r20/fn_realnews_stock.xml", "keywords": ["마감시황"]}
+    ]
+
     # 네이버 증권 뉴스 수집 경로 (카테고리별)
     # naver_finance_sections: dict = {
     #     "주요뉴스": "https://finance.naver.com/news/mainnews.naver",

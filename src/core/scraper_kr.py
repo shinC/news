@@ -15,70 +15,14 @@ def decode_google_news_url(url: str) -> str:
     """구글 뉴스 URL을 원래의 기사 URL로 디코딩합니다."""
     if "news.google.com" not in url:
         return url
-    
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-        'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',
-        'Referer': 'https://news.google.com/'
-    }
-    
     try:
-        # 1. GNews 유틸리티 시도
-        try:
-            from gnews.utils import decode_google_news_url as decoder
-            decoded = decoder(url)
-            if decoded and "news.google.com" not in decoded:
-                return decoded
-        except: pass
-        
-        # 2. 직접 요청 및 HTML 파싱
-        session = requests.Session()
-        res = session.get(url, headers=headers, timeout=10, allow_redirects=True)
-        
-        if "news.google.com" not in res.url:
-            return res.url
-            
-        # HTML 본문에서 실제 URL 추출 시도
-        patterns = [
-            r'data-url="([^"]+)"',
-            r'data-n-au="([^"]+)"',
-            r'window\.location\.replace\("([^"]+)"\)',
-            r'url=(https?://[^&"]+)',
-            r'content="0;url=(https?://[^"]+)"',
-            r'\["https://[^"]+"\]'
-        ]
-        
-        for pattern in patterns:
-            match = re.search(pattern, res.text, re.I)
-            if match:
-                decoded_url = match.group(1 if "(" in pattern else 0).strip('[]" ')
-                if "google.com" not in decoded_url:
-                    return decoded_url
-        
-        # 모든 <a> 태그 중 외부 링크 검색
-        soup = BeautifulSoup(res.text, 'lxml')
-        for a in soup.find_all('a', href=True):
-            link = a['href']
-            if link.startswith('http') and "google.com" not in link:
-                return link
-        
-        # 최후의 수단: base64 디코딩 시도
-        if '/articles/' in url:
-            import base64
-            encoded = url.split('/articles/')[1].split('?')[0]
-            padding = len(encoded) % 4
-            if padding: encoded += '=' * (4 - padding)
-            try:
-                decoded_bytes = base64.urlsafe_b64decode(encoded)
-                match_url = re.search(rb'https?://[^\x00-\x1f\x7f-\xff]+', decoded_bytes)
-                if match_url:
-                    return match_url.group(0).decode('utf-8')
-            except: pass
-
-        return res.url
-    except Exception:
-        return url
+        from googlenewsdecoder import new_decoderv1
+        dec = new_decoderv1(url)
+        if dec.get('status'):
+            return dec.get('decoded_url')
+    except Exception as e:
+        logger.error(f"Error decoding Google News URL: {e}")
+    return url
 
 def fetch_google_news_web(query: str, hl: str = 'ko', gl: str = 'KR', ceid: str = 'KR:ko') -> List[Dict[str, Any]]:
     """구글 뉴스 검색 페이지를 직접 스크래핑하여 기사 목록을 반환합니다."""
@@ -178,10 +122,9 @@ def fetch_google_news_rss(query: str = None, topic_id: str = None, hl: str = 'ko
 
 def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None) -> List[Dict[str, Any]]:
     """
-    설정된 여러 카테고리에 대해 구글 뉴스 RSS에서 최신 기사를 수집합니다.
-    (기존 네이버 증권 뉴스 수집은 주석 처리되었습니다.)
+    설정된 여러 카테고리에 대해 구글 뉴스 RSS 및 연합인포맥스 RSS 매크로 뉴스에서 최신 기사를 수집합니다.
     """
-    logger.info(f"구글 뉴스 다중 카테고리 수집 시작 (한국, 기간: {settings_kr.period})")
+    logger.info(f"뉴스 다중 수집 시작 (한국, 기간: {settings_kr.period})")
     
     all_news_data = []
     categories = settings_kr.categories
@@ -197,7 +140,7 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
         reference_date = kst.localize(reference_date)
     else:
         reference_date = reference_date.astimezone(kst)
-
+ 
     # 날짜 필터링 (3일)
     days = 3
     if settings_kr.period.endswith('d'):
@@ -206,12 +149,12 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
         except: pass
     cutoff_date = reference_date - timedelta(days=days)
     upper_cutoff = reference_date + timedelta(days=1) 
-
+ 
     import newspaper
     config = newspaper.Config()
     config.request_timeout = 10
     config.browser_user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
-
+ 
     # 0. 네이버 주요뉴스 헤드라인 수집
     try:
         logger.info("네이버 주요뉴스 헤드라인 수집 시작")
@@ -263,8 +206,92 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
                 logger.error(f"주요뉴스 파싱 실패 ({url}): {e}")
     except Exception as e:
         logger.error(f"네이버 주요뉴스 수집 전체 실패: {e}")
+ 
+    # 0-2. 연합인포맥스 RSS 매크로 뉴스 수집
+    logger.info("연합인포맥스 RSS 매크로 뉴스 수집 시작")
+    try:
+        for feed in getattr(settings_kr, "macro_rss_feeds", []):
+            feed_url = feed.get("url")
+            keywords = feed.get("keywords", [])
+            if not feed_url: continue
+            
+            res = requests.get(feed_url, timeout=10)
+            res.raise_for_status()
+            rss_soup = BeautifulSoup(res.text, 'xml')
+            
+            for item in rss_soup.find_all('item'):
+                title = item.title.text if item.title else ""
+                description = item.description.text if item.description else ""
+                link = item.link.text if item.link else ""
+                
+                # 키워드 매칭 검증
+                matched = False
+                for kw in keywords:
+                    if kw in title or kw in description:
+                        matched = True
+                        break
+                
+                if matched and link:
+                    try:
+                        article = newspaper.Article(link, language='ko', config=config)
+                        article.download()
+                        article.parse()
+                        article.nlp()
+                        
+                        summary_text = article.summary if (article.summary and len(article.summary) > 200) else article.text[:1000] if article.text else description
+                        
+                        # 발행일 파싱
+                        pub_date = None
+                        if item.pubDate:
+                            try:
+                                # 예: 2026-05-27 14:25:15
+                                pub_date = datetime.strptime(item.pubDate.text.strip(), '%Y-%m-%d %H:%M:%S')
+                                pub_date = kst.localize(pub_date)
+                            except:
+                                try:
+                                    from dateutil import parser as date_parser
+                                    pub_date = date_parser.parse(item.pubDate.text.strip())
+                                    if pub_date.tzinfo is None:
+                                        pub_date = kst.localize(pub_date)
+                                    else:
+                                        pub_date = pub_date.astimezone(kst)
+                                except: pass
+                            
+                        if not pub_date:
+                            pub_date = article.publish_date or datetime.now(kst)
+                            if pub_date.tzinfo is None:
+                                pub_date = kst.localize(pub_date)
+                            else:
+                                pub_date = pub_date.astimezone(kst)
+                        
+                        # 기간 필터링
+                        if pub_date < cutoff_date or pub_date > upper_cutoff:
+                            continue
+                            
+                        # 우선순위 스코어
+                        priority_score = 0
+                        text_to_check = (title + " " + summary_text + " " + " ".join(article.keywords if isinstance(article.keywords, list) else [])).lower()
+                        for keyword in priority_keywords:
+                            if keyword.lower() in text_to_check:
+                                priority_score += 1
+                                
+                        all_news_data.append({
+                            "category": "Macro & Market",
+                            "title": title,
+                            "url": link,
+                            "publish_date": pub_date,
+                            "authors": article.authors,
+                            "summary": summary_text,
+                            "text": article.text or description,
+                            "keywords": article.keywords if isinstance(article.keywords, list) else [],
+                            "priority_score": priority_score
+                        })
+                    except Exception as parse_err:
+                        logger.error(f"연합인포맥스 매크로 기사 파싱 실패 ({link}): {parse_err}")
+    except Exception as e:
+        logger.error(f"연합인포맥스 RSS 매크로 뉴스 수집 전체 실패: {e}")
 
-
+    # 1. 구글 카테고리 뉴스 수집
     for cat_name, query_or_topic in categories.items():
         if query_or_topic.startswith("CAAq"):
             logger.info(f"카테고리 수집 중: {cat_name} (토픽 ID: {query_or_topic})")
@@ -287,15 +314,9 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
                 is_boilerplate = article.text and BOILERPLATE in article.text
                 
                 if not article.text or len(article.text) < 30 or is_boilerplate:
-                    from src.core.utils import get_naver_api_summary
-                    api_summary = get_naver_api_summary(item['title'])
-                    
-                    if api_summary:
-                        article.text = api_summary
-                    elif item.get('description') and BOILERPLATE not in item.get('description'):
+                    if item.get('description') and BOILERPLATE not in item.get('description'):
                         article.text = item['description']
                     elif "news.google.com" not in url:
-                        from bs4 import BeautifulSoup
                         soup = BeautifulSoup(article.html, 'lxml')
                         meta_desc = soup.find('meta', attrs={'name': 'description'}) or \
                                     soup.find('meta', attrs={'property': 'og:description'}) or \
@@ -333,17 +354,10 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
                         
                     if (not summary_text or len(summary_text) < 150) and article.text and len(article.text) > 200:
                         summary_text = article.text[:1000]
-
-                # 3단계: 최종 Fallback (요약이 부실한 경우 네이버 검색 요약 활용)
-                title_words_final = set(re.sub(r'[^\w\s]', ' ', title).split())
-                summary_words_final = set(re.sub(r'[^\w\s]', ' ', summary_text or "").split())
-                is_too_similar = len(title_words_final.intersection(summary_words_final)) > len(title_words_final) * 0.7 and len(summary_text or "") < 200
-                
-                if not summary_text or len(summary_text) < 200 or BOILERPLATE in summary_text or is_too_similar:
-                    from src.core.utils import get_naver_summary
-                    fallback_summary = get_naver_summary(title)
-                    if fallback_summary and len(fallback_summary) > len(summary_text or ""):
-                        summary_text = fallback_summary
+ 
+                # 3단계 제거됨 (네이버 API 요약 미사용)
+                if not summary_text or len(summary_text) < 150:
+                    summary_text = article.text[:1000] if article.text else rss_desc or title
                 
                 pub_date = article.publish_date
                 if not pub_date and item.get('publish_date_raw'):
@@ -368,20 +382,20 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
                         continue
                     # RSS 날짜라도 없으면 어쩔 수 없이 대략적인 현재 시간 사용 (필요시)
                     pub_date = datetime.now(kst)
-
+ 
                 # 우선순위 키워드 포함 여부 검사
                 priority_score = 0
                 text_to_check = (title + " " + summary_text + " " + " ".join(article.keywords)).lower()
                 for keyword in priority_keywords:
                     if keyword.lower() in text_to_check:
                         priority_score += 1
-
+ 
                 # 키워드 정리
                 keywords = article.keywords
                 if not isinstance(keywords, list):
                     keywords = []
                 filtered_keywords = [k for k in keywords if isinstance(k, str) and k.lower() not in ['google', 'news', 'home']]
-
+ 
                 all_news_data.append({
                     "category": cat_name,
                     "title": title,
@@ -406,158 +420,148 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
 
 def fetch_company_news_kr(companies: List[str], days: int = 3) -> List[Dict[str, Any]]:
     """
-    구글 뉴스(KR)와 네이버 뉴스를 통합하여 특정 기업들에 대한 주요 뉴스를 수집합니다.
+    네이버 모바일 뉴스 검색에서 "특징주 '종목명'" 패턴으로 검색하여 상위 5개 기사의 원본 URL과 제목을 수집합니다.
     """
-    logger.info(f"한국 기업 뉴스 수집 시작: 대상 기업={companies}, 기간={days}일")
+    logger.info(f"한국 특징주 뉴스 수집 시작: 대상 기업={companies}")
     news_data = []
     
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5 Mobile/15E148 Safari/604.1',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',
+        'Referer': 'https://m.naver.com/'
     }
     
-    import newspaper
-    config = newspaper.Config()
-    config.browser_user_agent = headers['User-Agent']
-    config.request_timeout = 10
-    
-    kst = pytz.timezone('Asia/Seoul')
-    cutoff_date = datetime.now(kst) - timedelta(days=days)
-    
     for company in companies:
-        logger.info(f"[{company}] 뉴스 검색 중 (Google News & Naver)...")
-        candidates = {} # {url: {title, summary, pub_date, source, original_rank}}
-        seen_titles = set()
-        
-        def normalize_title(t):
-            import re
-            t = t.lower()
-            t = re.sub(r' - .+$', '', t) 
-            t = re.sub(r'[^a-z0-9가-힣]', '', t)
-            return t
-
+        logger.info(f"[{company}] 특징주 검색 중 (Naver Mobile)...")
         try:
-            # Source 1: Google News Search (Direct RSS)
-            logger.info(f"Source 1: Fetching Google News Search for {company}...")
-            gn_news = fetch_google_news_rss(query=company, max_results=20)
-            
-            for idx, item in enumerate(gn_news):
-                raw_url = item.get('url', '')
-                if not raw_url: continue
-                url = decode_google_news_url(raw_url)
-                if url in candidates: continue
-                
-                title = item.get('title', '')
-                norm_title = normalize_title(title)
-                if norm_title in seen_titles: continue
-                
-                candidates[url] = {
-                    "title": title,
-                    "summary": item.get('description', ''),
-                    "pub_date": None,
-                    "source": "google_news",
-                    "original_rank": idx
-                }
-                seen_titles.add(norm_title)
-
-            # Source 2: Naver News (보완)
-            logger.info(f"Source 2: Fetching Naver News for {company}...")
-            encoded_query = urllib.parse.quote(company)
-            search_url = f"https://search.naver.com/search.naver?where=news&query={encoded_query}&sort=0"
+            query = f"특징주 {company}"
+            encoded_query = urllib.parse.quote(query)
+            search_url = f"https://m.search.naver.com/search.naver?where=m_news&query={encoded_query}&sort=1"
             res = requests.get(search_url, headers=headers, timeout=10)
+            res.raise_for_status()
             soup = BeautifulSoup(res.text, 'lxml')
-            for a in soup.select('a[href*="n.news.naver.com"]'):
-                url = a.get('href', '').split('?')[0]
-                if url in candidates: continue
-                title = a.get_text()
-                norm_title = normalize_title(title)
-                if norm_title in seen_titles: continue
-                
-                candidates[url] = {
-                    "title": title,
-                    "summary": "",
-                    "pub_date": None,
-                    "source": "naver",
-                    "original_rank": len(candidates) + 50
-                }
-                seen_titles.add(norm_title)
-
-
-            # 후보 기사 처리
-            final_seen_titles = set()
-            for url, info in candidates.items():
-                try:
-                    pub_date = info['pub_date']
-                    if pub_date and pub_date < cutoff_date: continue
-                    
-                    article = Article(url, language='ko', config=config)
-                    article.download()
-                    article.parse()
-                    article.nlp()
-                    
-                    # 범용적인 제목(MSN, Google News, Home 등)으로 덮어씌워지는 것 방지
-                    new_title = article.title
-                    junk_titles = ["MSN", "Google News", "Home", "AOL.com", "Yahoo Finance", "Business", "News"]
-                    is_junk = any(jt.lower() == (new_title or "").strip().lower() for jt in junk_titles) or len(new_title or "") < 10
-                    
-                    title = new_title if (new_title and not is_junk) else info['title']
-                    text = article.text if article.text else info['summary']
-                    
-                    # 본문이 비어있거나 구글 뉴스 기본 문구인 경우 요약 정보로 대체
-                    BOILERPLATE = "Comprehensive up-to-date news coverage"
-                    if not text or len(text) < 50 or BOILERPLATE in text:
-                        text = info['summary']
-                    
-                    summary = article.summary if (article.summary and len(article.summary) > 500) else article.text[:1000] if article.text else info['summary']
-                    
-                    # 보완: 요약이 여전히 너무 짧거나 제목과 비슷하면 네이버 검색을 통해 보강
-                    title_words = set(re.sub(r'[^\w\s]', ' ', title).split())
-                    summary_words = set(re.sub(r'[^\w\s]', ' ', summary or "").split())
-                    common_words = title_words.intersection(summary_words)
-                    is_too_similar = len(common_words) > len(title_words) * 0.7 and len(summary or "") < 200
-
-                    if not summary or len(summary) < 200 or BOILERPLATE in summary or is_too_similar:
-                        from src.core.utils import get_naver_summary
-                        fallback_summary = get_naver_summary(title)
-                        if fallback_summary and len(fallback_summary) > len(summary or ""):
-                            summary = fallback_summary
-                        else:
-                            summary = info['summary']
-                    
-                    if not title or not text: continue
-                    
-                    # 최종 제목에 대해서도 junk 체크 (info['title']이 junk인 경우 대비)
-                    if any(jt.lower() == title.strip().lower() for jt in junk_titles): continue
-                    
-                    norm_title = normalize_title(title)
-                    if norm_title in final_seen_titles: continue
-                    
-                    # 회사명 매칭 검증
-                    is_matched = company.lower() in title.lower() or company.lower() in text.lower()
-                    if not is_matched: continue
-                    
-                    relevance_score = 1 if company.lower() in title.lower() else 0
-                    final_seen_titles.add(norm_title)
-                    
-                    news_data.append({
-                        "company": company,
-                        "title": title,
-                        "url": url,
-                        "publish_date": article.publish_date or pub_date,
-                        "relevance_score": relevance_score,
-                        "original_rank": info.get('original_rank', 99),
-                        "summary": article.summary,
-                        "text": article.text
-                    })
-                except: pass
-        except Exception as e:
-            logger.error(f"[{company}] 뉴스 수집 중 오류: {e}")
             
-    # 정렬: 구글/네이버 소스 순위(original_rank)를 최우선으로 하여 브라우저 검색 결과 반영
-    # original_rank가 작을수록(0, 1, 2...) 상위 노출
+            seen_urls = set()
+            seen_titles = set()
+            company_articles = []
+            
+            kst = pytz.timezone('Asia/Seoul')
+            now = datetime.now(kst)
+            cutoff_date = now - timedelta(days=days)
+            
+            # 모든 a 태그를 순회하면서 특징주와 회사명이 들어간 제목 수집
+            for a in soup.find_all('a', href=True):
+                url = a['href']
+                title = a.get_text().strip()
+                
+                if not url.startswith('http'):
+                    continue
+                    
+                # 특징주 키워드와 회사명이 모두 제목에 들어있는 경우 (본문 요약(Snippet) 방지를 위해 길이 90자 제한 추가)
+                if '특징주' in title and company in title and 10 < len(title) < 90:
+                    pub_date = None
+                    
+                    # 제목 태그(a)에서부터 상위로 올라가며 날짜 텍스트가 포함된 가장 가까운 컨테이너를 찾음
+                    container = a
+                    raw_title = title
+                    import re
+                    while container and container.name != 'body':
+                        text = container.get_text()
+                        if re.search(r'\d+[분시간일]\s*전|\d{4}\.\d{2}\.\d{2}', text):
+                            raw_title = text
+                            break
+                        container = container.parent
+                    
+                    # 날짜 파싱
+                    match_min = re.search(r'(\d+)분\s*전', raw_title)
+                    match_hour = re.search(r'(\d+)시간\s*전', raw_title)
+                    match_day = re.search(r'(\d+)일\s*전', raw_title)
+                    match_date = re.search(r'(\d{4}\.\d{2}\.\d{2})\.?', raw_title)
+                    match_short_date = re.search(r'(\d{2}\.\d{2})\.?', raw_title)
+                    
+                    if match_min:
+                        pub_date = now - timedelta(minutes=int(match_min.group(1)))
+                    elif match_hour:
+                        pub_date = now - timedelta(hours=int(match_hour.group(1)))
+                    elif match_day:
+                        pub_date = now - timedelta(days=int(match_day.group(1)))
+                    elif match_date:
+                        try:
+                            parsed = datetime.strptime(match_date.group(1), '%Y.%m.%d')
+                            pub_date = kst.localize(parsed)
+                        except: pass
+                    elif match_short_date:
+                        try:
+                            parsed = datetime.strptime(f"{now.year}.{match_short_date.group(1)}", '%Y.%m.%d')
+                            pub_date = kst.localize(parsed)
+                        except: pass
+                        
+                    # 미래 날짜로 파싱된 경우 (숫자 오인식 등) 초기화하여 newspaper로 Fallback
+                    if pub_date and pub_date > now + timedelta(hours=24):
+                        pub_date = None
+                        
+                    if not pub_date:
+                        try:
+                            import newspaper
+                            config = newspaper.Config()
+                            config.request_timeout = 5
+                            config.browser_user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
+                            article = newspaper.Article(url, language='ko', config=config)
+                            article.download()
+                            article.parse()
+                            if article.publish_date:
+                                pub_date = article.publish_date
+                                if pub_date.tzinfo is None:
+                                    pub_date = kst.localize(pub_date)
+                                else:
+                                    pub_date = pub_date.astimezone(kst)
+                        except: pass
+                    
+                    if pub_date and pub_date < cutoff_date:
+                        continue
+
+                    # 조선비즈5시간 전네이버뉴스 같은 메타텍스트가 뒤에 붙는 경우가 많으므로 정제 시도
+                    # "네이버뉴스" 제거
+                    if title.endswith("네이버뉴스"):
+                        title = title[:-5].strip()
+                    # "...전" (시간 전, 일 전, 분 전) 패턴이 붙어 있다면 그 부분과 앞의 언론사명 제거
+                    # 보통 제목 뒤에 '언론사명N시간 전' 형태로 붙음
+                    meta_patterns = [r'[가-힣\w\s]+?\d+?시간\s*전$', r'[가-힣\w\s]+?\d+?일\s*전$', r'[가-힣\w\s]+?\d+?분\s*전$', r'[가-힣\w\s]+?\d{4}\.\d{2}\.\d{2}\.?$', r'[가-힣\w\s]+?\d{2}\.\d{2}\.?$']
+                    for pattern in meta_patterns:
+                        match = re.search(pattern, title)
+                        if match:
+                            title = title[:match.start()].strip()
+                            break
+                    
+                    norm_title = title.replace(" ", "")
+                    if url not in seen_urls and norm_title not in seen_titles:
+                        seen_urls.add(url)
+                        seen_titles.add(norm_title)
+                        company_articles.append({
+                            "company": company,
+                            "title": title,
+                            "url": url,
+                            "summary": title,
+                            "text": title,
+                            "publish_date": pub_date,
+                            "priority_score": 0,
+                            "original_rank": len(company_articles)
+                        })
+                        if len(company_articles) >= 5:
+                            break
+                            
+            logger.info(f"[{company}] 특징주 뉴스 수집 완료: {len(company_articles)}개")
+            news_data.extend(company_articles)
+            
+        except Exception as e:
+            logger.error(f"[{company}] 특징주 뉴스 수집 중 오류: {e}")
+            
+    # 정렬: original_rank 순
     news_data.sort(key=lambda x: (
         x.get('original_rank', 99),
-        -(x['publish_date'].timestamp() if x['publish_date'] else 0)
+        -(x['publish_date'].timestamp() if x.get('publish_date') else 0)
     ))
             
-    logger.info(f"파싱 완료된 총 기업 기사 수: {len(news_data)}")
+    logger.info(f"수집 완료된 총 기업 특징주 기사 수: {len(news_data)}")
     return news_data

@@ -9,10 +9,10 @@
     - 뉴스: Google News (via `newspaper4k`)
 - **한국 마켓 (KR Market)**:
     - 시황: Naver Finance (`requests`/`BeautifulSoup`), Kiwoom API (Open API NEXT)
-    - 뉴스: Naver Finance (News Sections), Google News (via `newspaper4k`)
+    - 뉴스: Naver Finance (News Sections), Google News (via `newspaper4k`), Yeonhap Infomax RSS (Macro News)
 - **특정 기업 뉴스**:
     - US: `yfinance` 기반 뉴스 피드
-    - KR: Naver 뉴스 검색
+    - KR: Naver 뉴스 검색 (특징주 검색 최적화)
 
 ## 3. 핵심 기능 (Key Features)
 
@@ -27,6 +27,11 @@
 - **본문 자동 파싱**: `newspaper4k`를 활용한 기사 본문 추출, 키워드 생성 및 메타데이터(발행일 등) 정규화.
 - **데이터 필터링**: 최근 **3일(72시간)** 이내 기사를 선별하며, 제목/본문 내 기업명 포함 여부를 정밀 검증.
 - **우선순위 가중치**: 구글 뉴스 검색 엔진의 원본 랭킹을 최우선으로 하며, 매크로 지표 가중치를 결합하여 정렬.
+- **한국 시장 특화 뉴스 수집 로직 (KR Market Specifics)**:
+  - **다중 소스 교차 수집**: 특징주 뉴스 수집 시 구글 뉴스 RSS 대신 네이버 뉴스 검색에서 `특징주 '종목명'` 패턴으로 직접 검색하여 신속하고 정확하게 상위 5개 기사를 수집 (원본 URL, 제목만 수집하여 크롤링 차단 방지 및 속도 극대화).
+  - **매크로 뉴스 RSS 검색**: 연합인포맥스 RSS(`https://news.einfomax.co.kr/rss/S1N2.xml`) 등에서 `증시-마감`과 같은 특정 키워드를 필터링하여 기사를 매칭하고 본문을 수집하는 확장 가능한 매크로 뉴스 수집 구조 구축.
+  - **URL 리다이렉트 디코딩**: 구글 뉴스의 복잡한 리다이렉트 체계를 `googlenewsdecoder` 로컬 해독 라이브러리를 활용해 서버 호출 없이 역추적하여 원본 기사 링크를 안전하게 보장.
+  - **요약 품질 자동 보정 및 불필요 요약 제거**: 파싱된 요약문이 부실하거나 네이버 API 호출로 인한 오버헤드를 막기 위해 네이버 API 요약 단계를 제거하고 RSS 본문 및 메타 설명 정보를 우선적으로 정교하게 가공.
 
 ### 3.3. 데이터 분석 및 정렬 (Analytics & Sorting)
 - **이슈 클러스터링**: TF-IDF 및 코사인 유사도 분석을 통해 동일한 이슈를 다루는 중복 기사들을 그룹화하고 이슈의 중요도(중복도) 산출.

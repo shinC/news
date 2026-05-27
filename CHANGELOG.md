@@ -2,12 +2,23 @@
 
 ## [Unreleased]
 ### Added
+- [News Scraper KR] 한국 매크로 뉴스 수집 설정에 파이낸셜뉴스 마감시황 RSS 피드 추가 (https://www.fnnews.com/rss/r20/fn_realnews_stock.xml).
+- [News Scraper KR] 한국 매크로 뉴스 수집 시 standard RSS 날짜 포맷 파싱 지원을 위해 dateutil.parser 연동 추가.
+- [News Scraper KR] 한국 마감시황(Macro & Market) 뉴스를 일반 카테고리와 분리하여 보고서 상단에 독자적인 '## 마감시황' H2 섹션으로 별도 나열 기능 추가.
+- [News Scraper KR] 한국 매크로 뉴스 수집용 연합인포맥스 RSS 피드 파서 및 본문 기사 추출 (`newspaper4k` 활용) 기능 추가 (`scraper_kr.py`).
+- [News Scraper KR] 한국 경제/비즈니스 설정에 확장 가능한 `macro_rss_feeds` 리스트 구조 및 우선순위 키워드 추가 (`config/settings.py`).
+- [News Scraper KR] 한국 특정 기업/종목 뉴스 수집용 네이버 모바일 검색 (`m.search.naver.com`) 웹 스크래핑 기능 추가. 봇 감지 차단 우회를 위한 모바일 헤더 탑재 및 동적 클래스 변경에 견고한(robust) 텍스트-URL 매칭 알고리즘 구현.
 - [News Scraper] 구글 뉴스 직접 웹 스크래핑 헬퍼 함수 (`fetch_google_news_web`) 추가.
 - [News Scraper] 구글 뉴스 암호화 URL 복원 로직 (`decode_google_news_url`) 구현.
 - [News Scraper] "MSN", "Google News" 등 무의미한 정크 타이틀 필터링 로직 강화.
+- [News Scraper KR] 한국 특정 기업/종목 특징주 뉴스 수집 시 제목에서 기사 발행일자(publish_date)를 파싱하여 리포트에 기재하는 기능 추가 (`scraper_kr.py`).
+- [News Scraper KR] 한국 특징주 뉴스 수집 시 최신순 정렬(`sort=1`) 옵션을 추가하고 전체 뉴스 유효기간(기본 3일) 필터 로직을 엄격하게 적용하여 기간 외 기사 필터링 추가.
 - [Market KR] 한국 종목 뉴스 수집 기간을 2일에서 3일로 확대하여 누락 방지.
-
 ### Changed
+- [News Scraper KR] 한국 특정 기업/종목 특징주 수집 방식을 네이버 일반 웹 검색에서 모바일 뉴스 검색으로 변경하여 안정성 극대화 및 차단 문제 해결.
+- [News Scraper KR] 한국 카테고리 기사 수집 시 로컬 디코딩 라이브러리(`googlenewsdecoder`)를 도입해 진짜 URL을 해독하고 차단을 방지.
+- [News Scraper KR] 한국 특징주 수집 및 시장 데이터(`market_kr.py`) 반환 구조를 리스트 형식의 딕셔너리로 일관되게 리팩토링하여 보고서에 클릭 가능한 원본 링크(hyperlink)가 렌더링되도록 개선.
+- [News Scraper KR] 한글 뉴스 수집 시 기존의 네이버 OpenAPI 요약 생성 의존성을 제거하고 오버헤드 축소.
 - [News Scraper] 구글 뉴스 암호화 URL 해독 방식을 로컬 디코딩 라이브러리(`googlenewsdecoder`)로 변경하여 봇 차단을 우회.
 - [News Scraper] 카테고리/종목/매크로 미국 뉴스 스크래핑 시 네이버 API 요약 의존성을 제거하고 RSS 기본 description을 사용하도록 변경.
 - [News Scraper] 매크로 뉴스 수집 채널을 야후 RSS에서 구글 뉴스 RSS("Stock market today" 검색어 기반 5개 뉴스)로 대체.
@@ -17,6 +28,7 @@
 - [Docs] PRD 및 ARCH 문서를 최신 수집 및 정렬 정책에 맞게 업데이트.
 
 ### Fixed
+- [News Scraper KR] `scraper_kr.py` 내의 BS4 BeautifulSoup 로컬 섀도우 임포트로 발생하던 `UnboundLocalError` 스코프 버그 해결.
 - [News Scraper] US 뉴스 스크래퍼(`scraper.py`)의 요약 품질 개선: 본문 추출 실패 시 구글/야후 검색 스니펫을 활용하는 다중 폴백 시스템 및 제목 유사도 체크 로직 추가.
 - [News Scraper] 구글 뉴스 암호화 URL (`/articles/`) 디코딩 로직 보강 및 예외 처리 강화.
 ### Added

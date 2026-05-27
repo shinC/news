@@ -9,3 +9,4 @@ newspaper4k[gnews,nlp]
 pandas
 scikit-learn
 yfinance
+googlenewsdecoder

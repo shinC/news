@@ -15,12 +15,17 @@ def is_etf(name: str) -> bool:
         if kw in n: return True
     return False
 
-def fetch_stock_reason_kr(stock_name: str) -> List[str]:
+def fetch_stock_reason_kr(stock_name: str) -> List[Dict[str, Any]]:
     try:
         news = fetch_company_news_kr([stock_name], days=3)
         res = []
         for a in news:
-            if a.get("company") == stock_name: res.append(a.get("title"))
+            if a.get("company") == stock_name:
+                res.append({
+                    "title": a.get("title"),
+                    "url": a.get("url"),
+                    "publish_date": a.get("publish_date")
+                })
             if len(res) >= 5: break
         return res
     except: return []
