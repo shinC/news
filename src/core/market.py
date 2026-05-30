@@ -65,13 +65,17 @@ TOP_TICKERS = [
     "PTON", "CRSP", "ENPH", "FSLR", "SEDG", "RUN", "SPWR", "PLUG"
 ]
 
-def get_dynamic_tickers() -> list:
-    """위키피디아에서 S&P 500과 Nasdaq 100 티커를 동적으로 수집하고, 주요 인기 티커를 추가합니다."""
+def get_dynamic_tickers() -> tuple[list, dict]:
+    """위키피디아에서 S&P 500과 Nasdaq 100 티커를 동적으로 수집하고, 주요 인기 티커를 추가합니다. 티커와 종목명 딕셔너리를 함께 반환합니다."""
+    ticker_name_map = {}
     try:
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
         # S&P 500
         res_sp = requests.get('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies', headers=headers, timeout=10)
-        sp500 = pd.read_html(StringIO(res_sp.text))[0]['Symbol'].tolist()
+        sp500_df = pd.read_html(StringIO(res_sp.text))[0]
+        sp500 = sp500_df['Symbol'].tolist()
+        for _, row in sp500_df.iterrows():
+            ticker_name_map[row['Symbol'].replace('.', '-')] = row['Security']
         
         # Nasdaq 100
         res_ndx = requests.get('https://en.wikipedia.org/wiki/Nasdaq-100', headers=headers, timeout=10)
@@ -80,6 +84,9 @@ def get_dynamic_tickers() -> list:
         for t in tables:
             if 'Ticker' in t.columns:
                 nasdaq100 = t['Ticker'].tolist()
+                if 'Company' in t.columns:
+                    for _, row in t.iterrows():
+                        ticker_name_map[row['Ticker'].replace('.', '-')] = row['Company']
                 break
                 
         # 인기 특징주 (위 지수에 없을 수 있는 종목들) - Yahoo Finance Most Actives 250개 동적 수집
@@ -91,6 +98,9 @@ def get_dynamic_tickers() -> list:
             if resp.status_code == 200:
                 quotes = resp.json().get('finance', {}).get('result', [{}])[0].get('quotes', [])
                 extra = [q['symbol'] for q in quotes if 'symbol' in q]
+                for q in quotes:
+                    if 'symbol' in q and 'shortName' in q:
+                        ticker_name_map[q['symbol'].replace('.', '-')] = q['shortName']
         except Exception as api_e:
             logger.warning(f"Yahoo API most_actives 수집 실패: {api_e}")
             extra = ["PLTR", "ARM", "COIN", "RIVN", "SMCI", "SOUN", "DJT", "HOOD", "RDDT", "MSTR", "WDC", "SNDK"]
@@ -99,10 +109,10 @@ def get_dynamic_tickers() -> list:
         # yfinance 티커 형식에 맞춤 (예: BRK.B -> BRK-B)
         combined = [t.replace('.', '-') for t in combined]
         logger.info(f"동적 티커 수집 완료: 총 {len(combined)}개 종목")
-        return combined
+        return combined, ticker_name_map
     except Exception as e:
         logger.warning(f"동적 티커 수집 실패, 기본 TOP_TICKERS로 대체합니다: {e}")
-        return TOP_TICKERS
+        return TOP_TICKERS, {}
 
 def get_market_data() -> Dict[str, Any]:
     """
@@ -168,7 +178,7 @@ def get_market_data() -> Dict[str, Any]:
     # 3. 거래대금 상위 특징주(상승률 순 50개) 수집
     logger.info("거래대금 기준 상위 특징주 수집 시작...")
     try:
-        target_tickers = get_dynamic_tickers()
+        target_tickers, ticker_name_map = get_dynamic_tickers()
         # download 대량 데이터 (빠름)
         data = yf.download(target_tickers, period="5d", progress=False)
         stocks_info = []
@@ -215,6 +225,7 @@ def get_market_data() -> Dict[str, Any]:
                     # 다만 속도를 위해 여기서는 기본적인 티커 길이 등으로 1차 필터링 후 
                     # 필요시 상위권만 정밀 확인하는 방식을 취합니다.
                     # 대부분의 TOP_TICKERS는 이미 주식으로 구성되어 있습니다.
+                    stock['name'] = ticker_name_map.get(stock['ticker'], stock['ticker'])
                     filtered_stocks.append(stock)
                     if len(filtered_stocks) >= 100:
                         break

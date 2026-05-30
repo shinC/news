@@ -128,8 +128,8 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
             if top_stocks:
                 f.write("거래대금 기준 특징주 상위 100 (거래대금 순)\n")
                 f.write("> 참고: 거래대금 상위 100개 종목 중 상승률 상위 20개 및 거래대금 상위 20개 종목에 대해 관련 뉴스를 검색하여 표 아래에 제공합니다.\n\n")
-                f.write("| 순위 | 종목 | 현재가 | 등락률(%) | 거래대금(대략) |\n")
-                f.write("|---|---|---|---|---|\n")
+                f.write("| 순위 | 종목명 | 심볼 | 현재가 | 등락률(%) | 거래대금(대략) |\n")
+                f.write("|---|---|---|---|---|---|\n")
                 
                 # 뉴스 수집 대상이 된 상위 10개 상승 종목만 따로 필터링
                 stocks_with_news = []
@@ -139,6 +139,7 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                 
                 for i, stock in enumerate(top_stocks, 1):
                     ticker = stock['ticker']
+                    name = stock.get('name', ticker)
                     price = stock['price']
                     change_pct = stock['change_pct']
                     trading_value = stock['trading_value']
@@ -174,13 +175,14 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                         price_display = f"${price}"
                         
                     sign = "+" if change_pct > 0 else ""
-                    f.write(f"| {i} | {ticker} | {price_display} | {sign}{change_pct}% | {tv_str} |\n")
+                    f.write(f"| {i} | {name} | {ticker} | {price_display} | {sign}{change_pct}% | {tv_str} |\n")
                 f.write("\n")
                 
                 if stocks_with_news:
                     f.write("특징주 상승 이유 (관련 주요 뉴스)\n\n")
                     for stock in stocks_with_news:
                         ticker = stock['ticker']
+                        name = stock.get('name', ticker)
                         sign = "+" if stock['change_pct'] > 0 else ""
                         change_pct_str = f"{sign}{stock['change_pct']}%"
                         trading_value = stock.get('trading_value', 0)
@@ -198,7 +200,7 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                             else:
                                 tv_str = f"${trading_value/1e6:.2f}M"
                                 
-                        f.write(f"{ticker} ({change_pct_str}) | 거래대금: {tv_str}\n")
+                        f.write(f"{name} ({ticker}) ({change_pct_str}) | 거래대금: {tv_str}\n")
                         reasons = stock.get('reason', [])
                         for item in reasons:
                             if isinstance(item, dict):
