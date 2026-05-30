@@ -86,48 +86,48 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
     # ===================================
     
     with open(file_path, 'w', encoding='utf-8') as f:
-        f.write(f"# {report_title}\n\n")
+        f.write(f"{report_title}\n\n")
         
         # 시황 정보 기록 (market_data가 있을 경우)
         if market_data:
-            f.write("## 📈 간편 시황 요약\n")
-            f.write(f"> **데이터 출처**: {market_data.get('source', 'Yahoo Finance (yfinance)')}\n\n")
+            f.write("📈 간편 시황 요약\n")
+            f.write(f"> 데이터 출처: {market_data.get('source', 'Yahoo Finance (yfinance)')}\n\n")
             
             indices = market_data.get("indices", {})
             if indices:
-                f.write(f"### {index_title}\n")
+                f.write(f"{index_title}\n")
                 for name, info in indices.items():
                     sign = "+" if info['change_pct'] > 0 else ""
-                    f.write(f"- **{name}**: {info['price']} ({sign}{info['change_pct']}%)\n")
+                    f.write(f"- {name}: {info['price']} ({sign}{info['change_pct']}%)\n")
                 f.write("\n")
                 
             top_themes_detailed = market_data.get("top_themes_detailed", [])
             bottom_sector = market_data.get("bottom_sector")
             
             if top_themes_detailed:
-                f.write("### 주요 섹터 및 테마 동향\n")
-                f.write("> **조건**: 해당 테마 내 10% 이상 상승 또는 거래대금 1,000억 이상인 핵심 종목 요약\n\n")
+                f.write("주요 섹터 및 테마 동향\n")
+                f.write("> 조건: 해당 테마 내 10% 이상 상승 또는 거래대금 1,000억 이상인 핵심 종목 요약\n\n")
                 for i, theme in enumerate(top_themes_detailed):
                     icon = "🚀" if i == 0 else "📈"
                     formatted_stocks = []
                     for s in theme['stocks']:
                         if s.get("is_fallback"):
-                            formatted_stocks.append(f"**{s['name']}**")
+                            formatted_stocks.append(f"{s['name']}")
                         else:
-                            formatted_stocks.append(f"**{s['name']}**({'+' if s['change_pct'] > 0 else ''}{s['change_pct']}%)")
+                            formatted_stocks.append(f"{s['name']}({'+' if s['change_pct'] > 0 else ''}{s['change_pct']}%)")
                     
                     stock_list_str = ", ".join(formatted_stocks) if formatted_stocks else "해당 조건의 종목 없음"
-                    f.write(f"{icon} **{theme['name']}** (+{round(theme['change_pct'], 2)}%)\n")
+                    f.write(f"{icon} {theme['name']} (+{round(theme['change_pct'], 2)}%)\n")
                     f.write(f"  - {stock_list_str}\n\n")
                 
                 if bottom_sector:
-                    f.write(f"📉 **가장 부진한 섹터**: {bottom_sector['name']} ({round(bottom_sector['change_pct'], 2)}%)\n")
+                    f.write(f"가장 부진한 섹터: {bottom_sector['name']} ({round(bottom_sector['change_pct'], 2)}%)\n")
                 f.write("\n")
                 
             top_stocks = market_data.get("top_stocks", [])
             if top_stocks:
-                f.write("### 🔥 거래대금 기준 특징주 상위 100 (거래대금 순)\n")
-                f.write("> **참고**: 거래대금 상위 100개 종목 중 상승률 상위 20개 및 거래대금 상위 20개 종목에 대해 관련 뉴스를 검색하여 표 아래에 제공합니다.\n\n")
+                f.write("거래대금 기준 특징주 상위 100 (거래대금 순)\n")
+                f.write("> 참고: 거래대금 상위 100개 종목 중 상승률 상위 20개 및 거래대금 상위 20개 종목에 대해 관련 뉴스를 검색하여 표 아래에 제공합니다.\n\n")
                 f.write("| 순위 | 종목 | 현재가 | 등락률(%) | 거래대금(대략) |\n")
                 f.write("|---|---|---|---|---|\n")
                 
@@ -174,11 +174,11 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                         price_display = f"${price}"
                         
                     sign = "+" if change_pct > 0 else ""
-                    f.write(f"| {i} | **{ticker}** | {price_display} | {sign}{change_pct}% | {tv_str} |\n")
+                    f.write(f"| {i} | {ticker} | {price_display} | {sign}{change_pct}% | {tv_str} |\n")
                 f.write("\n")
                 
                 if stocks_with_news:
-                    f.write("### 📰 특징주 상승 이유 (관련 주요 뉴스)\n\n")
+                    f.write("특징주 상승 이유 (관련 주요 뉴스)\n\n")
                     for stock in stocks_with_news:
                         ticker = stock['ticker']
                         sign = "+" if stock['change_pct'] > 0 else ""
@@ -198,7 +198,7 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                             else:
                                 tv_str = f"${trading_value/1e6:.2f}M"
                                 
-                        f.write(f"#### {ticker} ({change_pct_str}) | 거래대금: {tv_str}\n")
+                        f.write(f"{ticker} ({change_pct_str}) | 거래대금: {tv_str}\n")
                         reasons = stock.get('reason', [])
                         for item in reasons:
                             if isinstance(item, dict):
@@ -228,28 +228,28 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
         other_news_list = [item for item in news_data if item.get('category') != "Macro & Market"]
         
         if macro_news_list:
-            f.write("## 📰 마감시황\n\n")
+            f.write("마감시황\n\n")
             for idx, item in enumerate(macro_news_list, 1):
                 pub_date = item.get('publish_date')
                 date_str = pub_date.strftime('%Y-%m-%d') if pd.notnull(pub_date) else "Unknown Date"
                 title = item.get('title', 'No Title')
                 url = item.get('url', '#')
                 
-                f.write(f"#### {idx}. [{title}]({url})\n")
-                f.write(f"- **발행일시**: {date_str}\n")
+                f.write(f"{idx}. [{title}]({url})\n")
+                f.write(f"- 발행일시: {date_str}\n")
                 summary = item.get('summary', '')
                 if summary:
-                    f.write(f"- **요약**: {summary[:1500]}...\n")
+                    f.write(f"- 요약: {summary[:1500]}...\n")
                 keywords = item.get('keywords', [])
                 if not isinstance(keywords, list):
                     keywords = []
                 filtered_keywords = [k for k in keywords if isinstance(k, str) and k.lower() not in ['google', 'news', 'home']]
                 if filtered_keywords:
-                    f.write(f"- **키워드**: {', '.join(filtered_keywords)}\n")
+                    f.write(f"- 키워드: {', '.join(filtered_keywords)}\n")
                 f.write("\n")
             f.write("---\n\n")
             
-        f.write("## 📰 주요 뉴스 헤드라인 (섹션별 & 중요도순)\n\n")
+        f.write("주요 뉴스 헤드라인 (섹션별 & 중요도순)\n\n")
         
         if not other_news_list:
             f.write("수집된 뉴스가 없습니다.\n")
@@ -265,7 +265,7 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
             
         global_idx = 1
         for cat, items in grouped_news.items():
-            f.write(f"### 📁 {cat}\n\n")
+            f.write(f"{cat}\n\n")
             
             for item in items:
                 cluster_id = item.get('cluster_id')
@@ -279,12 +279,12 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                 url = item.get('url', '#')
                 
                 # 기사 제목에 순번(번호) 추가
-                f.write(f"#### {global_idx}. [{title}]({url})\n")
-                f.write(f"- **발행일시**: {date_str}\n")
+                f.write(f"{global_idx}. [{title}]({url})\n")
+                f.write(f"- 발행일시: {date_str}\n")
                 
                 summary = item.get('summary', '')
                 if summary:
-                    f.write(f"- **요약**: {summary[:1500]}...\n")
+                    f.write(f"- 요약: {summary[:1500]}...\n")
                     
                 keywords = item.get('keywords', [])
                 if not isinstance(keywords, list):
@@ -293,7 +293,7 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                     # 'google' 단독 키워드 등 불필요한 키워드 필터링
                     filtered_keywords = [k for k in keywords if isinstance(k, str) and k.lower() not in ['google', 'news', 'home']]
                     if filtered_keywords:
-                        f.write(f"- **키워드**: {', '.join(filtered_keywords)}\n")
+                        f.write(f"- 키워드: {', '.join(filtered_keywords)}\n")
                 
                 f.write("\n")
                 global_idx += 1
@@ -347,7 +347,7 @@ def save_company_news_to_markdown(news_data: List[Dict[str, Any]], market_type: 
     market_name = "미국" if market_type == "us" else "한국"
     
     with open(file_path, 'w', encoding='utf-8') as f:
-        f.write(f"# {market_name} 관심 기업 최신 뉴스 스크래핑 리포트\n\n")
+        f.write(f"{market_name} 관심 기업 최신 뉴스 스크래핑 리포트\n\n")
         
         if not news_data:
             f.write("수집된 뉴스가 없습니다.\n")
@@ -362,7 +362,7 @@ def save_company_news_to_markdown(news_data: List[Dict[str, Any]], market_type: 
             grouped_news[comp].append(item)
             
         for comp, items in grouped_news.items():
-            f.write(f"## 🏢 {comp}\n\n")
+            f.write(f"{comp}\n\n")
             
             for idx, item in enumerate(items, 1):
                 pub_date = item.get('publish_date')
@@ -371,16 +371,16 @@ def save_company_news_to_markdown(news_data: List[Dict[str, Any]], market_type: 
                 title = item.get('title', 'No Title')
                 url = item.get('url', '#')
                 
-                f.write(f"### {idx}. [{title}]({url})\n")
-                f.write(f"- **발행일시**: {date_str}\n")
+                f.write(f"{idx}. [{title}]({url})\n")
+                f.write(f"- 발행일시: {date_str}\n")
                 
                 summary = item.get('summary', '')
                 if summary:
-                    f.write(f"- **요약**: {summary[:1500]}...\n")
+                    f.write(f"- 요약: {summary[:1500]}...\n")
                     
                 keywords = item.get('keywords', [])
                 if keywords:
-                    f.write(f"- **키워드**: {', '.join(keywords)}\n")
+                    f.write(f"- 키워드: {', '.join(keywords)}\n")
                 
                 f.write("\n")
             

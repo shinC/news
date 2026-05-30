@@ -536,6 +536,18 @@ def fetch_company_news_kr(companies: List[str], days: int = 3) -> List[Dict[str,
                     
                     norm_title = title.replace(" ", "")
                     if url not in seen_urls and norm_title not in seen_titles:
+                        
+                        # 네이버 뉴스 링크인 경우 기사원문(원본 URL) 추출 시도
+                        if "news.naver.com" in url:
+                            try:
+                                res_n = requests.get(url, headers=headers, timeout=5)
+                                soup_n = BeautifulSoup(res_n.text, 'lxml')
+                                origin_link = soup_n.select_one('a.media_end_head_origin_link')
+                                if origin_link and origin_link.get('href'):
+                                    url = origin_link.get('href')
+                            except Exception as e:
+                                pass
+
                         seen_urls.add(url)
                         seen_titles.add(norm_title)
                         company_articles.append({

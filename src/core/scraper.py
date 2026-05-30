@@ -197,8 +197,9 @@ def fetch_company_news_us(company, company_full_name: str = None, days: int = 3,
     
     # 1. Google News RSS (본문 스크래핑 제외, 제목/링크만)
     # 종목별로 5개 기사 수집
-    logger.info(f"[{ticker_str}] Fetching Google News RSS...")
-    gn_articles = fetch_google_news_rss(company_full_name, max_results=5)
+    search_query = f"{ticker_str} stock why up today"
+    logger.info(f"[{ticker_str}] Fetching Google News RSS with query: '{search_query}'...")
+    gn_articles = fetch_google_news_rss(search_query, max_results=5)
     for item in gn_articles:
         try:
             url = item['url']
