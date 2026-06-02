@@ -248,7 +248,8 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                 filtered_keywords = [k for k in keywords if isinstance(k, str) and k.lower() not in ['google', 'news', 'home']]
                 if filtered_keywords:
                     f.write(f"- 키워드: {', '.join(filtered_keywords)}\n")
-                f.write("\n")
+                
+                f.write("\n> ⚠️ [시스템 경고: 위 기사와 아래 기사는 독립된 별개의 뉴스입니다. 두 기사의 인과관계를 임의로 연결(할루시네이션)하지 마시오.]\n\n")
             f.write("---\n\n")
             
         f.write("주요 뉴스 헤드라인 (섹션별 & 중요도순)\n\n")
