@@ -39,6 +39,14 @@ class Settings(BaseModel):
         "Politics": "CAAqIQgKIhtDQkFTRGdvSUwyMHZNRFZ4ZERBU0FtVnVLQUFQAQ"
     }
 
+    # 미국 매크로 뉴스 검색 쿼리 및 허용 도메인
+    macro_search_query: str = "Stock market today"
+    macro_approved_domains: list = [
+        "finance.yahoo.com",
+        "cnbc.com",
+        "investopedia.com"
+    ]
+
 settings = Settings()
 
 class SettingsKR(BaseModel):
@@ -73,7 +81,7 @@ class SettingsKR(BaseModel):
 
     # 한국 매크로 뉴스 수집을 위한 RSS 피드 설정 (확장 가능 구조)
     macro_rss_feeds: list = [
-        {"url": "https://news.einfomax.co.kr/rss/S1N2.xml", "keywords": ["증시-마감", "코스피-마감", "코스닥-마감", "장마감", "마감시황", "사이드카"]},
+        {"url": "https://news.einfomax.co.kr/rss/S1N2.xml", "keywords": ["증시-마감"]},
         {"url": "https://www.fnnews.com/rss/r20/fn_realnews_stock.xml", "keywords": ["마감시황"]}
     ]
 

@@ -97,60 +97,97 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
     if ref_date.tzinfo is None: ref_date = ref_date.replace(tzinfo=pytz.utc)
     cutoff = ref_date - timedelta(days=3)
 
-    for cat, query_or_topic in settings.categories.items():
-        if query_or_topic.startswith("CAAq"):
-            logger.info(f"Fetching {cat} (Topic ID)...")
-            rss_articles = fetch_google_news_rss(topic_id=query_or_topic, max_results=settings.max_results_per_section)
-        else:
-            logger.info(f"Fetching {cat} (Query)...")
-            rss_articles = fetch_google_news_rss(query=query_or_topic, max_results=settings.max_results_per_section)
-        for item in rss_articles:
-            try:
-                url = item['url']
-                title = item.get('title', '')
-                
-                # 네이버 API 요약 삭제, RSS 설명 사용
-                summary = item.get('description', '')
-                if not summary:
-                    summary = title
-                
-                # 날짜 파싱
-                pub = None
-                if item.get('publish_date_raw'):
-                    try:
-                        from dateutil import parser as date_parser
-                        pub = date_parser.parse(item['publish_date_raw'])
-                    except: pass
-                
-                if not pub: pub = ref_date
-                if pub.tzinfo is None: pub = pub.replace(tzinfo=pytz.utc)
-                if pub < cutoff:
-                    continue
-                
-                all_data.append({
-                    "category": cat, 
-                    "title": title, 
-                    "url": url, 
-                    "publish_date": pub, 
-                    "summary": summary, 
-                    "text": summary, # 본문 대신 요약 사용
-                    "keywords": [], 
-                    "priority_score": 0
-                })
-            except Exception as e: 
-                logger.error(f"Category Parsing Error: {e}")
+    # 주요뉴스 헤드라인 수집 (Category News) 주석 처리 (사용자 요청)
+    # for cat, query_or_topic in settings.categories.items():
+    #     if query_or_topic.startswith("CAAq"):
+    #         logger.info(f"Fetching {cat} (Topic ID)...")
+    #         rss_articles = fetch_google_news_rss(topic_id=query_or_topic, max_results=settings.max_results_per_section)
+    #     else:
+    #         logger.info(f"Fetching {cat} (Query)...")
+    #         rss_articles = fetch_google_news_rss(query=query_or_topic, max_results=settings.max_results_per_section)
+    #     for item in rss_articles:
+    #         try:
+    #             url = item['url']
+    #             title = item.get('title', '')
+    #             
+    #             # 네이버 API 요약 삭제, RSS 설명 사용
+    #             summary = item.get('description', '')
+    #             if not summary:
+    #                 summary = title
+    #             
+    #             # 날짜 파싱
+    #             pub = None
+    #             if item.get('publish_date_raw'):
+    #                 try:
+    #                     from dateutil import parser as date_parser
+    #                     pub = date_parser.parse(item['publish_date_raw'])
+    #                 except: pass
+    #             
+    #             if not pub: pub = ref_date
+    #             if pub.tzinfo is None: pub = pub.replace(tzinfo=pytz.utc)
+    #             if pub < cutoff:
+    #                 continue
+    #             
+    #             all_data.append({
+    #                 "category": cat, 
+    #                 "title": title, 
+    #                 "url": url, 
+    #                 "publish_date": pub, 
+    #                 "summary": summary, 
+    #                 "text": summary, # 본문 대신 요약 사용
+    #                 "keywords": [], 
+    #                 "priority_score": 0
+    #             })
+    #         except Exception as e: 
+    #             logger.error(f"Category Parsing Error: {e}")
 
-    # 2. 구글 뉴스 RSS로 매크로 뉴스 추가 (Stock market today 검색 결과 5개)
-    logger.info("Fetching Google News Macro & Market News...")
+    # 2. 구글 뉴스 RSS로 매크로 뉴스 추가 (단일 검색 후 도메인별 1개씩 추출)
+    logger.info("Fetching Google News Macro & Market News (Unified Search)...")
     try:
         seen_urls = set([item['url'] for item in all_data])
-        macro_articles = fetch_google_news_rss(query="Stock market today", max_results=5)
+        # 사용자 브라우저 환경과 최대한 동일한 결과를 얻기 위해 단일 통합 검색어 사용 (최대 100개)
+        macro_query = "Stock market today"
+        macro_articles = fetch_google_news_rss(query=macro_query, max_results=100)
+        
+        # 수집할 도메인 추적 (사용자 요청으로 cnbc 제거)
+        domain_found = {
+            "finance.yahoo.com": False,
+            "investopedia.com": False
+        }
+        
         for item in macro_articles:
             url = item['url']
             if not url or url in seen_urls: continue
-            seen_urls.add(url)
             
+            # 3개 도메인 중 어디에 해당하는지 확인
+            matched_domain = None
+            for domain in domain_found.keys():
+                domain_name = domain.split('.')[0] # e.g. 'investopedia', 'finance' (for yahoo)
+                if domain_name == 'finance':
+                    domain_name = 'yahoo'
+                if domain.lower() in url.lower() or domain_name.lower() in title.lower():
+                    matched_domain = domain
+                    break
+            
+            # 지정된 3개 도메인이 아니거나 이미 찾은 도메인이면 패스
+            if not matched_domain or domain_found[matched_domain]:
+                continue
+                
             title = item.get('title', '')
+            
+            # 각 언론사별 필수 제목 키워드 설정
+            if "investopedia.com" in matched_domain:
+                target_phrase = "Markets News"
+            else:
+                target_phrase = "Stock market today"
+                
+            # 타이틀에 필수 키워드 단어들이 모두 포함되어 있는지 검증 (순서 무관)
+            keywords = target_phrase.lower().split()
+            if not all(kw in title.lower() for kw in keywords):
+                continue
+                
+            domain_found[matched_domain] = True
+            seen_urls.add(url)
             summary = item.get('description', '')
             if not summary:
                 summary = title
@@ -166,13 +203,17 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
             if pub.tzinfo is None: pub = pub.replace(tzinfo=pytz.utc)
             if pub < cutoff: continue
             
+            # 본문 추출 (Playwright 사용)
+            from src.core.utils import get_article_text_playwright
+            full_text = get_article_text_playwright(url)
+            
             all_data.append({
                 "category": "Macro & Market", 
                 "title": title, 
                 "url": url, 
                 "publish_date": pub, 
                 "summary": summary, 
-                "text": summary, 
+                "text": full_text, 
                 "keywords": [], 
                 "priority_score": 0
             })

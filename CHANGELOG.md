@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 ### Added
+- [Docs] 미국 증시 데일리 시황 요약 리포트 (data/output/blog_post.md)를 /summary 가이드라인 규정에 맞추어 별표와 샵 기호 없이 재생성.
 - [News Scraper KR] 한국 매크로 뉴스 수집 설정에 파이낸셜뉴스 마감시황 RSS 피드 추가 (https://www.fnnews.com/rss/r20/fn_realnews_stock.xml).
 - [News Scraper KR] 한국 매크로 뉴스 수집 시 standard RSS 날짜 포맷 파싱 지원을 위해 dateutil.parser 연동 추가.
 - [News Scraper KR] 한국 마감시황(Macro & Market) 뉴스를 일반 카테고리와 분리하여 보고서 상단에 독자적인 '## 마감시황' H2 섹션으로 별도 나열 기능 추가.

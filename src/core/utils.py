@@ -236,19 +236,49 @@ def get_article_text_playwright(url: str) -> str:
     logger.info(f"Playwright: Fetching body for {url}")
     try:
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)
+            browser = p.chromium.launch(headless=True, args=['--disable-dev-shm-usage', '--no-sandbox'])
             context = browser.new_context(
                 user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'
             )
             page = context.new_page()
             try:
                 page.goto(url, timeout=20000, wait_until='domcontentloaded')
-                # 본문으로 추정되는 요소들 텍스트 추출
+                
+                # 약간의 대기 (동적 렌더링)
+                page.wait_for_timeout(2000)
+                
+                # 야후 파이낸스 등 주요 본문 컨테이너가 뜰 때까지 명시적 대기
+                try:
+                    page.wait_for_selector(".caas-body, article, main", timeout=10000)
+                except Exception as e:
+                    logger.warning(f"wait_for_selector timeout: {e}")
+                # 본문으로 추정되는 요소들 텍스트 추출 (라이브 블로그 대응: H2/H3 만나면 컷)
                 content = page.evaluate("""() => {
-                    const selectors = ['article', '.article-body', '.story-body', '.main-content', 'main', '#content'];
+                    const selectors = ['.caas-body', '.article-content', 'article', '.article-body', '.story-body', '.main-content', 'main', '#content'];
                     for (let sel of selectors) {
                         let el = document.querySelector(sel);
-                        if (el && el.innerText.length > 300) return el.innerText;
+                        if (el) {
+                            let result = '';
+                            let blocks = el.querySelectorAll('p, h1, h2, h3');
+                            let foundP = false;
+                            for (let child of blocks) {
+                                // P 태그가 나오기 시작한 이후, H2나 H3가 등장하면 다음 기사/섹션으로 간주하고 중단
+                                if (foundP && (child.tagName === 'H2' || child.tagName === 'H3' || child.tagName === 'H4')) {
+                                    break;
+                                }
+                                if (child.tagName === 'P') {
+                                    foundP = true;
+                                    result += child.innerText + ' ';
+                                } else if (!foundP && child.tagName === 'H1') {
+                                    // 메인 타이틀은 포함
+                                    result += child.innerText + ' ';
+                                }
+                            }
+                            if (result.length > 200) return result;
+                            
+                            // 위 로직으로 못 잡았으면 fallback으로 innerText
+                            if (el.innerText.length > 300) return el.innerText;
+                        }
                     }
                     return document.body.innerText;
                 }""")
@@ -258,7 +288,7 @@ def get_article_text_playwright(url: str) -> str:
             browser.close()
             if content and len(content) > 150:
                 clean_text = re.sub(r'\s+', ' ', content).strip()
-                return clean_text[:1200]
+                return clean_text[:3000] # 하위 기사가 짤리므로 넉넉하게 3000자까지 허용
     except Exception as e:
         logger.error(f"Playwright 실패 ({url}): {e}")
     return ""

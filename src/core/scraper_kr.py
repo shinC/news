@@ -155,7 +155,8 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
     config.request_timeout = 10
     config.browser_user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
  
-    # 0. 네이버 주요뉴스 헤드라인 수집
+    # [사용자 요청] 네이버 주요뉴스 헤드라인 수집 비활성화
+    """
     try:
         logger.info("네이버 주요뉴스 헤드라인 수집 시작")
         res = requests.get('https://finance.naver.com/news/mainnews.naver', timeout=10)
@@ -206,6 +207,7 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
                 logger.error(f"주요뉴스 파싱 실패 ({url}): {e}")
     except Exception as e:
         logger.error(f"네이버 주요뉴스 수집 전체 실패: {e}")
+    """
  
     # 0-2. 연합인포맥스 RSS 매크로 뉴스 수집
     logger.info("연합인포맥스 RSS 매크로 뉴스 수집 시작")
@@ -219,7 +221,10 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
             res.raise_for_status()
             rss_soup = BeautifulSoup(res.text, 'xml')
             
+            macro_count = 0
             for item in rss_soup.find_all('item'):
+                if macro_count >= 3:
+                    break
                 title = item.title.text if item.title else ""
                 description = item.description.text if item.description else ""
                 link = item.link.text if item.link else ""
@@ -286,12 +291,14 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
                             "keywords": article.keywords if isinstance(article.keywords, list) else [],
                             "priority_score": priority_score
                         })
+                        macro_count += 1
                     except Exception as parse_err:
                         logger.error(f"연합인포맥스 매크로 기사 파싱 실패 ({link}): {parse_err}")
     except Exception as e:
         logger.error(f"연합인포맥스 RSS 매크로 뉴스 수집 전체 실패: {e}")
 
-    # 1. 구글 카테고리 뉴스 수집
+    # [사용자 요청] 구글 카테고리 뉴스 수집 비활성화
+    """
     for cat_name, query_or_topic in categories.items():
         if query_or_topic.startswith("CAAq"):
             logger.info(f"카테고리 수집 중: {cat_name} (토픽 ID: {query_or_topic})")
@@ -305,61 +312,13 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
                 raw_url = item['url']
                 url = decode_google_news_url(raw_url)
                 
-                article = newspaper.Article(url, language='ko', config=config)
-                article.download()
-                article.parse()
-                
-                # 본문이 비어있거나 구글 뉴스 기본 문구인 경우 RSS 요약/메타 설명을 대안으로 사용
-                BOILERPLATE = "Comprehensive up-to-date news coverage"
-                is_boilerplate = article.text and BOILERPLATE in article.text
-                
-                if not article.text or len(article.text) < 30 or is_boilerplate:
-                    if item.get('description') and BOILERPLATE not in item.get('description'):
-                        article.text = item['description']
-                    elif "news.google.com" not in url:
-                        soup = BeautifulSoup(article.html, 'lxml')
-                        meta_desc = soup.find('meta', attrs={'name': 'description'}) or \
-                                    soup.find('meta', attrs={'property': 'og:description'}) or \
-                                    soup.find('meta', attrs={'name': 'twitter:description'})
-                        if meta_desc:
-                            article.text = meta_desc.get('content', '')
-                
-                article.nlp()
-                
-                # RSS 제목을 우선 사용
-                title = item.get('title', article.title)
-                junk_titles = ["MSN", "Google News", "Home", "AOL.com", "Yahoo Finance", "Business", "News"]
-                if any(jt.lower() == (title or "").strip().lower() for jt in junk_titles) or len(title or "") < 10:
-                    title = item.get('title')
-                
-                # 요약문 생성 로직 개선: 500자 제한을 없애고 품질 기반으로 선택
-                summary_text = ""
-                
-                # 1단계: newspaper4k NLP 요약문 검증
-                if article.summary and len(article.summary.strip()) > 100:
-                    # 제목과 너무 비슷한지 체크
-                    title_words = set(re.sub(r'[^\w\s]', ' ', title).split())
-                    summary_words = set(re.sub(r'[^\w\s]', ' ', article.summary).split())
-                    common_words = title_words.intersection(summary_words)
-                    is_too_similar = len(common_words) > len(title_words) * 0.7 and len(article.summary) < 200
+                # 구글 카테고리 뉴스: 본문 스크래핑 생략 (다이어트 로직)
+                title = item.get('title', '')
+                summary_text = item.get('description', '')
+                if not summary_text:
+                    summary_text = title
                     
-                    if not is_too_similar:
-                        summary_text = article.summary
-                
-                # 2단계: NLP 요약이 부실하면 본문 앞부분 또는 RSS 설명 사용
-                if not summary_text or len(summary_text) < 200:
-                    rss_desc = item.get('description', '')
-                    if len(rss_desc) > len(summary_text) and BOILERPLATE not in rss_desc:
-                        summary_text = rss_desc
-                        
-                    if (not summary_text or len(summary_text) < 150) and article.text and len(article.text) > 200:
-                        summary_text = article.text[:1000]
- 
-                # 3단계 제거됨 (네이버 API 요약 미사용)
-                if not summary_text or len(summary_text) < 150:
-                    summary_text = article.text[:1000] if article.text else rss_desc or title
-                
-                pub_date = article.publish_date
+                pub_date = None
                 if not pub_date and item.get('publish_date_raw'):
                     try:
                         from dateutil import parser as date_parser
@@ -373,42 +332,37 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
                         pub_date = pub_date.astimezone(kst)
                     
                     if pub_date < cutoff_date or pub_date > upper_cutoff:
-                        logger.debug(f"기간 외 기사 제외 ({pub_date}): {article.title}")
+                        logger.debug(f"기간 외 기사 제외 ({pub_date}): {title}")
                         continue
                 else:
                     # 발행일을 알 수 없는 경우 RSS 날짜가 있다면 건너뛰지 않음
                     if not item.get('publish_date_raw'):
-                        logger.warning(f"발행일을 알 수 없는 기사 제외: {article.title}")
+                        logger.warning(f"발행일을 알 수 없는 기사 제외: {title}")
                         continue
                     # RSS 날짜라도 없으면 어쩔 수 없이 대략적인 현재 시간 사용 (필요시)
                     pub_date = datetime.now(kst)
  
                 # 우선순위 키워드 포함 여부 검사
                 priority_score = 0
-                text_to_check = (title + " " + summary_text + " " + " ".join(article.keywords)).lower()
+                text_to_check = (title + " " + summary_text).lower()
                 for keyword in priority_keywords:
                     if keyword.lower() in text_to_check:
                         priority_score += 1
- 
-                # 키워드 정리
-                keywords = article.keywords
-                if not isinstance(keywords, list):
-                    keywords = []
-                filtered_keywords = [k for k in keywords if isinstance(k, str) and k.lower() not in ['google', 'news', 'home']]
  
                 all_news_data.append({
                     "category": cat_name,
                     "title": title,
                     "url": url,
                     "publish_date": pub_date,
-                    "authors": article.authors,
+                    "authors": [],
                     "summary": summary_text,
-                    "text": article.text,
-                    "keywords": keywords,
+                    "text": summary_text, # 본문 없이 요약만
+                    "keywords": [],
                     "priority_score": priority_score
                 })
             except Exception as e:
                 logger.error(f"기사 파싱 실패 ({item['url']}): {e}")
+    """
                 
     logger.info(f"총 {len(all_news_data)}개의 기사가 수집되었습니다.")
     return all_news_data

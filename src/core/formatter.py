@@ -239,9 +239,13 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                 
                 f.write(f"{idx}. [{title}]({url})\n")
                 f.write(f"- 발행일시: {date_str}\n")
-                summary = item.get('summary', '')
-                if summary:
-                    f.write(f"- 요약: {summary[:1500]}...\n")
+                
+                # 마감시황은 summary 대신 스크래핑한 본문(text) 전체를 출력
+                full_text = item.get('text', '')
+                if full_text:
+                    f.write(f"- 본문: {full_text}\n")
+                elif item.get('summary'):
+                    f.write(f"- 요약: {item.get('summary')}\n")
                 keywords = item.get('keywords', [])
                 if not isinstance(keywords, list):
                     keywords = []
@@ -252,12 +256,10 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                 f.write("\n> ⚠️ [시스템 경고: 위 기사와 아래 기사는 독립된 별개의 뉴스입니다. 두 기사의 인과관계를 임의로 연결(할루시네이션)하지 마시오.]\n\n")
             f.write("---\n\n")
             
-        f.write("주요 뉴스 헤드라인 (섹션별 & 중요도순)\n\n")
-        
         if not other_news_list:
-            f.write("수집된 뉴스가 없습니다.\n")
             return
             
+        f.write("주요 뉴스 헤드라인 (섹션별 & 중요도순)\n\n")
         # 카테고리별로 그룹화
         grouped_news = {}
         for item in other_news_list:
@@ -379,8 +381,11 @@ def save_company_news_to_markdown(news_data: List[Dict[str, Any]], market_type: 
                 
                 summary = item.get('summary', '')
                 if summary:
-                    f.write(f"- 요약: {summary[:1500]}...\n")
-                    
+                    # summary html 태그 제거
+                    import re
+                    summary = re.sub(r'<[^>]+>', '', summary)
+                    f.write(f"- 요약: {summary[:1500]}\n")
+                
                 keywords = item.get('keywords', [])
                 if keywords:
                     f.write(f"- 키워드: {', '.join(keywords)}\n")
