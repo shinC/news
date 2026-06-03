@@ -157,6 +157,7 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
         
         for item in macro_articles:
             url = item['url']
+            title = item.get('title', '')
             if not url or url in seen_urls: continue
             
             # 3개 도메인 중 어디에 해당하는지 확인
@@ -172,8 +173,6 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
             # 지정된 3개 도메인이 아니거나 이미 찾은 도메인이면 패스
             if not matched_domain or domain_found[matched_domain]:
                 continue
-                
-            title = item.get('title', '')
             
             # 각 언론사별 필수 제목 키워드 설정
             if "investopedia.com" in matched_domain:
