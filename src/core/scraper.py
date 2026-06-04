@@ -50,11 +50,10 @@ def fetch_google_news_rss(query: str = None, topic_id: str = None, hl: str = 'en
             clean_desc = BeautifulSoup(raw_desc, 'html.parser').get_text(separator=' ', strip=True)
             
             raw_url = item.link.text if item.link else ""
-            decoded_url = decode_google_news_url(raw_url)
             
             articles.append({
                 "title": item.title.text if item.title else "", 
-                "url": decoded_url, 
+                "url": raw_url, 
                 "description": clean_desc, 
                 "publish_date_raw": item.pubDate.text if item.pubDate else ""
             })
@@ -141,52 +140,35 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
     #         except Exception as e: 
     #             logger.error(f"Category Parsing Error: {e}")
 
-    # 2. 구글 뉴스 RSS로 매크로 뉴스 추가 (단일 검색 후 도메인별 1개씩 추출)
-    logger.info("Fetching Google News Macro & Market News (Unified Search)...")
+    # 2. 구글 뉴스 RSS로 매크로 뉴스 추가 (site: 연산자를 제외한 안전한 키워드 쿼리로 수집)
+    logger.info("Fetching Google News Macro & Market News (Plain Keyword Queries)...")
     try:
         seen_urls = set([item['url'] for item in all_data])
-        # 사용자 브라우저 환경과 최대한 동일한 결과를 얻기 위해 단일 통합 검색어 사용 (최대 100개)
-        macro_query = "Stock market today"
-        macro_articles = fetch_google_news_rss(query=macro_query, max_results=100)
         
-        # 수집할 도메인 추적 (사용자 요청으로 cnbc 제거)
+        # 구글 RSS 호출 밴을 방지하기 위해 단일 일반 쿼리로 1번만 호출 후 로컬에서 도메인/키워드 필터링
+        query = "Stock market today"
+        
+        macro_articles = []
+        logger.info(f"Targeted plain query: {query}")
+        macro_articles.extend(fetch_google_news_rss(query=query, max_results=50))
+        
+        # 구글 뉴스 암호화 URL 일괄(Batch) 디코딩 적용
+        from src.core.utils import batch_decode_google_urls
+        raw_urls = [item['url'] for item in macro_articles if item.get('url')]
+        decoded_map = batch_decode_google_urls(raw_urls)
+        
+        for item in macro_articles:
+            if item.get('url') in decoded_map:
+                item['url'] = decoded_map[item['url']]
+        
+        # 수집할 도메인 추적
         domain_found = {
             "finance.yahoo.com": False,
             "investopedia.com": False
         }
         
-        for item in macro_articles:
-            url = item['url']
+        def process_macro_article(item, matched_domain):
             title = item.get('title', '')
-            if not url or url in seen_urls: continue
-            
-            # 3개 도메인 중 어디에 해당하는지 확인
-            matched_domain = None
-            for domain in domain_found.keys():
-                domain_name = domain.split('.')[0] # e.g. 'investopedia', 'finance' (for yahoo)
-                if domain_name == 'finance':
-                    domain_name = 'yahoo'
-                if domain.lower() in url.lower() or domain_name.lower() in title.lower():
-                    matched_domain = domain
-                    break
-            
-            # 지정된 3개 도메인이 아니거나 이미 찾은 도메인이면 패스
-            if not matched_domain or domain_found[matched_domain]:
-                continue
-            
-            # 각 언론사별 필수 제목 키워드 설정
-            if "investopedia.com" in matched_domain:
-                target_phrase = "Markets News"
-            else:
-                target_phrase = "Stock market today"
-                
-            # 타이틀에 필수 키워드 단어들이 모두 포함되어 있는지 검증 (순서 무관)
-            keywords = target_phrase.lower().split()
-            if not all(kw in title.lower() for kw in keywords):
-                continue
-                
-            domain_found[matched_domain] = True
-            seen_urls.add(url)
             summary = item.get('description', '')
             if not summary:
                 summary = title
@@ -200,22 +182,57 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
             
             if not pub: pub = ref_date
             if pub.tzinfo is None: pub = pub.replace(tzinfo=pytz.utc)
-            if pub < cutoff: continue
+            if pub < cutoff: return False
             
-            # 본문 추출 (Playwright 사용)
             from src.core.utils import get_article_text_playwright
-            full_text = get_article_text_playwright(url)
+            full_text = get_article_text_playwright(item['url'])
             
             all_data.append({
                 "category": "Macro & Market", 
                 "title": title, 
-                "url": url, 
+                "url": item['url'], 
                 "publish_date": pub, 
                 "summary": summary, 
                 "text": full_text, 
                 "keywords": [], 
                 "priority_score": 0
             })
+            seen_urls.add(item['url'])
+            domain_found[matched_domain] = True
+            return True
+
+        # 1차 검색: "Stock market today" 키워드가 제목에 포함된 야후 및 인베스토페디아 기사 찾기
+        for item in macro_articles:
+            url = item['url']
+            title = item.get('title', '')
+            if not url or url in seen_urls: continue
+            
+            title_lower = title.lower()
+            if "stock market today" not in title_lower:
+                continue
+                
+            is_yahoo = "finance.yahoo.com" in url.lower() or "yahoo" in title_lower
+            is_investopedia = "investopedia.com" in url.lower() or "investopedia" in title_lower
+            
+            if is_yahoo and not domain_found["finance.yahoo.com"]:
+                process_macro_article(item, "finance.yahoo.com")
+            elif is_investopedia and not domain_found["investopedia.com"]:
+                process_macro_article(item, "investopedia.com")
+
+        # 2차 검색: 인베스토페디아가 1차에서 안 찾아진 경우, "Markets News" 키워드로 다시 찾기
+        if not domain_found["investopedia.com"]:
+            for item in macro_articles:
+                url = item['url']
+                title = item.get('title', '')
+                if not url or url in seen_urls: continue
+                
+                title_lower = title.lower()
+                if "markets news" not in title_lower:
+                    continue
+                    
+                is_investopedia = "investopedia.com" in url.lower() or "investopedia" in title_lower
+                if is_investopedia and not domain_found["investopedia.com"]:
+                    process_macro_article(item, "investopedia.com")
     except Exception as e:
         logger.error(f"Google Macro News Error: {e}")
 
@@ -242,7 +259,7 @@ def fetch_company_news_us(company, company_full_name: str = None, days: int = 3,
     gn_articles = fetch_google_news_rss(search_query, max_results=5)
     for item in gn_articles:
         try:
-            url = item['url']
+            url = decode_google_news_url(item['url'])
             if url in seen: continue
             seen.add(url)
             

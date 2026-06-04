@@ -295,13 +295,13 @@ def get_article_text_playwright(url: str) -> str:
 
 def batch_decode_google_urls(urls: list) -> dict:
     """
-    구글 뉴스 암호화 URL 리스트를 입력받아, 배치(Batch)로 해독하여 
+    구글 뉴스 암호화 URL 리스트를 입력받아, 병렬(Parallel)로 해독하여 
     {google_url: real_url} 맵핑 딕셔너리를 반환합니다.
-    429 차단을 회피하기 위해 최대 20개 단위로 청킹하고, 청크 사이에 지연을 둡니다.
+    ThreadPoolExecutor와 new_decoderv1을 사용하여 속도와 성공률을 극대화합니다.
     """
-    import time
     import logging
-    from googlenewsdecoder import decoderv4
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+    from googlenewsdecoder import new_decoderv1
     
     logger = logging.getLogger("decode")
     
@@ -310,33 +310,33 @@ def batch_decode_google_urls(urls: list) -> dict:
     if not google_urls:
         return {}
         
-    logger.info(f"배치 디코딩 시작: 총 {len(google_urls)}개의 구글 뉴스 URL")
+    logger.info(f"병렬 디코딩 시작: 총 {len(google_urls)}개의 구글 뉴스 URL")
     
     mapping = {}
-    chunk_size = 20
-    for i in range(0, len(google_urls), chunk_size):
-        chunk = google_urls[i:i+chunk_size]
-        logger.info(f"디코딩 진행 중... ({i+1}~{min(i+chunk_size, len(google_urls))}/{len(google_urls)})")
-        
+    
+    def decode_single(url):
         try:
-            # decoderv4 호출 (내부적으로 batchexecute 배치 POST 1번 쏨)
-            results = decoderv4(chunk)
-            
-            for orig_url, res in zip(chunk, results):
-                if isinstance(res, dict) and res.get("status"):
-                    mapping[orig_url] = res.get("url")
-                else:
-                    # 실패 시 기존 URL 유지
-                    mapping[orig_url] = orig_url
+            res = new_decoderv1(url)
+            if res.get('status'):
+                return url, res.get('decoded_url')
         except Exception as e:
-            logger.error(f"배치 디코딩 중 에러 발생: {e}")
-            for orig_url in chunk:
-                mapping[orig_url] = orig_url
+            logger.debug(f"Decoding failed for {url}: {e}")
+        return url, url
+
+    max_workers = 15
+    try:
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            futures = {executor.submit(decode_single, url): url for url in google_urls}
+            for future in as_completed(futures):
+                orig_url, decoded_url = future.result()
+                mapping[orig_url] = decoded_url
+    except Exception as e:
+        logger.error(f"Error during parallel decoding: {e}")
+        # fallback to identity mapping
+        for url in google_urls:
+            if url not in mapping:
+                mapping[url] = url
                 
-        # 청크 사이에 지연 시간 추가 (차단 안전핀)
-        if i + chunk_size < len(google_urls):
-            time.sleep(1.0)
-            
     return mapping
 
 SEARCH_URL_CACHE = {}

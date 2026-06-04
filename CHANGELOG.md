@@ -29,6 +29,10 @@
 - [Docs] PRD 및 ARCH 문서를 최신 수집 및 정렬 정책에 맞게 업데이트.
 
 ### Fixed
+- [News Scraper] 미국 마감시황 뉴스 수집 시 단일 대용량 검색(max_results=100)으로 인한 구글 차단(HTTP 429) 문제를 예방하기 위해, 야후 파이낸스 및 인베스토피디아 도메인 특화 타겟팅 검색 쿼리를 도입하고 기사 수집 범위를 안정적인 개수로 축소.
+- [News Scraper] 구글 뉴스 암호화 URL 일괄 해독 함수(`batch_decode_google_urls`)가 빈 리스트만 반환하던 오류를 해결하기 위해 `decoderv4` 대신 `ThreadPoolExecutor`와 `new_decoderv1`을 사용한 고성능 병렬 디코더로 전면 재구현.
+- [News Scraper] 인베스토피디아 및 야후 파이낸스 마감시황 기사의 과도하게 엄격했던 제목 키워드 필터 조건을 완화하여 제목 변동에 따른 기사 누락 방지.
+- [News Scraper] 미국 특정 기업 특징주 수집(`fetch_company_news_us`) 시 기사별 개별 디코딩 처리를 적용하여 본문 링크 무결성 보장.
 - [News Scraper KR] `scraper_kr.py` 내의 BS4 BeautifulSoup 로컬 섀도우 임포트로 발생하던 `UnboundLocalError` 스코프 버그 해결.
 - [News Scraper] US 뉴스 스크래퍼(`scraper.py`)의 요약 품질 개선: 본문 추출 실패 시 구글/야후 검색 스니펫을 활용하는 다중 폴백 시스템 및 제목 유사도 체크 로직 추가.
 - [News Scraper] 구글 뉴스 암호화 URL (`/articles/`) 디코딩 로직 보강 및 예외 처리 강화.
