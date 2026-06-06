@@ -6,12 +6,12 @@
 ## 2. 주요 대상 소스 (Target Sources)
 - **미국 마켓 (US Market)**:
     - 시황: Yahoo Finance (`yfinance`)
-    - 뉴스: Google News (via `newspaper4k`)
+    - 뉴스: Google News, Yahoo Finance & Investopedia 직접 스크래핑 (Playwright)
 - **한국 마켓 (KR Market)**:
     - 시황: Naver Finance (`requests`/`BeautifulSoup`), Kiwoom API (Open API NEXT)
     - 뉴스: Naver Finance (News Sections), Google News (via `newspaper4k`), Yeonhap Infomax RSS (Macro News)
 - **특정 기업 뉴스**:
-    - US: `yfinance` 기반 뉴스 피드
+    - US: Google News RSS 기반 뉴스 피드 (쿼리 개선: `"[ticker] stock why up today"`)
     - KR: Naver 뉴스 검색 (특징주 검색 최적화)
 
 ## 3. 핵심 기능 (Key Features)
@@ -23,8 +23,17 @@
 - **상승 이유 분석 (Reason for Gainer)**: 거래대금 상위 종목 중 급등주를 선별하여 관련 뉴스를 매칭, 상승 원인(재료)을 자동으로 추출.
 
 ### 3.2. 지능형 뉴스 수집 및 처리 (News Engine)
-- **멀티 채널 크롤링**: 구글 뉴스 검색(RSS Search), 네이버 뉴스, 야후 파이낸스(yfinance) 통합 수집.
-- **본문 자동 파싱**: `newspaper4k`를 활용한 기사 본문 추출, 키워드 생성 및 메타데이터(발행일 등) 정규화.
+- **멀티 채널 크롤링**: 구글 뉴스 검색(RSS Search), 네이버 뉴스, 야후 파이낸스 & 인베스토페디아 직접 수집.
+- **미국 매크로 및 마감시황 직접 스크래핑**:
+  - 기존 구글 뉴스를 통한 우회 수집 방식을 탈피하여, 야후 파이낸스(`https://finance.yahoo.com/topic/stock-market-news`) 및 인베스토페디아(`https://www.investopedia.com/markets-news-4427704`) 공식 사이트에 Playwright로 직접 접속하여 최신 마켓 시황 뉴스(제목, 본문, 링크)를 실시간 수집.
+  - **제목 키워드 필터링 (request.md 기준)**:
+    - 야후 파이낸스: 기사 제목에 `"stock market news"` 키워드가 반드시 포함된 기사만 선별 수집.
+    - 인베스토페디아: 하단 live markets news 영역의 기사 중 제목에 `"market news"` 키워드가 반드시 포함된 기사만 선별 수집.
+  - 야후 파이낸스는 `a[href*="/article/"]`, `a[href*="/articles/"]`, `a[href*="/live/"]` CSS 셀렉터 패턴을 사용하여 기사 정보 추출.
+  - 인베스토페디아는 `.mntl-document-card` 구조 및 "Live Markets News" 하단 목록에서 최신 기사 정보 추출.
+- **미국 특징주 뉴스 검색 쿼리 개선**:
+  - 미국 주식 종목 상위 100개 중 상승률 상위 20개 및 거래대금 상위 20개 종목에 대한 뉴스 수집 시, 단순 티커 검색이 아니라 `"[ticker] stock why up today"` 쿼리로 구글 뉴스 RSS 검색을 수행하여 기사 정확도 향상.
+- **본문 자동 파싱**: `newspaper4k` 또는 `Playwright`를 활용한 기사 본문 추출, 키워드 생성 및 메타데이터(발행일 등) 정규화.
 - **데이터 필터링**: 최근 **3일(72시간)** 이내 기사를 선별하며, 제목/본문 내 기업명 포함 여부를 정밀 검증.
 - **우선순위 가중치**: 구글 뉴스 검색 엔진의 원본 랭킹을 최우선으로 하며, 매크로 지표 가중치를 결합하여 정렬.
 - **한국 시장 특화 뉴스 수집 로직 (KR Market Specifics)**:

@@ -90,6 +90,14 @@
   - 원본 URL, 제목 수집. 
 - [x] 15. 미국 종목 뉴스 수집 변경
 
+- [ ] 16. 미국뉴스 마감시황 뉴스 수집 변경
+ - 미국뉴스 수집할 때 마감시황 뉴스 부분은 인베스토페디아, 야후 금융뉴스 2개를 구글 뉴스를 통해서 가지고 오고 있는 데 직접 홈페이지에서 가지고 오고 싶어.
+ - https://finance.yahoo.com/topic/stock-market-news
+ - 에서 "stock market news"로 검색해서 최신데이터 가져오는 방식(제목, 본문, 링크) 
+ - https://www.investopedia.com/markets-news-4427704 
+ - 하단에 live markets news 에서 market news 최신뉴스 (제목, 본문, 링크) .
+
+
 - 미국 주식 종목 상위 100개 중 상승률 상위 20개 및 거래대금 상위 20개 가져와서 뉴스 검색해올 때 단순히 ticker 로만 검색이 아닌 "[ticker] stock why up today" 검색해서 가져오게 해. 
 ## 3. 향후 요구사항 (Backlog)
 

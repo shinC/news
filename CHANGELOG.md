@@ -2,6 +2,22 @@
 
 ## [Unreleased]
 ### Added
+- [News Scraper] 야후 파이낸스 뉴스 목록이 뒤로 밀려있는 경우를 고려하여, 최대 3페이지까지 기어가며 탐색하는 페이지네이션(Pagination) 스크래핑 루프 구현 (`scraper.py`).
+- [News Scraper] 야후 파이낸스 마감시황 뉴스는 제목이 `"stock market"`으로 시작하고, 인베스토페디아 뉴스는 `"markets news"` 또는 `"market news"`로 시작하는 최신 기사만 엄격히 수집하는 시작 패턴(startswith) 매칭 필터 적용 (`scraper.py`).
+- [News Scraper] 야후 파이낸스 뉴스 수집을 더욱 견고하게 만들기 위해 중첩 엘리먼트 텍스트 및 속성(aria-label, title) 폴백 로직을 갖춘 앵커 파서로 고도화 (`scraper.py`).
+- [News Scraper] 야후 파이낸스(`https://finance.yahoo.com/topic/stock-market-news`) 및 인베스토페디아(`https://www.investopedia.com/markets-news-4427704`) 마감시황 뉴스를 Playwright으로 직접 스크래핑하는 기능 구현 (`scraper.py`).
+- [News Scraper] 미국 주식 특징주(상승률/거래대금 상위 20개 종목)의 원인 수집 시 검색 쿼리를 `"[ticker] stock why up today"`로 정밀화하여 최신 뉴스 매칭 정확도 향상.
+
+### Changed
+- [News Scraper] 사용자의 개수 조정 요건에 맞게 야후 파이낸스 1개, 인베스토페디아 1개로 마감시황 뉴스 수집 한도를 제한 (총 2개 수집, 기존 각 2개에서 변경).
+- [News Scraper] 구글 뉴스 RSS 호출(`fetch_google_news_rss`) 시 대기 시간을 줄이고 차단 지연을 예방하기 위해 `urllib.request`에 `timeout=3.0`을 부여하여 즉각 폴백하도록 최적화.
+- [News Scraper] 야후 파이낸스 스크롤을 8회로 늘려 주말 및 장외 시간 기사 수집 범위를 확대하고, 인베스토페디아 스크롤을 2회로 상향 조정.
+- [News Scraper] 미국 특징주 목록 크기를 원래 요구 사양인 상승률 상위 20개 및 거래대금 상위 20개(총 20+20)로 원복 적용.
+
+### Fixed
+- [News Scraper] 구글 뉴스 대량 RSS 호출 시 소켓 커넥션이 영구적으로 멈추는 행(Hang) 현상을 방지하기 위해, `ThreadPoolExecutor`를 context manager (`with` block) 없이 수동 생성하고 `as_completed`에 `timeout=4.0`을 부여한 뒤 `finally`에서 `executor.shutdown(wait=False)`를 강제 호출하도록 개선 (`utils.py`).
+- [News Scraper] 단수/복수형 차이("market news" vs "markets news")로 인한 제목 매칭 오류를 방지하기 위해, 인베스토페디아의 기사 제목 매칭 로직에 복수형 s 포함 패턴 대응 추가.
+
 - [Docs] 미국 증시 데일리 시황 요약 리포트 (data/output/blog_post.md)를 /summary 가이드라인 규정에 맞추어 별표와 샵 기호 없이 재생성.
 - [News Scraper KR] 한국 매크로 뉴스 수집 설정에 파이낸셜뉴스 마감시황 RSS 피드 추가 (https://www.fnnews.com/rss/r20/fn_realnews_stock.xml).
 - [News Scraper KR] 한국 매크로 뉴스 수집 시 standard RSS 날짜 포맷 파싱 지원을 위해 dateutil.parser 연동 추가.

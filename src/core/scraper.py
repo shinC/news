@@ -15,19 +15,28 @@ def decode_google_news_url(url: str) -> str:
     if "news.google.com" not in url: return url
     try:
         from googlenewsdecoder import new_decoderv1
-        dec = new_decoderv1(url)
-        if dec.get('status'):
-            return dec.get('decoded_url')
+        from concurrent.futures import ThreadPoolExecutor
+        
+        # 수동으로 스레드를 생성하여 wait=False로 셧다운함으로써 join 락 차단
+        executor = ThreadPoolExecutor(max_workers=1)
+        future = executor.submit(new_decoderv1, url)
+        try:
+            dec = future.result(timeout=3.0)
+            if dec.get('status'):
+                return dec.get('decoded_url')
+        finally:
+            executor.shutdown(wait=False)
     except Exception as e:
-        logger.error(f"Error decoding Google News URL: {e}")
+        logger.error(f"Error decoding Google News URL (timeout): {e}")
     return url
 
 def fetch_google_news_rss(query: str = None, topic_id: str = None, hl: str = 'en-US', gl: str = 'US', ceid: str = 'US:en', max_results: int = 7) -> List[Dict[str, Any]]:
     import time
     import random
+    import urllib.request
     
-    # 랜덤 지연 추가 (구글 차단 방지)
-    delay = random.uniform(0.5, 1.5)
+    # 랜덤 지연 추가 (지연 시간 소폭 상향하여 안정성 도모)
+    delay = random.uniform(1.0, 2.0)
     logger.info(f"Google RSS 차단 방지를 위해 {delay:.2f}초 대기합니다...")
     time.sleep(delay)
     
@@ -42,22 +51,24 @@ def fetch_google_news_rss(query: str = None, topic_id: str = None, hl: str = 'en
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'}
     articles = []
     try:
-        res = requests.get(url, headers=headers, timeout=10)
-        res.raise_for_status()
-        soup = BeautifulSoup(res.text, 'xml')
-        for item in soup.find_all('item'):
-            raw_desc = item.description.text if item.description else ""
-            clean_desc = BeautifulSoup(raw_desc, 'html.parser').get_text(separator=' ', strip=True)
-            
-            raw_url = item.link.text if item.link else ""
-            
-            articles.append({
-                "title": item.title.text if item.title else "", 
-                "url": raw_url, 
-                "description": clean_desc, 
-                "publish_date_raw": item.pubDate.text if item.pubDate else ""
-            })
-            if len(articles) >= max_results: break
+        req = urllib.request.Request(url, headers=headers)
+        # urllib 타임아웃을 3.0초로 타이트하게 지정하여 구글의 Hold 지연을 즉시 탈출
+        with urllib.request.urlopen(req, timeout=3.0) as response:
+            html_content = response.read()
+            soup = BeautifulSoup(html_content, 'xml')
+            for item in soup.find_all('item'):
+                raw_desc = item.description.text if item.description else ""
+                clean_desc = BeautifulSoup(raw_desc, 'html.parser').get_text(separator=' ', strip=True)
+                
+                raw_url = item.link.text if item.link else ""
+                
+                articles.append({
+                    "title": item.title.text if item.title else "", 
+                    "url": raw_url, 
+                    "description": clean_desc, 
+                    "publish_date_raw": item.pubDate.text if item.pubDate else ""
+                })
+                if len(articles) >= max_results: break
     except Exception as e: 
         logger.error(f"Google RSS Error: {e}")
     return articles
@@ -140,101 +151,180 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
     #         except Exception as e: 
     #             logger.error(f"Category Parsing Error: {e}")
 
-    # 2. 구글 뉴스 RSS로 매크로 뉴스 추가 (site: 연산자를 제외한 안전한 키워드 쿼리로 수집)
-    logger.info("Fetching Google News Macro & Market News (Plain Keyword Queries)...")
+    # 2. 야후 파이낸스 및 인베스토페디아 직접 스크래핑으로 매크로 뉴스 추가
+    logger.info("Fetching Yahoo Finance & Investopedia Macro & Market News via Direct Scraping...")
     try:
-        seen_urls = set([item['url'] for item in all_data])
-        
-        # 구글 RSS 호출 밴을 방지하기 위해 단일 일반 쿼리로 1번만 호출 후 로컬에서 도메인/키워드 필터링
-        query = "Stock market today"
+        from playwright.sync_api import sync_playwright
+        from src.core.utils import get_article_text_playwright
         
         macro_articles = []
-        logger.info(f"Targeted plain query: {query}")
-        macro_articles.extend(fetch_google_news_rss(query=query, max_results=50))
         
-        # 구글 뉴스 암호화 URL 일괄(Batch) 디코딩 적용
-        from src.core.utils import batch_decode_google_urls
-        raw_urls = [item['url'] for item in macro_articles if item.get('url')]
-        decoded_map = batch_decode_google_urls(raw_urls)
+        # 날짜 필터 완화 (장외 시간/주말에도 최근 마감시황 뉴스를 안정적으로 가져오도록 5일로 설정)
+        cutoff_macro = ref_date - timedelta(days=5)
         
-        for item in macro_articles:
-            if item.get('url') in decoded_map:
-                item['url'] = decoded_map[item['url']]
-        
-        # 수집할 도메인 추적
-        domain_found = {
-            "finance.yahoo.com": False,
-            "investopedia.com": False
-        }
-        
-        def process_macro_article(item, matched_domain):
-            title = item.get('title', '')
-            summary = item.get('description', '')
-            if not summary:
-                summary = title
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True, args=['--disable-dev-shm-usage', '--no-sandbox'])
+            context = browser.new_context(
+                user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'
+            )
+            page = context.new_page()
+            
+            # 2.1 Yahoo Finance Direct Scraping (topic: stock-market-news)
+            try:
+                yahoo_count = 0
+                seen_yahoo_urls = set()
                 
-            pub = None
-            if item.get('publish_date_raw'):
-                try:
-                    from dateutil import parser as date_parser
-                    pub = date_parser.parse(item['publish_date_raw'])
-                except: pass
+                # 최대 3페이지까지 탐색하여 "stock market"으로 시작하는 기사 발굴
+                for page_num in range(1, 4):
+                    if page_num == 1:
+                        yahoo_url = "https://finance.yahoo.com/topic/stock-market-news"
+                    else:
+                        yahoo_url = f"https://finance.yahoo.com/topic/stock-market-news/{page_num}/"
+                        
+                    logger.info(f"Opening Yahoo Topic Page (Page {page_num}): {yahoo_url}")
+                    page.goto(yahoo_url, timeout=30000, wait_until='domcontentloaded')
+                    page.wait_for_timeout(2000)
+                    
+                    # 각 페이지마다 기사 로드를 위해 3회 스크롤
+                    for _ in range(3):
+                        page.evaluate("window.scrollBy(0, 1500);")
+                        page.wait_for_timeout(800)
+                        
+                    yahoo_links = page.evaluate("""() => {
+                        let res = [];
+                        let anchors = document.querySelectorAll('a');
+                        for (let a of anchors) {
+                            let href = a.getAttribute('href');
+                            if (!href) continue;
+                            
+                            let title = a.innerText ? a.innerText.trim() : "";
+                            if (!title) {
+                                let heading = a.querySelector('h3, h4, span, p');
+                                if (heading) title = heading.innerText.trim();
+                            }
+                            if (!title) {
+                                title = a.getAttribute('title') || a.getAttribute('aria-label') || "";
+                                title = title.trim();
+                            }
+                            
+                            let isArticle = href.includes('/news/') || href.includes('/article/') || href.includes('/articles/') || href.includes('/live/') || href.includes('/video/') || href.includes('/markets/');
+                            if (isArticle && title.length > 12) {
+                                res.push({title: title, href: href});
+                            }
+                        }
+                        return res;
+                    }""")
+                    
+                    found_article = False
+                    for item in yahoo_links:
+                        title = item['title']
+                        raw_url = item['href']
+                        full_url = raw_url if raw_url.startswith("http") else "https://finance.yahoo.com" + raw_url
+                        if full_url in seen_yahoo_urls:
+                            continue
+                        
+                        title_lower = title.lower()
+                        # 사용자의 엄격한 제목 시작 요구사항 부합 여부 검증 ("stock market news" 또는 "stock market today")
+                        if title_lower.startswith("stock market"):
+                            seen_yahoo_urls.add(full_url)
+                            macro_articles.append({
+                                "title": title,
+                                "url": full_url,
+                                "publish_date": ref_date,
+                                "description": title
+                            })
+                            yahoo_count += 1
+                            found_article = True
+                            break
+                            
+                    if found_article:
+                        logger.info(f"Successfully found Yahoo Finance macro article on page {page_num}.")
+                        break
+            except Exception as ye:
+                logger.error(f"Yahoo direct scraping error: {ye}")
+                
+            # 2.2 Investopedia Direct Scraping (markets-news)
+            # 기사 제목에 "market news" 키워드가 포함된 최신 기사 선별
+            try:
+                investopedia_url = "https://www.investopedia.com/markets-news-4427704"
+                logger.info(f"Opening Investopedia Page and scrolling: {investopedia_url}")
+                page.goto(investopedia_url, timeout=30000, wait_until='domcontentloaded')
+                page.wait_for_timeout(3000)
+                
+                 # 스크롤하여 더 많은 기사 로드
+                for _ in range(3):
+                    page.evaluate("window.scrollBy(0, 1500);")
+                    page.wait_for_timeout(1000)
+                
+                investopedia_links = page.evaluate("""() => {
+                    let res = [];
+                    let anchors = document.querySelectorAll('.mntl-document-card, a');
+                    for (let a of anchors) {
+                        let href = a.getAttribute('href');
+                        if (!href) continue;
+                        
+                        let titleEl = a.querySelector('.card__title-text, .card__title');
+                        let title = titleEl ? titleEl.innerText.trim() : a.innerText.trim();
+                        
+                        if (href.startsWith('http') && href.includes('investopedia.com') && title.length > 15) {
+                            res.push({title: title, href: href});
+                        }
+                    }
+                    return res;
+                }""")
+                
+                seen_inv_urls = set()
+                inv_count = 0
+                
+                # 인베스토페디아 마감시황 뉴스 조건: "markets news" 또는 "market news" 시작
+                for item in investopedia_links:
+                    title = item['title']
+                    href = item['href']
+                    if href in seen_inv_urls:
+                        continue
+                        
+                    title_lower = title.lower()
+                    if title_lower.startswith("markets news") or title_lower.startswith("market news"):
+                        seen_inv_urls.add(href)
+                        macro_articles.append({
+                            "title": title,
+                            "url": href,
+                            "publish_date": ref_date,
+                            "description": title
+                        })
+                        inv_count += 1
+                        break
+            except Exception as ie:
+                logger.error(f"Investopedia direct scraping error: {ie}")
+                
+            browser.close()
             
-            if not pub: pub = ref_date
-            if pub.tzinfo is None: pub = pub.replace(tzinfo=pytz.utc)
-            if pub < cutoff: return False
-            
-            from src.core.utils import get_article_text_playwright
-            full_text = get_article_text_playwright(item['url'])
-            
-            all_data.append({
-                "category": "Macro & Market", 
-                "title": title, 
-                "url": item['url'], 
-                "publish_date": pub, 
-                "summary": summary, 
-                "text": full_text, 
-                "keywords": [], 
-                "priority_score": 0
-            })
-            seen_urls.add(item['url'])
-            domain_found[matched_domain] = True
-            return True
-
-        # 1차 검색: "Stock market today" 키워드가 제목에 포함된 야후 및 인베스토페디아 기사 찾기
+        # 2.3 수집된 기사의 본문(Playwright) 및 정보 저장
         for item in macro_articles:
             url = item['url']
-            title = item.get('title', '')
-            if not url or url in seen_urls: continue
+            title = item['title']
+            pub = item['publish_date']
+            desc = item['description']
             
-            title_lower = title.lower()
-            if "stock market today" not in title_lower:
-                continue
-                
-            is_yahoo = "finance.yahoo.com" in url.lower() or "yahoo" in title_lower
-            is_investopedia = "investopedia.com" in url.lower() or "investopedia" in title_lower
+            logger.info(f"Extracting body content for Macro News: {title} ({url})")
+            full_text = get_article_text_playwright(url)
             
-            if is_yahoo and not domain_found["finance.yahoo.com"]:
-                process_macro_article(item, "finance.yahoo.com")
-            elif is_investopedia and not domain_found["investopedia.com"]:
-                process_macro_article(item, "investopedia.com")
-
-        # 2차 검색: 인베스토페디아가 1차에서 안 찾아진 경우, "Markets News" 키워드로 다시 찾기
-        if not domain_found["investopedia.com"]:
-            for item in macro_articles:
-                url = item['url']
-                title = item.get('title', '')
-                if not url or url in seen_urls: continue
-                
-                title_lower = title.lower()
-                if "markets news" not in title_lower:
-                    continue
-                    
-                is_investopedia = "investopedia.com" in url.lower() or "investopedia" in title_lower
-                if is_investopedia and not domain_found["investopedia.com"]:
-                    process_macro_article(item, "investopedia.com")
+            # 요약 생성
+            summary = full_text[:1200] if len(full_text) > 200 else desc
+            
+            all_data.append({
+                "category": "Macro & Market",
+                "title": title,
+                "url": url,
+                "publish_date": pub,
+                "summary": summary,
+                "text": full_text if full_text else summary,
+                "keywords": [],
+                "priority_score": 0
+            })
+            
     except Exception as e:
-        logger.error(f"Google Macro News Error: {e}")
+        logger.error(f"Yahoo & Investopedia Macro Scraping Error: {e}")
 
     return all_data
 def fetch_company_news_us(company, company_full_name: str = None, days: int = 3, market_date: datetime = None) -> List[Dict[str, Any]]:
@@ -257,9 +347,16 @@ def fetch_company_news_us(company, company_full_name: str = None, days: int = 3,
     search_query = f"{ticker_str} stock why up today"
     logger.info(f"[{ticker_str}] Fetching Google News RSS with query: '{search_query}'...")
     gn_articles = fetch_google_news_rss(search_query, max_results=5)
+    
+    # 구글 뉴스 암호화 URL 일괄(Batch) 디코딩 적용으로 속도 향상 및 행 현상 방지
+    from src.core.utils import batch_decode_google_urls
+    raw_urls = [item['url'] for item in gn_articles if item.get('url')]
+    decoded_map = batch_decode_google_urls(raw_urls)
+    
     for item in gn_articles:
         try:
-            url = decode_google_news_url(item['url'])
+            raw_url = item['url']
+            url = decoded_map.get(raw_url, raw_url)
             if url in seen: continue
             seen.add(url)
             

@@ -325,11 +325,19 @@ def batch_decode_google_urls(urls: list) -> dict:
 
     max_workers = 15
     try:
-        with ThreadPoolExecutor(max_workers=max_workers) as executor:
-            futures = {executor.submit(decode_single, url): url for url in google_urls}
-            for future in as_completed(futures):
+        from concurrent.futures import TimeoutError
+        # with 구문을 사용하지 않고 수동으로 관리하여 wait=False로 셧다운함으로써 락 방지
+        executor = ThreadPoolExecutor(max_workers=max_workers)
+        futures = {executor.submit(decode_single, url): url for url in google_urls}
+        try:
+            # 4.0초 타임아웃을 주어 스레드가 락에 걸리더라도 메인 스레드가 진행되도록 방어
+            for future in as_completed(futures, timeout=4.0):
                 orig_url, decoded_url = future.result()
                 mapping[orig_url] = decoded_url
+        except TimeoutError:
+            logger.warning("Google URL 병렬 디코딩 중 일부 스레드가 타임아웃(4.0초)되었습니다. 락 스레드는 폐기하고 진행합니다.")
+        finally:
+            executor.shutdown(wait=False) # 락 걸린 스레드를 기다리지 않고 강제 탈출
     except Exception as e:
         logger.error(f"Error during parallel decoding: {e}")
         # fallback to identity mapping
