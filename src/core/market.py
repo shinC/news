@@ -62,7 +62,7 @@ TOP_TICKERS = [
     "PAYX", "IDXX", "ROST", "AEP", "CTSH", "EXC", "EA", "BIIB", "AZN", "FAST",
     "CEG", "VRSK", "CPRT", "ODFL", "WBD", "CSGP", "BKR", "DDOG", "TEAM", "WDAY",
     "ZS", "ALGN", "EBAY", "SIRI", "ILMN", "MTCH", "ZM", "OKTA", "DOCU", "MDB",
-    "PTON", "CRSP", "ENPH", "FSLR", "SEDG", "RUN", "SPWR", "PLUG"
+    "PTON", "CRSP", "ENPH", "FSLR", "SEDG", "RUN", "SPWR", "PLUG", "SPCX"
 ]
 
 def get_dynamic_tickers() -> tuple[list, dict]:
@@ -195,6 +195,12 @@ def get_market_data() -> Dict[str, Any]:
                         hist_close = data[close_col].dropna()
                         hist_vol = data[vol_col].dropna()
                         
+                        last_close = None
+                        prev_close = None
+                        last_vol = None
+                        change_pct = None
+                        trading_value = None
+                        
                         if len(hist_close) >= 2 and len(hist_vol) >= 1:
                             last_close = hist_close.iloc[-1]
                             prev_close = hist_close.iloc[-2]
@@ -202,7 +208,24 @@ def get_market_data() -> Dict[str, Any]:
                             
                             change_pct = ((last_close - prev_close) / prev_close) * 100
                             trading_value = last_close * last_vol
-                            
+                        else:
+                            # 결측치 보완 폴백: yfinance Ticker info API 활용
+                            try:
+                                logger.info(f"{ticker} 데이터 결측으로 yfinance info 폴백 조회 시도...")
+                                t_obj = yf.Ticker(ticker)
+                                info = t_obj.info
+                                if info:
+                                    last_close = info.get('currentPrice') or info.get('regularMarketPrice')
+                                    prev_close = info.get('regularMarketPreviousClose') or info.get('previousClose')
+                                    last_vol = hist_vol.iloc[-1] if len(hist_vol) >= 1 else (info.get('regularMarketVolume') or info.get('volume'))
+                                    
+                                    if last_close and prev_close and last_vol:
+                                        change_pct = ((last_close - prev_close) / prev_close) * 100
+                                        trading_value = last_close * last_vol
+                            except Exception as fallback_e:
+                                logger.warning(f"{ticker} yfinance info 폴백 실패: {fallback_e}")
+                        
+                        if last_close is not None and change_pct is not None:
                             stocks_info.append({
                                 "ticker": ticker,
                                 "price": round(float(last_close), 2),

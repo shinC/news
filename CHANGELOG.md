@@ -15,6 +15,7 @@
 - [News Scraper] 미국 특징주 목록 크기를 원래 요구 사양인 상승률 상위 20개 및 거래대금 상위 20개(총 20+20)로 원복 적용.
 
 ### Fixed
+- [Market US] yfinance 시계열 데이터 결측(NaN) 및 데이터 부족 시 개별 종목 정보(info) API로 폴백(fallback)하여 최신 가격 및 등락률 정보를 보완하는 예외 처리 적용. 최근 IPO 상장된 스페이스X(SPCX)가 특징주 리스트에서 누락되는 현상 해결 (`market.py`).
 - [News Scraper] 구글 뉴스 대량 RSS 호출 시 소켓 커넥션이 영구적으로 멈추는 행(Hang) 현상을 방지하기 위해, `ThreadPoolExecutor`를 context manager (`with` block) 없이 수동 생성하고 `as_completed`에 `timeout=4.0`을 부여한 뒤 `finally`에서 `executor.shutdown(wait=False)`를 강제 호출하도록 개선 (`utils.py`).
 - [News Scraper] 단수/복수형 차이("market news" vs "markets news")로 인한 제목 매칭 오류를 방지하기 위해, 인베스토페디아의 기사 제목 매칭 로직에 복수형 s 포함 패턴 대응 추가.
 
