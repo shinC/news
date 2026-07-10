@@ -62,7 +62,7 @@ TOP_TICKERS = [
     "PAYX", "IDXX", "ROST", "AEP", "CTSH", "EXC", "EA", "BIIB", "AZN", "FAST",
     "CEG", "VRSK", "CPRT", "ODFL", "WBD", "CSGP", "BKR", "DDOG", "TEAM", "WDAY",
     "ZS", "ALGN", "EBAY", "SIRI", "ILMN", "MTCH", "ZM", "OKTA", "DOCU", "MDB",
-    "PTON", "CRSP", "ENPH", "FSLR", "SEDG", "RUN", "SPWR", "PLUG", "SPCX"
+    "PTON", "CRSP", "ENPH", "FSLR", "SEDG", "RUN", "SPWR", "PLUG", "SPCX", "SKHYV"
 ]
 
 def get_dynamic_tickers() -> tuple[list, dict]:
