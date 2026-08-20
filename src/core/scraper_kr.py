@@ -472,7 +472,7 @@ def fetch_company_news_kr(companies: List[str], days: int = 3) -> List[Dict[str,
                                     pub_date = pub_date.astimezone(kst)
                         except: pass
                     
-                    if pub_date and pub_date < cutoff_date:
+                    if not pub_date or pub_date < cutoff_date:
                         continue
 
                     # 조선비즈5시간 전네이버뉴스 같은 메타텍스트가 뒤에 붙는 경우가 많으므로 정제 시도
