@@ -62,7 +62,11 @@ class KiwoomAPI:
         try:
             res = requests.post(url, headers=headers, json=body, timeout=10)
             if res.status_code == 200:
-                data = res.json().get("trde_prica_upper", [])
+                resp_json = res.json()
+                data = resp_json.get("trde_prica_upper", [])
+                logger.info(f"Kiwoom API 거래대금 조회 성공, 수신 종목 수: {len(data)}")
+                if not data:
+                    logger.warning(f"Kiwoom API 응답에 trde_prica_upper 데이터가 없습니다: {resp_json}")
             else:
                 logger.error(f"Kiwoom API 거래대금 조회 실패 ({res.status_code}): {res.text}")
                 data = []
