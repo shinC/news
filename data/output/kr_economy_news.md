@@ -144,7 +144,6 @@ SK하이닉스 (SK하이닉스) (+0.42%) | 거래대금: 6조 4,817억원
 - [[특징주] 삼성전자·SK하이닉스, 美 반도체주 일제히 하락.. '약세'](https://m.g-enews.com/view.php?ud=20260825092126406644093b5d4e_1) [2026-08-25]
 - [美 반도체주 급락에 파업 전운까지…SK하이닉스·스퀘어 6%대 하락[특징주]](https://m.newsway.co.kr/news/view?ud=2026082509281187321) [2026-08-25]
 - [[특징주] 삼성전자·SK하이닉스 '약세'⋯美 반도체주 조정 영향](http://m.inews24.com/v/1997912) [2026-08-25]
-- [[美증시 특징주] 엔비디아 실적 경계 반도체 '와르르'…SK하이닉스·마이크론 주도](https://www.mediapen.com/news/view/1118577) [2026-08-25]
 
 삼성전자 (삼성전자) (0.0%) | 거래대금: 5조 4,400억원
 - [[특징주] 예스티, 삼성전자에 퍼니스·칠러 공급…주가 반등](http://www.biztribune.co.kr/news/articleView.html?idxno=357873) [2026-08-25]
@@ -177,16 +176,16 @@ HPSP (HPSP) (+10.35%) | 거래대금: 1,691억원
 - [한화머시너리앤서비스홀딩스, 재상장 첫날 상한가…한화 인적분할 효과[특징주]](https://www.edaily.co.kr/News/Read?newsId=03017606645550928&mediaCodeNo=257&utm_source=naver&utm_medium=referral&utm_campaign=news_syndication&utm_content=original_article) [2026-08-25]
 
 주성엔지니어링 (주성엔지니어링) (+7.71%) | 거래대금: 1,575억원
+- [[특징주]주성엔지니어링, 외국인 매수에 7.7% 마감…'HBM發 D램 투자' 수혜 기대](https://www.namdonews.com/news/articleView.html?idxno=921081) [2026-08-25]
 - [[특징주]주성엔지니어링, 반도체 랠리 올라타 6% 강세…SK하이닉스發 장비株 훈풍](https://www.namdonews.com/news/articleView.html?idxno=920256) [2026-08-25]
 - [[특징주] 주성엔지니어링, AI 반도체 투자 기대에 12% 급등 마감…52주 신고가 경신](https://www.ebn.co.kr/news/articleView.html?idxno=1719982) [2026-08-25]
-- [[특징주] 반도체 장비주 동반 급등⋯원익IPSㆍ주성엔지니어링 20%대↑](https://m.etoday.co.kr/news/view/2609696) [2026-08-25]
 
 해치텍 (해치텍) (+39.43%) | 거래대금: 1,470억원
+- [[25일 특징주] 해치텍, 코스닥 상장 첫날 39% '급락'](https://www.newsworks.co.kr/news/articleView.html?idxno=851471) [2026-08-25]
 - [[특징주] 해치텍 첫날 39.43% 하락, 공모가 밑돌아](https://www.tokenpost.kr/news/market/397322) [2026-08-25]
 - [[특징주] 해치텍, 코스닥 상장 첫날 39.4% 하락(종합)](https://www.yna.co.kr/view/AKR20260825039251008?input=1195m) [2026-08-25]
 - [[특징주] 해치텍, 코스닥 상장 첫날 13%대 급락](http://www.issuenbiz.com/news/articleView.html?idxno=79033) [2026-08-25]
 - [[특징주] 해치텍, 코스닥 상장 첫날 공모가 대비 23%대 하회](http://m.metroseoul.co.kr/article/20260825500164) [2026-08-25]
-- [[특징주] 해치텍, 코스닥 신규 상장 첫날.. 24%대 '하락'](https://m.g-enews.com/view.php?ud=20260825103612257544093b5d4e_1) [2026-08-25]
 
 대우건설 (대우건설) (+11.8%) | 거래대금: 1,332억원
 - [[특징주] 대우건설, 2분기 '어닝 서프라이즈'에 12%대 강세](https://m.ajunews.com/view/20260804143556394) [2026-08-25]
