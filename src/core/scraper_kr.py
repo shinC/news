@@ -210,6 +210,7 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
     """
  
     # 0-2. 연합인포맥스 RSS 매크로 뉴스 수집
+    """
     logger.info("연합인포맥스 RSS 매크로 뉴스 수집 시작")
     try:
         for feed in getattr(settings_kr, "macro_rss_feeds", []):
@@ -296,6 +297,7 @@ def fetch_news(dynamic_keywords: List[str] = None, market_date: datetime = None)
                         logger.error(f"연합인포맥스 매크로 기사 파싱 실패 ({link}): {parse_err}")
     except Exception as e:
         logger.error(f"연합인포맥스 RSS 매크로 뉴스 수집 전체 실패: {e}")
+    """
 
     # [사용자 요청] 구글 카테고리 뉴스 수집 비활성화
     """
