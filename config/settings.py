@@ -85,6 +85,12 @@ class SettingsKR(BaseModel):
         {"url": "https://www.fnnews.com/rss/r20/fn_realnews_stock.xml", "keywords": ["마감시황"]}
     ]
 
+    # 증시마감 매크로 뉴스 RSS 설정 (요청사항 17번 전용)
+    closing_macro_rss_feeds: list = [
+        {"url": "https://news.einfomax.co.kr/rss/S1N2.xml", "keyword": "증시-마감"},
+        {"url": "https://www.fnnews.com/rss/r20/fn_realnews_all.xml", "keyword": "마감시황"}
+    ]
+
     # 네이버 증권 뉴스 수집 경로 (카테고리별)
     # naver_finance_sections: dict = {
     #     "주요뉴스": "https://finance.naver.com/news/mainnews.naver",
