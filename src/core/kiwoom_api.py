@@ -20,6 +20,11 @@ class KiwoomAPI:
             logger.warning("키움 API 키가 설정되지 않았습니다.")
             return False
             
+        # 보안을 위해 앞뒤 4자리만 마스킹하여 키 전달 여부 로그 추가
+        app_key_log = f"{self.app_key[:4]}...{self.app_key[-4:]}" if self.app_key else "None"
+        secret_key_log = f"{self.secret_key[:4]}...{self.secret_key[-4:]}" if self.secret_key else "None"
+        logger.info(f"전달된 키 검증 - APP_KEY: {app_key_log}, SECRET_KEY: {secret_key_log}")
+            
         url = f"{self.base_url}/oauth2/token"
         body = {
             "grant_type": "client_credentials",
