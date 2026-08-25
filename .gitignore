@@ -162,6 +162,8 @@ cython_debug/
 # Local data and secrets
 data/*
 !data/.gitkeep
+!data/output/
+!data/output/**
 ki_apikey/
 config/*.local.yaml
 secrets/
