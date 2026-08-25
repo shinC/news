@@ -236,6 +236,7 @@ SK이터닉스 (SK이터닉스) (+3.76%) | 거래대금: 919억원
 - [[특징주] 티엘비, DDR5와 HBM용 메모리 모듈 PCB 공급 확대 기대감 부각되며 급등세](https://www.widedaily.com/news/articleView.html?idxno=297648) [2026-08-25]
 
 신라젠 (신라젠) (+29.82%) | 거래대금: 381억원
+- [[특징주] 이건산업 등 6개 종목 상한가…신라젠·헝셩그룹도 급등](https://www.newstnt.com/news/articleView.html?idxno=715188) [2026-08-25]
 - [[특징주] 신라젠, 차세대 항암제 美 FDA 희귀의약품 지정 소식에 '상한가 직행'](https://www.widedaily.com/news/articleView.html?idxno=300008) [2026-08-25]
 - [[ET특징주] 신라젠 “항암 파이프라인, FDA 희귀의약품 지정”… 주가 上](https://m.etnews.com/20260825000202) [2026-08-25]
 - [[특징주] 신라젠 표적 항암제, 美FDA 희귀의약품 지정…'주가 上'](http://www.newsdream.kr/news/articleView.html?idxno=116841) [2026-08-25]
