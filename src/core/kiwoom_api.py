@@ -36,6 +36,8 @@ class KiwoomAPI:
             if res.status_code == 200:
                 data = res.json()
                 self.token = data.get("token")
+                token_log = f"{self.token[:5]}...{self.token[-5:]}" if self.token else "None"
+                logger.info(f"토큰 발급 성공 - 발급된 토큰: {token_log}")
                 return True
             else:
                 logger.error(f"키움 토큰 발급 실패: {res.text}")
@@ -56,6 +58,8 @@ class KiwoomAPI:
             "Authorization": f"Bearer {self.token}",
             "api-id": "ka10032"
         }
+        token_sent_log = f"{self.token[:5]}...{self.token[-5:]}" if self.token else "None"
+        logger.info(f"거래대금 API 호출 준비 - 전송 헤더 토큰: {token_sent_log}")
         
         body = {
             "mrkt_tp": market_code,
