@@ -52,8 +52,8 @@ def _fetch_naver_top_stocks() -> List[Dict[str, Any]]:
                         cp_str = tds[4].text.strip().replace("%", "").replace("+", "").replace("-", "")
                         cp = float(cp_str) if cp_str else 0.0
                         if "\u25bc" in tds[3].text or "-" in tds[3].text: cp *= -1
-                        tv_val = float(tds[6].text.strip().replace(",", "")) * 10000 
-                        stocks.append({"ticker": name, "name": name, "price": str(int(price)), "change_pct": cp, "trading_value": tv_val * 10000})
+                        tv_val = float(tds[6].text.strip().replace(",", "")) * 1000000
+                        stocks.append({"ticker": name, "name": name, "price": str(int(price)), "change_pct": cp, "trading_value": tv_val})
                     except: continue
         except: continue
     return stocks

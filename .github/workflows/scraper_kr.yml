@@ -36,6 +36,9 @@ jobs:
 
       # 4. 한국 뉴스 수집 스크립트 실행
       - name: Run Korea News Scraper
+        env:
+          KIWOOM_APP_KEY: ${{ secrets.KIWOOM_APP_KEY }}
+          KIWOOM_SECRET_KEY: ${{ secrets.KIWOOM_SECRET_KEY }}
         run: python src/main_kr.py
 
       # 5. 수집된 결과(마크다운 파일)가 변경되었을 경우 GitHub에 Commit & Push
