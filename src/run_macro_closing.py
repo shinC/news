@@ -74,12 +74,37 @@ def scrape_article_content(url: str) -> str:
         return "본문 스크래핑 오류로 인해 내용을 수집하지 못했습니다."
 
 def append_to_markdown(articles: list, output_filepath: str):
-    """스크랩된 뉴스 목록을 마크다운 형식으로 만들어 기존 파일 하단에 추가합니다."""
+    """스크랩된 뉴스 목록을 마크다운 형식으로 만들어 기존 파일 하단에 추가합니다.
+    단, 파일에 이미 동일한 기사 제목이 존재하면 중복해서 추가하지 않습니다.
+    """
     if not articles:
         logger.warning("추가할 수집된 기사가 없습니다.")
         return
         
-    logger.info(f"마크다운 파일에 추가 시작: {output_filepath}")
+    # 기존 파일이 있다면 본문을 읽어와 제목 중복 여부 확인
+    existing_content = ""
+    if os.path.exists(output_filepath):
+        try:
+            with open(output_filepath, "r", encoding="utf-8") as f:
+                existing_content = f.read()
+        except Exception as e:
+            logger.error(f"기존 마크다운 파일 읽기 실패 ({output_filepath}): {e}")
+            
+    # 중복되지 않은 기사만 필터링
+    unique_articles = []
+    for art in articles:
+        title = art['title']
+        # 이미 파일 내에 동일한 기사 제목이 존재하는지 판단
+        if title in existing_content:
+            logger.info(f"중복 기사 발견 (추가 안 함): {title}")
+            continue
+        unique_articles.append(art)
+        
+    if not unique_articles:
+        logger.info("모든 수집된 기사가 이미 존재합니다. 추가 작업을 생략합니다.")
+        return
+        
+    logger.info(f"마크다운 파일에 추가 시작 (추가 기사 수: {len(unique_articles)}): {output_filepath}")
     
     # KST 기준 현재 시각
     kst = pytz.timezone('Asia/Seoul')
@@ -90,7 +115,7 @@ def append_to_markdown(articles: list, output_filepath: str):
     markdown_content.append(f"## 📰 증시마감 매크로 뉴스 추가 수집 ({now_str} KST)\n")
     markdown_content.append("> 이 섹션은 증시마감 매크로 뉴스 수집기를 통해 추가 수집된 뉴스입니다.\n\n")
     
-    for idx, art in enumerate(articles, 1):
+    for idx, art in enumerate(unique_articles, 1):
         title = art['title']
         link = art['link']
         pub_date = art['pub_date']
