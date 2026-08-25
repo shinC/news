@@ -35,7 +35,7 @@ class KiwoomAPI:
             res = requests.post(url, json=body, timeout=10)
             if res.status_code == 200:
                 data = res.json()
-                self.token = data.get("token")
+                self.token = data.get("access_token", data.get("token"))
                 token_log = f"{self.token[:5]}...{self.token[-5:]}" if self.token else "None"
                 logger.info(f"토큰 발급 성공 - 발급된 토큰: {token_log}")
                 return True
