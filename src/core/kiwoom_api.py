@@ -64,6 +64,7 @@ class KiwoomAPI:
             if res.status_code == 200:
                 data = res.json().get("trde_prica_upper", [])
             else:
+                logger.error(f"Kiwoom API 거래대금 조회 실패 ({res.status_code}): {res.text}")
                 data = []
         except Exception as e:
             logger.error(f"Kiwoom API fetch error (stex_tp=3): {e}")
