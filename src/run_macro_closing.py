@@ -20,12 +20,17 @@ logging.basicConfig(
 )
 logger = logging.getLogger("run_macro_closing")
 
+from dateutil import parser as date_parser
+
 def parse_rss_feed(feed_url: str, keyword: str) -> list:
-    """RSS 피드를 읽어 제목에 키워드가 포함된 기사 목록을 반환합니다."""
+    """RSS 피드를 읽어 제목에 키워드가 포함되고, 오늘 날짜(KST 기준)에 발행된 기사 목록을 반환합니다."""
     logger.info(f"RSS 피드 수집 시작: {feed_url} (키워드: {keyword})")
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
     }
+    
+    kst = pytz.timezone('Asia/Seoul')
+    today_date = datetime.now(kst).date()
     
     matched_articles = []
     try:
@@ -39,15 +44,34 @@ def parse_rss_feed(feed_url: str, keyword: str) -> list:
         for item in items:
             title = item.title.text.strip() if item.title else ""
             link = item.link.text.strip() if item.link else ""
-            pub_date = item.pubDate.text.strip() if item.pubDate else ""
+            pub_date_str = item.pubDate.text.strip() if item.pubDate else ""
             
-            # 제목에 키워드가 포함되어 있는지 확인 (대소문자 및 띄어쓰기 가볍게 처리)
+            # 제목에 키워드가 포함되어 있는지 확인
             if keyword in title:
-                logger.info(f"키워드 매칭 성공: {title}")
+                # 발행 날짜 파싱 및 오늘 날짜 검증
+                if pub_date_str:
+                    try:
+                        try:
+                            dt = datetime.strptime(pub_date_str, '%Y-%m-%d %H:%M:%S')
+                            dt = kst.localize(dt)
+                        except:
+                            dt = date_parser.parse(pub_date_str)
+                            if dt.tzinfo is None:
+                                dt = kst.localize(dt)
+                            else:
+                                dt = dt.astimezone(kst)
+                                
+                        if dt.date() != today_date:
+                            logger.info(f"오늘 날짜가 아닌 기사는 제외합니다 (발행일: {dt.strftime('%Y-%m-%d')} / 오늘: {today_date}): {title}")
+                            continue
+                    except Exception as pe:
+                        logger.warning(f"발행일 파싱 예외 발생 ({pub_date_str}): {pe}")
+                        
+                logger.info(f"오늘 발행된 키워드 매칭 기사 발견: {title}")
                 matched_articles.append({
                     "title": title,
                     "link": link,
-                    "pub_date": pub_date
+                    "pub_date": pub_date_str
                 })
     except Exception as e:
         logger.error(f"RSS 피드 수집 실패 ({feed_url}): {e}")
