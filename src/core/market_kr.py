@@ -58,9 +58,165 @@ def _fetch_naver_top_stocks() -> List[Dict[str, Any]]:
         except: continue
     return stocks
 
+def fetch_extra_market_info() -> Dict[str, Any]:
+    """18번 증시 정보 수집: 지수/거래대금, 글로벌 지수, 환율/원자재/국채, 투자자 동향"""
+    extra = {
+        "indices_detail": {},
+        "global_indices": {},
+        "exchanges_and_macro": {},
+        "investor_trends": {}
+    }
+    headers = {"User-Agent": "Mozilla/5.0"}
+    
+    # 1. 지수 & 거래대금
+    indices_list = [('KOSPI', '코스피'), ('KOSDAQ', '코스닥'), ('KPI200', '코스피 200')]
+    for code, name in indices_list:
+        try:
+            url = f'https://finance.naver.com/sise/sise_index.naver?code={code}'
+            res = requests.get(url, headers=headers, timeout=5)
+            res.encoding = 'euc-kr'
+            soup = BeautifulSoup(res.text, 'lxml')
+            
+            now = soup.select_one('#now_value').text.strip() if soup.select_one('#now_value') else ""
+            change_elem = soup.select_one('#change_value_and_rate')
+            change_text = change_elem.text.strip() if change_elem else ""
+            
+            cp_str = "+0.00%"
+            if change_elem:
+                parts = change_text.split()
+                for p in parts:
+                    if '%' in p:
+                        clean_p = p.replace('상승', '').replace('하락', '').replace('보합', '')
+                        if not clean_p.startswith('+') and not clean_p.startswith('-'):
+                            sign = "-" if ("하락" in change_text or "-" in change_text) else "+"
+                            cp_str = f"{sign}{clean_p}"
+                        else:
+                            cp_str = clean_p
+                        break
+                        
+            amount_elem = soup.select_one('#amount')
+            tv_str = ""
+            if amount_elem and code != 'KPI200':
+                try:
+                    tv_val = float(amount_elem.text.strip().replace(',', '')) / 1000000
+                    tv_str = f"{round(tv_val, 1)}조"
+                except: pass
+                
+            extra["indices_detail"][name] = {
+                "price": now,
+                "change_pct_str": cp_str,
+                "trading_value_str": tv_str
+            }
+        except: pass
+
+    # 2. 투자자 매매동향
+    def _format_inv_amt(amt_str):
+        if not amt_str: return "0원"
+        clean_str = amt_str.replace(',', '').replace('+', '')
+        try:
+            val_eok = int(clean_str)
+        except: return "0원"
+        sign_word = "순매수" if val_eok > 0 else "순매도"
+        abs_eok = abs(val_eok)
+        if abs_eok >= 10000:
+            cho = abs_eok // 10000
+            eok = abs_eok % 10000
+            amt_formatted = f"{cho}조 {eok:,}억원" if eok > 0 else f"{cho}조원"
+        else:
+            amt_formatted = f"{abs_eok:,}억원"
+        return f"{amt_formatted} {sign_word}"
+
+    for code, name in [('KOSPI', '코스피 시장'), ('KOSDAQ', '코스닥 시장')]:
+        try:
+            url = f'https://m.stock.naver.com/api/index/{code}/trend'
+            r = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'}, timeout=5)
+            d = r.json()
+            extra["investor_trends"][name] = {
+                "외국인": _format_inv_amt(d.get('foreignValue', '0')),
+                "기관": _format_inv_amt(d.get('institutionalValue', '0')),
+                "개인": _format_inv_amt(d.get('personalValue', '0'))
+            }
+        except: pass
+
+    # 3. 글로벌 지수 (yfinance)
+    import yfinance as yf
+    global_symbols = [
+        ("🇺🇸 나스닥 선물", "NQ=F"),
+        ("🇯🇵 일본지수", "^N225"),
+        ("🇨🇳 상해종합", "000001.SS"),
+        ("🇭🇰 항셍지수", "^HSI"),
+        ("🇹🇼 대만가권", "^TWII")
+    ]
+    for g_name, ticker in global_symbols:
+        try:
+            t = yf.Ticker(ticker)
+            hist = t.history(period="5d")
+            if len(hist) >= 2:
+                prev_close = hist['Close'].iloc[-2]
+                curr_close = hist['Close'].iloc[-1]
+                cp = ((curr_close - prev_close) / prev_close) * 100
+            else: cp = 0.0
+            sign = "+" if cp > 0 else ""
+            extra["global_indices"][g_name] = f"{sign}{cp:.2f}%"
+        except:
+            extra["global_indices"][g_name] = "+0.00%"
+
+    # 4. 환율 및 유가/국채
+    try:
+        url_mkt = 'https://finance.naver.com/marketindex/'
+        res_m = requests.get(url_mkt, headers=headers, timeout=5)
+        res_m.encoding = 'euc-kr'
+        soup_m = BeautifulSoup(res_m.text, 'lxml')
+
+        target_currencies = {
+            "미국 USD": "달러환율",
+            "일본 JPY(100엔)": "일본JPY(100엔)",
+            "유럽연합 EUR": "유럽연합EUR",
+            "중국 CNY": "중국CNY"
+        }
+        for a in soup_m.select('a.head'):
+            h_text = a.select_one('.h_lst').text.strip() if a.select_one('.h_lst') else ""
+            val_text = a.select_one('.value').text.strip() if a.select_one('.value') else ""
+            change_text = a.select_one('.change').text.strip() if a.select_one('.change') else ""
+            blind_text = a.select_one('.blind').text.strip() if a.select_one('.blind') else ""
+            for key, label in target_currencies.items():
+                if key in h_text:
+                    sign = "-" if "하락" in blind_text else "+"
+                    extra["exchanges_and_macro"][label] = f"{val_text}원({sign}{change_text}원)"
+    except: pass
+
+    try:
+        wti_t = yf.Ticker("CL=F")
+        wti_hist = wti_t.history(period="5d")
+        if len(wti_hist) >= 2:
+            w_prev = wti_hist['Close'].iloc[-2]
+            w_curr = wti_hist['Close'].iloc[-1]
+            w_diff = w_curr - w_prev
+            w_sign = "+" if w_diff > 0 else "-"
+            extra["exchanges_and_macro"]["유가(WTI)"] = f"{w_curr:.2f}({w_sign}{abs(w_diff):.2f}달러)"
+    except: pass
+
+    try:
+        tnx_t = yf.Ticker("^TNX")
+        tnx_hist = tnx_t.history(period="5d")
+        if len(tnx_hist) >= 2:
+            t_prev = tnx_hist['Close'].iloc[-2]
+            t_curr = tnx_hist['Close'].iloc[-1]
+            t_cp = ((t_curr - t_prev) / t_prev) * 100
+            t_sign = "+" if t_cp > 0 else "-"
+            extra["exchanges_and_macro"]["미국국채 10년"] = f"{t_curr:.4f}({t_sign}{abs(t_cp):.2f}%)"
+    except: pass
+
+    return extra
+
 def get_market_data() -> Dict[str, Any]:
     market_info = {"indices": {}, "top_sector": None, "bottom_sector": None, "top_themes_detailed": [], "top_stocks": [], "source": "Naver Finance & Kiwoom API"}
     headers = {"User-Agent": "Mozilla/5.0"}
+    try:
+        market_info["summary_info"] = fetch_extra_market_info()
+    except Exception as e:
+        logger.error(f"fetch_extra_market_info error: {e}")
+
     try:
         url_sise = "https://finance.naver.com/sise/"
         res = requests.get(url_sise, headers=headers)

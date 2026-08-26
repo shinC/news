@@ -93,8 +93,47 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
             f.write("📈 간편 시황 요약\n")
             f.write(f"> 데이터 출처: {market_data.get('source', 'Yahoo Finance (yfinance)')}\n\n")
             
+            # 18번 증시정보 출력 (한국 리포트 전용)
+            summary_info = market_data.get("summary_info")
+            if is_kr and summary_info:
+                f.write("증시정보\n\n")
+                
+                # 지수 & 거래대금
+                ind_d = summary_info.get("indices_detail", {})
+                for name in ['코스피', '코스닥', '코스피 200']:
+                    if name in ind_d:
+                        info = ind_d[name]
+                        p = info.get("price", "")
+                        cp = info.get("change_pct_str", "")
+                        tv = info.get("trading_value_str", "")
+                        tv_part = f", 거래대금 {tv}" if tv else ""
+                        f.write(f"{name} {p}({cp}){tv_part}\n")
+                f.write("\n")
+                
+                # 글로벌 지수
+                g_ind = summary_info.get("global_indices", {})
+                for g_name, g_val in g_ind.items():
+                    f.write(f"{g_name} {g_val}\n")
+                f.write("\n")
+                
+                # 환율 / 유가 / 국채
+                macro = summary_info.get("exchanges_and_macro", {})
+                for m_key in ["달러환율", "일본JPY(100엔)", "유럽연합EUR", "중국CNY", "유가(WTI)", "미국국채 10년"]:
+                    if m_key in macro:
+                        f.write(f"- {m_key} {macro[m_key]}\n")
+                f.write("\n")
+                
+                # 투자자 매매동향
+                inv_t = summary_info.get("investor_trends", {})
+                for m_name in ['코스피 시장', '코스닥 시장']:
+                    if m_name in inv_t:
+                        f.write(f"{m_name}\n\n")
+                        f.write(f"- 외국인: {inv_t[m_name].get('외국인', '')}\n")
+                        f.write(f"- 기관: {inv_t[m_name].get('기관', '')}\n")
+                        f.write(f"- 개인: {inv_t[m_name].get('개인', '')}\n\n")
+            
             indices = market_data.get("indices", {})
-            if indices:
+            if indices and not (is_kr and summary_info):
                 f.write(f"{index_title}\n")
                 for name, info in indices.items():
                     sign = "+" if info['change_pct'] > 0 else ""
