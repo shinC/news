@@ -199,3 +199,54 @@ class KiwoomAPI:
             logger.error(f"키움 테마 종목 API 요청 예외: {e}")
             
         return stocks
+
+    def get_investor_trends(self, market_code: str = "0") -> Optional[Dict[str, str]]:
+        """
+        업종별/시장별 투자자 순매수를 조회합니다 (ka10051).
+        market_code: '0' (코스피), '1' (코스닥)
+        URL: /api/dostk/sect
+        """
+        if not self.token and not self.get_token():
+            return None
+
+        url = f"{self.base_url}/api/dostk/sect"
+        headers = {
+            "Content-Type": "application/json;charset=UTF-8",
+            "Authorization": f"Bearer {self.token}",
+            "api-id": "ka10051"
+        }
+        body = {
+            "mrkt_tp": market_code,  # 코스피: 0, 코스닥: 1
+            "amt_qty_tp": "0",       # 금액: 0, 수량: 1
+            "base_dt": "",           # 당일
+            "stex_tp": "3"           # 통합 (1:KRX, 2:NXT, 3:통합)
+        }
+
+        try:
+            res = requests.post(url, headers=headers, json=body, timeout=10)
+            if res.status_code == 200:
+                resp_json = res.json()
+                if resp_json.get("return_code") == 0 or resp_json.get("return_code") == "0":
+                    data_list = resp_json.get("inds_netprps", [])
+                    if data_list and isinstance(data_list, list):
+                        # 첫 번째 항목(inds_cd '001_AL' 또는 '101_AL')이 시장 전체 종합
+                        total_item = data_list[0]
+                        foreign = total_item.get("frgnr_netprps", "0")
+                        inst = total_item.get("orgn_netprps", "0")
+                        person = total_item.get("ind_netprps", "0")
+                        logger.info(f"Kiwoom ka10051 ({market_code}) 수집 성공: 외국인={foreign}, 기관={inst}, 개인={person}")
+                        return {
+                            "외국인": str(foreign),
+                            "기관": str(inst),
+                            "개인": str(person)
+                        }
+                else:
+                    logger.warning(f"Kiwoom ka10051 응답 오류 메시지: {resp_json.get('return_msg')}")
+            else:
+                logger.error(f"Kiwoom ka10051 호출 실패 ({res.status_code}): {res.text}")
+        except Exception as e:
+            logger.error(f"Kiwoom ka10051 호출 예외: {e}")
+
+        return None
+
+

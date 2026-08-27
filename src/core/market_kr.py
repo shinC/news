@@ -109,34 +109,118 @@ def fetch_extra_market_info() -> Dict[str, Any]:
             }
         except: pass
 
-    # 2. 투자자 매매동향
-    def _format_inv_amt(amt_str):
-        if not amt_str: return "0원"
-        clean_str = amt_str.replace(',', '').replace('+', '')
-        try:
-            val_eok = int(clean_str)
-        except: return "0원"
-        sign_word = "순매수" if val_eok > 0 else "순매도"
-        abs_eok = abs(val_eok)
-        if abs_eok >= 10000:
-            cho = abs_eok // 10000
-            eok = abs_eok % 10000
-            amt_formatted = f"{cho}조 {eok:,}억원" if eok > 0 else f"{cho}조원"
-        else:
-            amt_formatted = f"{abs_eok:,}억원"
-        return f"{amt_formatted} {sign_word}"
+def _format_inv_amt(amt_str: Any) -> str:
+    if not amt_str: return "0원"
+    clean_str = str(amt_str).replace(',', '').replace('+', '').strip()
+    try:
+        val_eok = int(clean_str)
+    except:
+        return "0원"
+    if val_eok == 0:
+        return "0원"
+    sign_word = "순매수" if val_eok > 0 else "순매도"
+    abs_eok = abs(val_eok)
+    if abs_eok >= 10000:
+        cho = abs_eok // 10000
+        eok = abs_eok % 10000
+        amt_formatted = f"{cho}조 {eok:,}억원" if eok > 0 else f"{cho}조원"
+    else:
+        amt_formatted = f"{abs_eok:,}억원"
+    return f"{amt_formatted} {sign_word}"
 
-    for code, name in [('KOSPI', '코스피 시장'), ('KOSDAQ', '코스닥 시장')]:
+def fetch_extra_market_info() -> Dict[str, Any]:
+    """18번 증시 정보 수집: 지수/거래대금, 글로벌 지수, 환율/원자재/국채, 투자자 동향"""
+    extra = {
+        "indices_detail": {},
+        "global_indices": {},
+        "exchanges_and_macro": {},
+        "investor_trends": {}
+    }
+    headers = {"User-Agent": "Mozilla/5.0"}
+    
+    # 1. 지수 & 거래대금
+    indices_list = [('KOSPI', '코스피'), ('KOSDAQ', '코스닥'), ('KPI200', '코스피 200')]
+    for code, name in indices_list:
         try:
-            url = f'https://m.stock.naver.com/api/index/{code}/trend'
-            r = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'}, timeout=5)
-            d = r.json()
-            extra["investor_trends"][name] = {
-                "외국인": _format_inv_amt(d.get('foreignValue', '0')),
-                "기관": _format_inv_amt(d.get('institutionalValue', '0')),
-                "개인": _format_inv_amt(d.get('personalValue', '0'))
+            url = f'https://finance.naver.com/sise/sise_index.naver?code={code}'
+            res = requests.get(url, headers=headers, timeout=5)
+            res.encoding = 'euc-kr'
+            soup = BeautifulSoup(res.text, 'lxml')
+            
+            now = soup.select_one('#now_value').text.strip() if soup.select_one('#now_value') else ""
+            change_elem = soup.select_one('#change_value_and_rate')
+            change_text = change_elem.text.strip() if change_elem else ""
+            
+            cp_str = "+0.00%"
+            if change_elem:
+                parts = change_text.split()
+                for p in parts:
+                    if '%' in p:
+                        clean_p = p.replace('상승', '').replace('하락', '').replace('보합', '')
+                        if not clean_p.startswith('+') and not clean_p.startswith('-'):
+                            sign = "-" if ("하락" in change_text or "-" in change_text) else "+"
+                            cp_str = f"{sign}{clean_p}"
+                        else:
+                            cp_str = clean_p
+                        break
+                        
+            amount_elem = soup.select_one('#amount')
+            tv_str = ""
+            if amount_elem and code != 'KPI200':
+                try:
+                    tv_val = float(amount_elem.text.strip().replace(',', '')) / 1000000
+                    tv_str = f"{round(tv_val, 1)}조"
+                except: pass
+                
+            extra["indices_detail"][name] = {
+                "price": now,
+                "change_pct_str": cp_str,
+                "trading_value_str": tv_str
             }
         except: pass
+
+    # 2. 투자자 매매동향 (키움 API 우선, 실패/미지원 시 네이버 금융 우회)
+    kiwoom_success = False
+    try:
+        kiwoom = KiwoomAPI()
+        # 코스피 ('0'), 코스닥 ('1')
+        for m_code, name in [('0', '코스피 시장'), ('1', '코스닥 시장')]:
+            res_trends = kiwoom.get_investor_trends(m_code)
+
+            if res_trends:
+                f_amt = _format_inv_amt(res_trends.get("외국인", "0"))
+                i_amt = _format_inv_amt(res_trends.get("기관", "0"))
+                p_amt = _format_inv_amt(res_trends.get("개인", "0"))
+                if f_amt != "0원" or i_amt != "0원" or p_amt != "0원":
+                    extra["investor_trends"][name] = {
+                        "외국인": f_amt,
+                        "기관": i_amt,
+                        "개인": p_amt
+                    }
+        if len(extra["investor_trends"]) == 2:
+            kiwoom_success = True
+            logger.info("키움 API (ka10051) 기반 매매동향 수집 성공")
+    except Exception as e:
+        logger.warning(f"키움 API 매매동향 수집 실패, 네이버 금융으로 우회: {e}")
+
+    # 키움 API 실패 또는 유효 데이터 미비 시 네이버 금융 우회
+    if not kiwoom_success or len(extra["investor_trends"]) < 2:
+        extra["investor_trends"] = {}
+        for code, name in [('KOSPI', '코스피 시장'), ('KOSDAQ', '코스닥 시장')]:
+            try:
+                url = f'https://m.stock.naver.com/api/index/{code}/trend'
+                r = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'}, timeout=5)
+                d = r.json()
+                extra["investor_trends"][name] = {
+                    "외국인": _format_inv_amt(d.get('foreignValue', '0')),
+                    "기관": _format_inv_amt(d.get('institutionalValue', '0')),
+                    "개인": _format_inv_amt(d.get('personalValue', '0'))
+                }
+            except Exception as ex:
+                logger.error(f"네이버 금융 매매동향 수집 실패 ({name}): {ex}")
+
+
+
 
     # 3. 글로벌 지수 (yfinance)
     import yfinance as yf
