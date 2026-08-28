@@ -4,328 +4,366 @@ US Economy & Business News Report
 > 데이터 출처: Yahoo Finance (yfinance)
 
 주요 3대 지수 (전일 대비)
-- S&P 500: 7553.68 (-0.74%)
-- NASDAQ: 26853.98 (-0.89%)
-- Dow Jones: 50687.07 (-1.21%)
+- S&P 500: 7730.99 (+0.72%)
+- NASDAQ: 26541.35 (+1.57%)
+- Dow Jones: 53569.44 (+0.2%)
 
 거래대금 기준 특징주 상위 100 (거래대금 순)
 > 참고: 거래대금 상위 100개 종목 중 상승률 상위 20개 및 거래대금 상위 20개 종목에 대해 관련 뉴스를 검색하여 표 아래에 제공합니다.
 
 | 순위 | 종목명 | 심볼 | 현재가 | 등락률(%) | 거래대금(대략) |
 |---|---|---|---|---|---|
-| 1 | Micron Technology, Inc. | MU | $1079.57 | +1.45% | $43.10B |
-| 2 | Marvell Technology, Inc. | MRVL | $301.65 | +3.73% | $34.34B |
-| 3 | NVIDIA Corporation | NVDA | $214.75 | -3.62% | $34.30B |
-| 4 | Broadcom Inc. | AVGO | $479.23 | -0.49% | $23.15B |
-| 5 | Sandisk Corporation | SNDK | $1831.5 | +6.71% | $21.59B |
-| 6 | Alphabet Inc. | GOOGL | $358.99 | -0.79% | $19.86B |
-| 7 | Tesla, Inc. | TSLA | $423.7 | -0.01% | $18.77B |
-| 8 | Microsoft Corporation | MSFT | $427.34 | -3.17% | $16.64B |
-| 9 | Advanced Micro Devices, Inc. | AMD | $542.52 | +4.02% | $15.84B |
-| 10 | Apple Inc. | AAPL | $310.26 | -1.57% | $15.72B |
-| 11 | Alphabet Inc. | GOOG | $355.68 | -0.76% | $15.27B |
-| 12 | Meta Platforms, Inc. | META | $622.98 | +4.24% | $14.31B |
-| 13 | Intel Corporation | INTC | $112.71 | +4.43% | $13.35B |
-| 14 | Amazon.com, Inc. | AMZN | $250.02 | -2.53% | $12.80B |
-| 15 | Dell Technologies Inc. | DELL | $421.08 | -3.27% | $5.96B |
-| 16 | Palantir Technologies Inc. | PLTR | $142.2 | -6.55% | $5.80B |
-| 17 | Lumentum | LITE | $938.0 | -8.86% | $5.75B |
-| 18 | Oracle Corporation | ORCL | $230.33 | -5.83% | $5.40B |
-| 19 | Arm Holdings plc | ARM | $411.83 | +2.26% | $4.87B |
-| 20 | QUALCOMM Incorporated | QCOM | $250.01 | +3.81% | $4.85B |
-| 21 | Western Digital | WDC | $594.11 | +5.51% | $4.65B |
-| 22 | Applied Materials | AMAT | $500.77 | +2.19% | $4.47B |
-| 23 | Taiwan Semiconductor Manufactur | TSM | $436.69 | -2.24% | $4.44B |
-| 24 | International Business Machines | IBM | $305.63 | -7.17% | $4.20B |
-| 25 | Palo Alto Networks, Inc. | PANW | $280.43 | -5.64% | $4.12B |
-| 26 | ServiceNow, Inc. | NOW | $117.9 | -7.64% | $3.99B |
-| 27 | IREN LIMITED | IREN | $65.48 | -1.68% | $3.85B |
-| 28 | Walmart Inc. | WMT | $116.89 | +3.39% | $3.83B |
-| 29 | CrowdStrike | CRWD | $747.61 | -2.78% | $3.81B |
-| 30 | Cisco Systems, Inc. | CSCO | $126.5 | -1.17% | $3.78B |
-| 31 | Navitas Semiconductor Corporati | NVTS | $30.84 | +19.26% | $3.45B |
-| 32 | ASML Holding | ASML | $1726.36 | +1.23% | $3.15B |
-| 33 | Hewlett Packard Enterprise Comp | HPE | $55.15 | -1.78% | $3.13B |
-| 34 | Berkshire Hathaway | BRK-B | $475.37 | +0.82% | $3.13B |
-| 35 | Netflix, Inc. | NFLX | $81.52 | -2.17% | $2.98B |
-| 36 | Lam Research | LRCX | $343.71 | +2.78% | $2.96B |
-| 37 | CoreWeave, Inc. | CRWV | $110.93 | -6.99% | $2.90B |
-| 38 | Lilly (Eli) | LLY | $1078.78 | +1.37% | $2.86B |
-| 39 | Nebius Group N.V. | NBIS | $251.68 | -3.42% | $2.85B |
-| 40 | Visa Inc. | V | $312.4 | -1.55% | $2.81B |
-| 41 | Snowflake Inc. | SNOW | $241.28 | -7.61% | $2.73B |
-| 42 | Seagate Technology | STX | $940.69 | +1.52% | $2.72B |
-| 43 | Salesforce, Inc. | CRM | $190.61 | -5.09% | $2.69B |
-| 44 | Goldman Sachs | GS | $1041.02 | -2.21% | $2.66B |
-| 45 | Strategy Inc | MSTR | $126.55 | -7.0% | $2.64B |
-| 46 | UnitedHealth Group | UNH | $377.0 | -0.24% | $2.56B |
-| 47 | Bank of America Corporation | BAC | $52.4 | -0.15% | $2.52B |
-| 48 | Analog Devices | ADI | $437.67 | +3.42% | $2.49B |
-| 49 | Mastercard | MA | $471.55 | -1.28% | $2.46B |
-| 50 | Nokia Corporation Sponsored | NOK | $16.73 | -0.71% | $2.46B |
-| 51 | Corning Incorporated | GLW | $200.76 | +0.18% | $2.46B |
-| 52 | Rocket Lab Corporation | RKLB | $114.7 | -6.99% | $2.44B |
-| 53 | Super Micro Computer, Inc. | SMCI | $47.42 | -5.48% | $2.40B |
-| 54 | Caterpillar Inc. | CAT | $926.18 | +1.8% | $2.32B |
-| 55 | Bloom Energy Corporation | BE | $287.32 | -5.13% | $2.24B |
-| 56 | Coherent Corp. | COHR | $417.43 | -2.22% | $2.23B |
-| 57 | Datadog, Inc. | DDOG | $250.33 | -6.99% | $2.22B |
-| 58 | Exxon Mobil Corporation | XOM | $152.53 | +1.99% | $2.19B |
-| 59 | KLA Corporation | KLAC | $2125.11 | +3.91% | $2.16B |
-| 60 | JPMorgan Chase | JPM | $300.85 | -0.04% | $2.11B |
-| 61 | Costco | COST | $961.83 | +0.79% | $2.08B |
-| 62 | IonQ, Inc. | IONQ | $68.23 | -4.44% | $2.08B |
-| 63 | Texas Instruments | TXN | $308.59 | +0.15% | $2.07B |
-| 64 | Credo Technology Group Holding  | CRDO | $214.6 | -6.29% | $2.07B |
-| 65 | GE Vernova | GEV | $959.36 | -1.06% | $1.99B |
-| 66 | Robinhood Markets, Inc. | HOOD | $82.85 | -6.02% | $1.98B |
-| 67 | AppLovin | APP | $570.83 | -5.75% | $1.97B |
-| 68 | Boeing | BA | $210.58 | -3.27% | $1.91B |
-| 69 | AST SpaceMobile, Inc. | ASTS | $107.73 | -8.83% | $1.90B |
-| 70 | Rigetti Computing, Inc. | RGTI | $24.09 | -10.36% | $1.88B |
-| 71 | Applied Optoelectronics, Inc. | AAOI | $184.07 | -9.04% | $1.81B |
-| 72 | Intuit | INTU | $311.44 | -3.32% | $1.78B |
-| 73 | Ciena | CIEN | $620.37 | -1.06% | $1.64B |
-| 74 | Medtronic plc. | MDT | $77.95 | +5.69% | $1.58B |
-| 75 | Coinbase Global, Inc. | COIN | $163.22 | -6.19% | $1.55B |
-| 76 | Chevron Corporation | CVX | $189.71 | +1.15% | $1.51B |
-| 77 | Oklo Inc. | OKLO | $65.21 | -11.24% | $1.48B |
-| 78 | Circle Internet Group, Inc. | CRCL | $90.13 | -10.63% | $1.45B |
-| 79 | Johnson & Johnson | JNJ | $223.24 | +0.16% | $1.45B |
-| 80 | Citigroup, Inc. | C | $129.93 | -1.01% | $1.45B |
-| 81 | Arista Networks | ANET | $174.37 | -0.55% | $1.40B |
-| 82 | Honeywell | HON | $223.26 | -5.09% | $1.38B |
-| 83 | McDonald's | MCD | $273.29 | -1.11% | $1.37B |
-| 84 | Home Depot (The) | HD | $312.97 | +0.47% | $1.35B |
-| 85 | ON Semiconductor Corporation | ON | $133.93 | +4.11% | $1.35B |
-| 86 | Teradyne | TER | $409.67 | +4.34% | $1.33B |
-| 87 | Procter & Gamble Company (The) | PG | $140.19 | -0.45% | $1.31B |
-| 88 | Verizon Communications Inc. | VZ | $46.65 | -2.55% | $1.30B |
-| 89 | GE Aerospace | GE | $314.64 | -0.97% | $1.30B |
-| 90 | Nu Holdings Ltd. | NU | $11.64 | -2.43% | $1.29B |
-| 91 | Vertiv | VRT | $331.44 | -0.91% | $1.29B |
-| 92 | CME Group | CME | $252.64 | +0.84% | $1.29B |
-| 93 | Amphenol Corporation | APH | $147.62 | -0.53% | $1.27B |
-| 94 | Morgan Stanley | MS | $210.14 | -2.25% | $1.25B |
-| 95 | Adobe Inc. | ADBE | $256.24 | -2.24% | $1.25B |
-| 96 | Uber Technologies, Inc. | UBER | $71.69 | +0.1% | $1.24B |
-| 97 | AbbVie | ABBV | $217.13 | +0.8% | $1.23B |
-| 98 | T-Mobile US | TMUS | $181.45 | -3.91% | $1.22B |
-| 99 | SoFi Technologies, Inc. | SOFI | $16.68 | -5.98% | $1.22B |
-| 100 | AT&T Inc. | T | $23.55 | -4.42% | $1.22B |
+| 1 | NVIDIA Corporation | NVDA | $227.98 | +8.74% | $67.76B |
+| 2 | Micron Technology, Inc. | MU | $935.39 | -0.32% | $26.66B |
+| 3 | Microsoft Corporation | MSFT | $505.06 | +1.75% | $14.45B |
+| 4 | Salesforce, Inc. | CRM | $252.05 | +22.58% | $13.97B |
+| 5 | Sandisk Corporation | SNDK | $1484.95 | -0.96% | $13.00B |
+| 6 | Tesla, Inc. | TSLA | $354.81 | +2.6% | $10.64B |
+| 7 | Apple Inc. | AAPL | $314.58 | +0.36% | $10.14B |
+| 8 | Intel Corporation | INTC | $92.09 | +4.36% | $9.21B |
+| 9 | Amazon.com, Inc. | AMZN | $256.26 | -1.54% | $9.17B |
+| 10 | Meta Platforms, Inc. | META | $571.1 | -0.87% | $8.66B |
+| 11 | Marvell Technology, Inc. | MRVL | $241.45 | -1.49% | $8.60B |
+| 12 | Alphabet Inc. | GOOGL | $340.65 | -0.39% | $7.93B |
+| 13 | Broadcom Inc. | AVGO | $371.54 | +4.49% | $7.85B |
+| 14 | Advanced Micro Devices, Inc. | AMD | $476.67 | -0.89% | $7.80B |
+| 15 | Space Exploration Technologies  | SPCX | $140.87 | +0.89% | $7.74B |
+| 16 | Palantir Technologies Inc. | PLTR | $185.93 | +4.75% | $7.55B |
+| 17 | Strategy Inc | MSTR | $137.4 | +11.54% | $6.03B |
+| 18 | Alphabet Inc. | GOOG | $337.71 | -0.41% | $5.74B |
+| 19 | Taiwan Semiconductor Manufactur | TSM | $427.3 | +2.3% | $5.44B |
+| 20 | CrowdStrike Holdings, Inc. | CRWD | $227.96 | +20.5% | $5.33B |
+| 21 | Oracle Corporation | ORCL | $151.94 | +2.06% | $4.57B |
+| 22 | Seagate Technology | STX | $847.2 | +0.1% | $4.15B |
+| 23 | Lumentum | LITE | $956.14 | +1.82% | $3.93B |
+| 24 | ServiceNow, Inc. | NOW | $138.43 | +10.04% | $3.84B |
+| 25 | Moderna, Inc. | MRNA | $142.77 | -4.6% | $3.56B |
+| 26 | Western Digital Corporation | WDC | $462.0 | -1.47% | $3.50B |
+| 27 | Nebius Group N.V. | NBIS | $218.48 | +2.13% | $3.48B |
+| 28 | Lilly (Eli) | LLY | $1176.1 | -1.12% | $3.11B |
+| 29 | Walmart Inc. | WMT | $102.63 | -1.64% | $3.05B |
+| 30 | Applied Materials | AMAT | $482.36 | +0.54% | $3.03B |
+| 31 | Berkshire Hathaway | BRK-B | $503.7 | -0.24% | $2.87B |
+| 32 | Okta, Inc. | OKTA | $172.91 | +28.63% | $2.82B |
+| 33 | Palo Alto Networks, Inc. | PANW | $382.85 | +12.83% | $2.79B |
+| 34 | Bank of America Corporation | BAC | $61.17 | -1.7% | $2.72B |
+| 35 | Bloom Energy Corporation | BE | $217.83 | -0.17% | $2.53B |
+| 36 | Visa Inc. | V | $379.66 | -1.1% | $2.52B |
+| 37 | QUALCOMM Incorporated | QCOM | $164.78 | +0.65% | $2.48B |
+| 38 | ExxonMobil Holdings Corporation | XOM | $156.44 | -1.11% | $2.23B |
+| 39 | Dell Technologies | DELL | $472.26 | +1.82% | $2.19B |
+| 40 | Netflix, Inc. | NFLX | $79.84 | -1.99% | $2.16B |
+| 41 | SK hynix Inc. | SKHY | $161.61 | +2.27% | $2.14B |
+| 42 | Costco | COST | $934.66 | -2.24% | $2.09B |
+| 43 | Lam Research | LRCX | $318.58 | +1.82% | $2.09B |
+| 44 | Johnson & Johnson | JNJ | $265.77 | -1.57% | $1.94B |
+| 45 | Synopsys | SNPS | $464.89 | +13.39% | $1.89B |
+| 46 | Mastercard | MA | $591.73 | -1.13% | $1.89B |
+| 47 | Adobe Inc. | ADBE | $289.15 | +5.73% | $1.88B |
+| 48 | JPMorgan Chase | JPM | $354.22 | -0.64% | $1.84B |
+| 49 | Veeva Systems Inc. | VEEV | $282.13 | +15.2% | $1.81B |
+| 50 | Goldman Sachs | GS | $1040.87 | +0.04% | $1.78B |
+| 51 | Coinbase Global, Inc. | COIN | $190.72 | +4.92% | $1.75B |
+| 52 | GE Aerospace | GE | $342.73 | -3.29% | $1.74B |
+| 53 | IREN LIMITED | IREN | $40.53 | +2.4% | $1.72B |
+| 54 | CoreWeave, Inc. | CRWV | $86.8 | -1.37% | $1.69B |
+| 55 | Alibaba Group Holding Limited | BABA | $116.31 | -2.94% | $1.67B |
+| 56 | Intuit | INTU | $348.0 | +0.61% | $1.65B |
+| 57 | ASML | ASML | $1735.01 | -0.61% | $1.65B |
+| 58 | Chevron Corporation | CVX | $199.77 | -0.22% | $1.62B |
+| 59 | Super Micro Computer, Inc. | SMCI | $38.46 | +2.86% | $1.59B |
+| 60 | McDonald's | MCD | $260.06 | -2.57% | $1.55B |
+| 61 | Citigroup, Inc. | C | $132.68 | -0.66% | $1.54B |
+| 62 | Cisco Systems, Inc. | CSCO | $112.15 | -0.19% | $1.52B |
+| 63 | Robinhood Markets, Inc. | HOOD | $109.76 | +1.12% | $1.50B |
+| 64 | GE Vernova | GEV | $953.83 | +0.08% | $1.50B |
+| 65 | Texas Instruments | TXN | $266.54 | +1.82% | $1.49B |
+| 66 | Caterpillar Inc. | CAT | $817.0 | -0.6% | $1.48B |
+| 67 | Analog Devices | ADI | $374.52 | +0.73% | $1.46B |
+| 68 | Workday, Inc. | WDAY | $193.57 | +1.48% | $1.45B |
+| 69 | UnitedHealth Group | UNH | $395.05 | -1.49% | $1.45B |
+| 70 | Coherent Corp. | COHR | $295.39 | +0.35% | $1.44B |
+| 71 | BitMine Immersion Technologies, | BMNR | $25.63 | +2.89% | $1.43B |
+| 72 | Nike, Inc. | NKE | $38.44 | -0.39% | $1.40B |
+| 73 | Circle Internet Group, Inc. | CRCL | $94.24 | +4.82% | $1.34B |
+| 74 | UiPath, Inc. | PATH | $18.33 | +9.37% | $1.32B |
+| 75 | IBM | IBM | $238.79 | +3.88% | $1.31B |
+| 76 | Merck & Company, Inc. | MRK | $149.54 | -2.33% | $1.27B |
+| 77 | AppLovin | APP | $312.63 | +1.47% | $1.25B |
+| 78 | Vertiv | VRT | $269.28 | +2.07% | $1.24B |
+| 79 | AbbVie | ABBV | $258.15 | -1.81% | $1.23B |
+| 80 | Corning Inc. | GLW | $152.8 | +0.01% | $1.21B |
+| 81 | HP Inc. | HPQ | $29.63 | -2.92% | $1.21B |
+| 82 | KLA Corporation | KLAC | $183.77 | -0.03% | $1.20B |
+| 83 | Coca-Cola Company (The) | KO | $89.06 | -1.13% | $1.20B |
+| 84 | Freeport-McMoRan, Inc. | FCX | $78.42 | -0.73% | $1.18B |
+| 85 | TEAM | TEAM | $185.62 | +10.18% | $1.13B |
+| 86 | Procter & Gamble Company (The) | PG | $143.14 | -1.28% | $1.12B |
+| 87 | Uber Technologies, Inc. | UBER | $76.95 | -1.96% | $1.10B |
+| 88 | Marathon Petroleum | MPC | $363.54 | +0.35% | $1.10B |
+| 89 | Booking Holdings | BKNG | $202.56 | -3.03% | $1.10B |
+| 90 | Datadog | DDOG | $242.93 | +6.7% | $1.10B |
+| 91 | Charles Schwab Corporation (The | SCHW | $108.05 | -1.22% | $1.09B |
+| 92 | Autodesk | ADSK | $270.58 | +6.21% | $1.03B |
+| 93 | Home Depot (The) | HD | $328.61 | -1.86% | $1.01B |
+| 94 | Fortinet | FTNT | $172.78 | +9.67% | $991.28M |
+| 95 | Shopify Inc. | SHOP | $154.33 | +2.69% | $990.01M |
+| 96 | Take-Two Interactive | TTWO | $233.0 | -0.19% | $977.52M |
+| 97 | TJX Companies, Inc. (The) | TJX | $134.22 | -1.91% | $944.38M |
+| 98 | Cadence Design Systems | CDNS | $347.55 | +3.85% | $943.71M |
+| 99 | Arista Networks | ANET | $201.09 | -0.57% | $943.31M |
+| 100 | Boeing | BA | $209.89 | -1.04% | $934.48M |
 
 특징주 상승 이유 (관련 주요 뉴스)
 
-Micron Technology, Inc. (MU) (+1.45%) | 거래대금: $43.10B
-- [Why Micron Stock Hit a New All-Time High Today - The Motley Fool](https://www.fool.com/investing/2026/06/01/why-micron-stock-hit-a-new-all-time-high-today/) [2026-06-01]
-- [Micron and Sandisk stocks are surging again this week: 2 reasons why memory chip makers are on the rise - Fast Company](https://www.fastcompany.com/91537543/micron-sandisk-stocks-rising-today-reasons-why-memory-chip-makers) [2026-06-03]
-- [Prediction: Micron Stock Will Skyrocket After June 24 - Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/prediction-micron-stock-skyrocket-june-105100758.html) [2026-06-01]
-- [Micron Just Ripped 93% in a Month. Is It Time to Cash Out? - 24/7 Wall St.](https://247wallst.com/investing/2026/06/02/micron-just-ripped-93-in-a-month-is-it-time-to-cash-out/) [2026-06-02]
-- [Micron: Not A Stock For Ordinary Investors To Chase Today (NASDAQ:MU) - Seeking Alpha](https://seekingalpha.com/article/4910841-micron-not-a-stock-for-ordinary-investors-to-chase-today) [2026-06-02]
+NVIDIA Corporation (NVDA) (+8.74%) | 거래대금: $67.76B
+- [Why Nvidia (NVDA) Stock Is Up Today - StockStory](https://stockstory.org/us/stocks/nasdaq/nvda/news/why-up-down/why-nvidia-nvda-stock-is-up-today-8) [2026-08-27]
+- [Why Nvidia Stock Rocketed Higher Today - Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/why-nvidia-stock-rocketed-higher-154024274.html) [2026-08-27]
+- [Nvidia adds more than $400 billion in value after blowout earnings boost AI confidence - CNBC](https://www.cnbc.com/2026/08/27/nvidia-nvda-q2-earnings.html) [2026-08-27]
+- [NVIDIA Announces Financial Results for Second Quarter Fiscal 2027 - NVIDIA Newsroom](https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-second-quarter-fiscal-2027) [2026-08-26]
+- [NVIDIA Surges 6% as a 70% Growth Forecast Overrides a Memory Margin Warning, AMD and Intel Tick Up - 24/7 Wall St.](https://247wallst.com/investing/2026/08/27/nvidia-surges-6-as-a-70-growth-forecast-overrides-a-memory-margin-warning-amd-and-intel-tick-up/) [2026-08-27]
 
-Marvell Technology, Inc. (MRVL) (+3.73%) | 거래대금: $34.34B
-- [MRVL: Why is AI chipmaker Marvell’s stock price surging today? It comes down to 4 words from Nvidia's Jensen Huang - Fast Company](https://www.fastcompany.com/91552239/marvell-mrvl-stock-price-up-today-ai-chipmaker-4-words-from-jensen-huang-nvidia) [2026-06-02]
-- [Marvell stock soars 32% as Nvidia's Huang says it could be the next trillion-dollar company - CNBC](https://www.cnbc.com/2026/06/02/jensen-huang-nvidia-marvell-technology-trillion-dollar-ai.html) [2026-06-02]
-- [Why Is Marvell Technology (MRVL) Stock Rocketing Higher Today - StockStory](https://stockstory.org/us/stocks/nasdaq/mrvl/news/why-up-down/why-is-marvell-technology-mrvl-stock-rocketing-higher-today-4) [2026-06-02]
-- [Marvell Technology Inc Stock (MRVL) Opened Up by 8.12% on Jun 3: Drivers Behind the Movement - TradingKey](https://www.tradingkey.com/news/market-movers/261944010-market-movers-mrvl-20260603) [2026-06-03]
+Micron Technology, Inc. (MU) (-0.32%) | 거래대금: $26.66B
+- [Why Nvidia probably just lit a new fire under these once-hot trades](https://finance.yahoo.com/markets/stocks/article/why-nvidia-probably-just-lit-a-new-fire-under-these-once-hot-trades-103645649.html) [2026-08-27]
+- [MU Stock In Focus After Trump Hails Micron’s $10B Investment In US Research Labs — ‘One Of The Hottest Companies In The World’](https://stocktwits.com/news-articles/markets/equity/mu-stock-in-focus-after-trump-hails-micron-10-billion-investment-in-us-research-labs-one-of-the-hottest-companies-in-the-world/cZYoXQHRJqN) [2026-08-27]
+- [Trump Just Mentioned Micron Stock, But Its Down 5% This Week](https://beincrypto.com/trump-micron-stock-mu-falls-week/) [2026-08-27]
+- [Micron's Nvidia Rally Vanishes as Memory Scarcity Cuts Both Ways](https://finance.yahoo.com/markets/stocks/articles/microns-nvidia-rally-vanishes-memory-193128746.html) [2026-08-27]
+- [Micron Lags Despite NVIDIA’s $279B Memory Commitment; Western Digital Drops 4%, SK Hynix Ticks Up](https://247wallst.com/investing/2026/08/27/micron-lags-despite-nvidias-279b-memory-commitment-western-digital-drops-4-sk-hynix-ticks-up/) [2026-08-27]
+- [The Market Still Treats Micron Like a Boom-and-Bust Stock. That May Be Getting Outdated](https://finance.yahoo.com/markets/stocks/articles/market-still-treats-micron-boom-180923948.html) [2026-08-27]
+- [Micron’s Gross Margin Just Beat Nvidia’s. Nvidia’s Memory Problem Explains Why](https://finance.yahoo.com/markets/stocks/articles/micron-gross-margin-just-beat-180617316.html) [2026-08-27]
+- [Micron Spent The Memory Shortage Signing Multiyear Contracts](https://www.trefis.com/articles/613347/micron-spent-the-memory-shortage-signing-multiyear-contracts/2026-08-27) [2026-08-27]
 
-NVIDIA Corporation (NVDA) (-3.62%) | 거래대금: $34.30B
-- [Why Is Nvidia (NVDA) Stock Soaring Today - StockStory](https://stockstory.org/us/stocks/nasdaq/nvda/news/why-up-down/why-is-nvidia-nvda-stock-soaring-today-4) [2026-06-01]
-- [Why is NVIDIA stock surging today? - Investing.com](https://www.investing.com/news/stock-market-news/why-is-nvidia-stock-surging-today-93CH-4719589) [2026-06-01]
-- [Marvell stock soars 32% as Nvidia's Huang says it could be the next trillion-dollar company - CNBC](https://www.cnbc.com/2026/06/02/jensen-huang-nvidia-marvell-technology-trillion-dollar-ai.html) [2026-06-02]
-- [Texas Instruments Is Smashing NVIDIA in 2026: Rotational Fluke, or Paradigm Shift? - 24/7 Wall St.](https://247wallst.com/investing/2026/06/02/texas-instruments-is-smashing-nvidia-in-2026-rotational-fluke-or-paradigm-shift/) [2026-06-02]
+Microsoft Corporation (MSFT) (+1.75%) | 거래대금: $14.45B
+- [MSFT Stock Holds Up Amid US-Iran Geopolitical Jitters: Retail Calls It ‘Safest Earnings Play’ - Stocktwits](https://stocktwits.com/news-articles/markets/equity/msft-stock-holds-up-amid-us-iran-geopolitical-jitters-retail-calls-it-safest-earnings-play/cZmziMIR7om) [2026-08-27]
 
-Broadcom Inc. (AVGO) (-0.49%) | 거래대금: $23.15B
-- [Stock market today: Dow, S&P 500, Nasdaq futures slip as Iran war threatens to drag on](https://finance.yahoo.com/economy/live/stock-market-today-dow-sp-500-nasdaq-futures-slip-as-iran-war-threatens-to-drag-on-230054858.html) [2026-06-03]
-- [Tech ETF inflows surge and defy AI concentration risks](https://finance.yahoo.com/video/tech-etf-inflows-surge-defy-151850175.html) [2026-06-03]
-- [Broadcom Inc (AVGO) Q2 2026 Earnings Call Highlights: Record Revenue Driven by AI Semiconductor ...](https://finance.yahoo.com/markets/stocks/articles/broadcom-inc-avgo-q2-2026-050026685.html) [2026-06-03]
-- [AVGO, MRVL, NVTS Stocks Hit 52-Week Highs: What Sent These Chipmakers Higher?](https://stocktwits.com/news-articles/markets/equity/avgo-mrvl-nvts-stocks-hit-52-week-highs/cZ0mCLXReUD) [2026-06-03]
-- [Broadcom shares plunge after AI forecast disappoints](https://finance.yahoo.com/video/broadcom-shares-plunge-ai-forecast-033650773.html) [2026-06-03]
-- [Stocks drop on AI, rate hike worries as Lebanon deal hits oil](https://finance.yahoo.com/markets/stocks/articles/stocks-drop-ai-rate-hike-030621040.html) [2026-06-03]
-- [TSMC CEO Warns Chip Supply Won’t Meet AI-Fueled Demand for Years](https://finance.yahoo.com/sectors/technology/articles/tsmc-ceo-warns-chip-supply-024746123.html) [2026-06-03]
-- [S&P 500, Nasdaq Futures Slip Amid Renewed US-Iran Tensions, Chipmaker Losses: AVGO, KEEL, CRWD, MSTR Stocks In Focus](https://stocktwits.com/news-articles/markets/equity/sp500-nasdaq-futures-slip-amid-renewed-us-iran-tensions-chipmaker-losses/cZ0mD4iReUM) [2026-06-03]
-- [Broadcom (AVGO) Q2 2026 Earnings Transcript](https://www.fool.com/earnings/call-transcripts/2026/06/03/broadcom-avgo-q2-2026-earnings-transcript/) [2026-06-03]
+Salesforce, Inc. (CRM) (+22.58%) | 거래대금: $13.97B
+- [Salesforce Stock Soars After Strong Results, Raised Outlook - Investopedia](https://www.investopedia.com/market-update-salesforce-stock-soars-after-strong-results-raised-outlook-crm-12069299) [2026-08-27]
+- [CRM Stock Soars 13% After-Hours — Salesforce Crushes Earnings, Raises Guidance And Expands Partnership With Anthropic’s Claude - Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/crm-stock-soars-13-hours-220323682.html) [2026-08-26]
+- [SPY is up 0.6% today, on CRM stock price movement - Quiver Quantitative](https://www.quiverquant.com/news/SPY+is+up+0.6%25+today%2C+on+CRM+stock+price+movement) [2026-08-27]
 
-Sandisk Corporation (SNDK) (+6.71%) | 거래대금: $21.59B
-- [Why SanDisk Stock Is Soaring to a New All-Time High Today - Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/why-sandisk-stock-soaring-time-164102278.html) [2026-06-03]
-- [Micron and Sandisk stocks are surging again this week: 2 reasons why memory chip makers are on the rise - Fast Company](https://www.fastcompany.com/91537543/micron-sandisk-stocks-rising-today-reasons-why-memory-chip-makers) [2026-06-03]
-- [SanDisk Corporation Stock (SNDK) Moved Up by 3.02% on Jun 3: Drivers Behind the Movement - TradingKey](https://www.tradingkey.com/news/market-movers/261944276-market-movers-sndk-20260603) [2026-06-03]
+Sandisk Corporation (SNDK) (-0.96%) | 거래대금: $13.00B
+- [Stock Market Today: Nasdaq Up, Nvidia Teases New Entry As Salesforce Nears Buy Point (Live Coverage)](https://www.investors.com/market-trend/stock-market-today/dow-jones-sp500-nasdaq-nvidia-nvda-salesforce-crm-crowdstrike-crwd/?src=A00220&yptr=yahoo) [2026-08-27]
+- [Micron Lags Despite NVIDIA’s $279B Memory Commitment; Western Digital Drops 4%, SK Hynix Ticks Up](https://247wallst.com/investing/2026/08/27/micron-lags-despite-nvidias-279b-memory-commitment-western-digital-drops-4-sk-hynix-ticks-up/) [2026-08-27]
+- [KLAC vs. SNDK: Which Semiconductor Stock is a Better Buy Now?](https://finance.yahoo.com/markets/stocks/articles/klac-vs-sndk-semiconductor-stock-180800480.html) [2026-08-27]
+- [3 Storage Devices Stocks to Buy as the Industry Gains Momentum](https://finance.yahoo.com/markets/stocks/articles/3-storage-devices-stocks-buy-153700331.html) [2026-08-27]
+- [Sandisk Is Putting $31 Billion Behind the Next Memory Boom](https://finance.yahoo.com/technology/articles/sandisk-putting-31-billion-behind-142046192.html) [2026-08-27]
+- [Stocks Rally as Nvidia Earnings Boost AI Optimism](https://www.barchart.com/story/news/4213267/stocks-rally-as-nvidia-earnings-boost-ai-optimism) [2026-08-27]
+- [Sandisk (SNDK) Stock Trades At A Premium To Fair Value](https://finance.yahoo.com/markets/stocks/articles/sandisk-sndk-stock-trades-premium-121550081.html) [2026-08-27]
 
-Alphabet Inc. (GOOGL) (-0.79%) | 거래대금: $19.86B
-- [Tech stocks today: Marvell stock continues wild run as AI hype escalates](https://finance.yahoo.com/sectors/technology/live/tech-stocks-today-marvell-stock-continues-wild-run-as-ai-hype-escalates-100000883.html) [2026-06-03]
-- [Meta, Microsoft, Amazon, and Alphabet are about to spend a shocking amount of money to dominate the AI era](https://finance.yahoo.com/sectors/technology/article/meta-microsoft-amazon-and-alphabet-are-about-to-spend-a-shocking-amount-of-money-to-dominate-the-ai-era-115359575.html) [2026-06-03]
-- [3 Ways to Buy SpaceX Stock Before Its Blockbuster IPO](https://www.fool.com/investing/2026/06/04/3-ways-to-buy-spacex-stock-before-its-blockbuster/) [2026-06-03]
-- [Google's $84 Million Capital Raise Uses Tools 'Popularized' By Michael Saylor's Strategy, Says Phong Le: Is It Just Old Wine In A New Bottle?](https://finance.yahoo.com/markets/stocks/articles/googles-84-million-capital-raise-034227385.html) [2026-06-03]
-- [Big Tech's AI Spending Is on Track to Top $700 Billion This Year. Here's Who May Cash In Next.](https://www.fool.com/investing/2026/06/03/big-techs-ai-spending-is-on-track-to-top-700-billi/) [2026-06-03]
-- [Should Apple’s Gemini‑Powered Siri and iOS Payments Push Require Action From AAPL Investors?](https://finance.yahoo.com/markets/stocks/articles/apple-gemini-powered-siri-ios-021147017.html) [2026-06-03]
-- [Berkshire’s New Era Under Greg Abel Housing Meets AI Investment Shift](https://finance.yahoo.com/markets/stocks/articles/berkshire-era-under-greg-abel-010703503.html) [2026-06-03]
-- [2 AI Stocks I'd Buy and Hold for the Next Decade -- Even After This Year's Big Run](https://www.fool.com/investing/2026/06/03/2-ai-stocks-id-buy-and-hold-for-the-next-decade-ev/) [2026-06-03]
+Tesla, Inc. (TSLA) (+2.6%) | 거래대금: $10.64B
+- [Should SpaceX Join the "Magnificent Seven"? Here's 1 Stock I'd Kick Out to Make Room.](https://www.fool.com/investing/2026/08/27/should-spacex-join-the-magnificent-seven-heres-1-s/) [2026-08-27]
+- [Ford Motor vs. Tesla: Analyzing Revenue Trends Between These Automotive Giants](https://www.fool.com/coverage/charts/2026/08/27/ford-motor-vs-tesla-analyzing-revenue-trends-between-these-automotive-giants/) [2026-08-27]
+- [SoftBank Eyes $6B 1X Deal as Tesla Optimus Odds Hit 3% - Tesla (NASDAQ:TSLA)](https://www.benzinga.com/markets/prediction-markets/26/08/61477237/softbank-1x-6-billion-tesla-optimus?utm_source=yahooFinance&utm_campaign=partner_feed&utm_medium=referral) [2026-08-27]
+- [Tesla Announces Semi Event For September 24. Here's What Investors Need to Know](https://www.fool.com/investing/2026/08/27/tesla-announces-semi-event-for-september-24-here-s-what-investors-need-to-know/) [2026-08-27]
+- [Elon Musk Is Expanding Tesla's Robotaxi Network Beyond Austin and Miami. Here's Why That's Important for the Future Success of the Stock.](https://www.fool.com/investing/2026/08/27/tesla-is-expanding-its-robotaxi-network-beyond-aus/) [2026-08-27]
+- [Lucid Jumps 7%, Rivian Edges Higher: Is the EV Selloff Finally Exhausted?](https://247wallst.com/investing/2026/08/27/lucid-jumps-7-rivian-edges-higher-is-the-ev-selloff-finally-exhausted/) [2026-08-27]
+- [Sold My Tesla Stock: 3 Stocks I Bought With the Payout](https://moneylion.com/trending/money/tesla-stock-sold-which-stock-bought-with-payout) [2026-08-27]
+- [Lucid’s Stock Collapses–Again](https://247wallst.com/investing/2026/08/27/lucids-stock-collapses-again/) [2026-08-27]
+- [Nvidia M&A Target Hugging Face Releases New Robot, As Deal Rumors Swirl](https://www.investors.com/news/nvidia-hugging-face-tesla-optimus-robot-microduck/?src=A00220&yptr=yahoo) [2026-08-27]
 
-Tesla, Inc. (TSLA) (-0.01%) | 거래대금: $18.77B
-- [What's justifying SpaceX's $2T valuation target ahead of IPO?](https://finance.yahoo.com/video/whats-justifying-spacexs-2t-valuation-201500982.html) [2026-06-03]
-- [Used Cybertrucks are in demand, but that won't move Tesla stock](https://finance.yahoo.com/video/used-cybertrucks-demand-wont-move-200343181.html) [2026-06-03]
-- [ASTS, RKLB, SPCE, RDW Stocks Extend Selloff Overnight — Analyst Backs 'Betting Against Space' Trade As Jefferies Courts SpaceX Bears](https://stocktwits.com/news-articles/markets/equity/asts-rklb-spce-rdw-stocks-selloff-spacex-bear-trade/cZ0mDd6ReUt) [2026-06-03]
-- [Dow Logs Worst Day Since March, S&P 500 And Nasdaq Snap Win Streak After US-Iran Exchange Fire — SNDK, TSLA, GOOGL, META, IREN In Focus](https://stocktwits.com/news-articles/markets/equity/dow-logs-worst-day-since-march-s-and-p-500-and-nasdaq-snap-win-streak-after-us-iran-exchange-fire-sndk-tsla-googl-meta-iren-in-focus/cZ0jVb2ReUp) [2026-06-03]
-- [SpaceX or Tesla: What Will Be the Better Buy on June 12?](https://www.fool.com/investing/2026/06/03/spacex-or-tesla-what-will-be-the-better-buy-on-jun/) [2026-06-03]
-- [SpaceX IPO Pricing At $135 Per Share Will Value The Rocket Maker At $1.77 Trillion — Musk To Keep Ironclad Control](https://stocktwits.com/news-articles/markets/equity/spacex-ipo-pricing-135-per-share-will-value-the-rocket-maker-at-1.77-trillion/cZ0jlpNReUn) [2026-06-03]
-- [Tesla Stock Tests Short-Term Moving Averages Amid Surging Scandinavian Demand](https://finance.yahoo.com/markets/stocks/articles/tesla-stock-tests-short-term-220159294.html) [2026-06-03]
-- [Einride AB to Become Public As Freight Platform With Electric & Autonomous Fleet Growth – Initiation Report](https://finance.yahoo.com/markets/stocks/articles/einride-ab-become-public-freight-215508005.html) [2026-06-03]
-- [SpaceX reveals its share price and record valuation: 555.6 million shares at $135 apiece, at a $1.77 trillion valuation](https://finance.yahoo.com/markets/stocks/articles/spacex-reveals-share-price-record-214859117.html) [2026-06-03]
+Apple Inc. (AAPL) (+0.36%) | 거래대금: $10.14B
+- [Here are the launches John Ternus needs to nail as Apple's next CEO](https://finance.yahoo.com/video/launches-john-ternus-needs-nail-152431046.html) [2026-08-27]
+- [Macro Takeaways from Apple Earnings](https://finance.yahoo.com/markets/stocks/articles/macro-takeaways-apple-earnings-204000517.html) [2026-08-27]
+- [Should SpaceX Join the "Magnificent Seven"? Here's 1 Stock I'd Kick Out to Make Room.](https://www.fool.com/investing/2026/08/27/should-spacex-join-the-magnificent-seven-heres-1-s/) [2026-08-27]
+- [NFLX Has Bounced From This Price Before. Now What?](https://www.trefis.com/articles/613256/nflx-has-bounced-from-this-price-before-now-what-2/2026-08-27) [2026-08-27]
+- [Warren Buffett and Greg Abel Quietly Hold a Bigger Percentage of This Company Than Any Other in Berkshire's Portfolio (Hint: It's Not Apple or American Express)](https://www.fool.com/investing/2026/08/27/warren-buffett-greg-abel-berkshire-apple-davita/) [2026-08-27]
+- [Apple Gives Its New CEO Eight Days Before the iPhone Test](https://finance.yahoo.com/markets/stocks/articles/apple-gives-ceo-eight-days-191524791.html) [2026-08-27]
+- [NVIDIA Earnings Wrap Up Strong Mag 7 Reporting Cycle](https://finance.yahoo.com/markets/stocks/articles/nvidia-earnings-wrap-strong-mag-190500686.html) [2026-08-27]
+- [Dell’s Multiple Falls On Servers It Cannot Build Fast Enough](https://www.trefis.com/articles/613288/dells-multiple-falls-on-servers-it-cannot-build-fast-enough/2026-08-27) [2026-08-27]
 
-Microsoft Corporation (MSFT) (-3.17%) | 거래대금: $16.64B
-- [Microsoft debuts in-house AI models as it looks to ease reliance on OpenAI](https://finance.yahoo.com/news/microsoft-debuts-in-house-ai-models-as-it-looks-to-ease-reliance-on-openai-190000961.html) [2026-06-03]
-- [BB Or NOK: Which Fallen Phone Giant’s Stock Is The Better AI Bet Right Now?](https://stocktwits.com/news-articles/markets/equity/bb-nok-stocks-fallen-phone-giant-better-ai-bet-right-now/cZ0mCd2ReUw) [2026-06-03]
-- [Big Tech's AI Spending Is on Track to Top $700 Billion This Year. Here's Who May Cash In Next.](https://www.fool.com/investing/2026/06/03/big-techs-ai-spending-is-on-track-to-top-700-billi/) [2026-06-03]
-- [Stock Market Today, June 3: Markets End Winning Streak on Middle East Escalation Fears](https://www.fool.com/coverage/stock-market-today/2026/06/03/stock-market-today-june-3-markets-end-winning-streak-on-middle-east-escalation-fears/) [2026-06-03]
-- [Stock Market Today, June 3: Alphabet Falls After $84.75 Billion AI Infrastructure Equity Raise](https://www.fool.com/coverage/stock-market-today/2026/06/03/stock-market-today-june-3-alphabet-falls-after-usd84-75-billion-ai-infrastructure-equity-raise/) [2026-06-03]
-- [Stocks Retreat as US-Iran Peace Hopes in Doubt](https://www.barchart.com/story/news/2290872/stocks-retreat-as-us-iran-peace-hopes-in-doubt) [2026-06-03]
-- [Wall Street Snaps Record Rally Amid Re-Escalation in Middle East Conflict](https://finance.yahoo.com/markets/stocks/articles/wall-street-snaps-record-rally-203227293.html) [2026-06-03]
-- [Microsoft is building more of its AI future in house](https://finance.yahoo.com/sectors/technology/articles/microsoft-building-more-ai-future-201235722.html) [2026-06-03]
+Intel Corporation (INTC) (+4.36%) | 거래대금: $9.21B
+- [Intel Corp Stock (INTC) Moved Up by 3.63% on Aug 27: A Full Analysis - TradingKey](https://www.tradingkey.com/news/market-movers/262136389-market-movers-intc-20260827) [2026-08-27]
+- [NVIDIA Surges 6% as a 70% Growth Forecast Overrides a Memory Margin Warning, AMD and Intel Tick Up - 24/7 Wall St.](https://247wallst.com/investing/2026/08/27/nvidia-surges-6-as-a-70-growth-forecast-overrides-a-memory-margin-warning-amd-and-intel-tick-up/) [2026-08-27]
+- [Why are Intel and AMD stocks up today? - TradingView](https://www.tradingview.com/news/invezz:41bc8b462094b:0-why-are-intel-and-amd-stocks-up-today/) [2026-08-25]
 
-Advanced Micro Devices, Inc. (AMD) (+4.02%) | 거래대금: $15.84B
-- [AMD: The Case Has Changed, Time To Be Bullish (Rating Upgrade) (NASDAQ:AMD) - Seeking Alpha](https://seekingalpha.com/article/4911296-amd-the-case-has-changed-time-to-be-bullish) [2026-06-03]
+Amazon.com, Inc. (AMZN) (-1.54%) | 거래대금: $9.17B
+- [Why AMZN Stock Is Rising Today - Stocktwits](https://stocktwits.com/news-articles/markets/equity/amazon-amzn-stock-rising-ai-shopping-push-retailers/cZggLsgRerj) [2026-08-25]
+- [Amazon Stock is Trending Higher: What's Going On Today? - Benzinga](https://www.benzinga.com/trading-ideas/movers/26/08/61390518/amazon-stock-is-trending-higher-whats-going-on-today) [2026-08-24]
 
-Apple Inc. (AAPL) (-1.57%) | 거래대금: $15.72B
-- [Why Apple Stock Soared 15% in May - Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/why-apple-stock-soared-15-105721932.html) [2026-06-03]
+Meta Platforms, Inc. (META) (-0.87%) | 거래대금: $8.66B
+- [Why Meta Stock Is Up Today - TradingView](https://www.tradingview.com/news/gurufocus:7b6bd20c5094b:0-why-meta-stock-is-up-today/) [2026-08-25]
+- [Meta dodges ‘Big Tobacco’ nightmare with $18 billion settlement in child-safety lawsuit - MarketWatch](https://www.marketwatch.com/story/metas-stock-rises-as-the-company-settles-in-social-media-addiction-trial-78abdfbf) [2026-08-26]
+- [Meta’s $18 Billion Settlement Is a Win—But Leaves a Lot of Questions Unanswered - Barron's](https://www.barrons.com/articles/meta-stock-price-trial-settlement-fc06babf) [2026-08-26]
+- [Snap Rises 4%, Meta Platforms and Alphabet Tick Up, Reddit Slips as the Social Media Trade Splits - 24/7 Wall St.](https://247wallst.com/investing/2026/08/24/snap-rises-4-meta-platforms-and-alphabet-tick-up-reddit-slips-as-the-social-media-trade-splits/) [2026-08-24]
 
-Alphabet Inc. (GOOG) (-0.76%) | 거래대금: $15.27B
-- [Alphabet Inc. (GOOGL) Stock Price, News, Quote & History - Yahoo Finance](https://finance.yahoo.com/quote/GOOGL/) [2026-06-03]
+Marvell Technology, Inc. (MRVL) (-1.49%) | 거래대금: $8.60B
+- [Marvell Earnings Today: Could MRVL Stock Move 10% After Nvidia’s Blowout Quarter? - Stocks Down Under](https://stocksdownunder.com/marvell-earnings-mrvl-stock/) [2026-08-27]
+- [Why Is MRVL Stock Rising Today? - Stocktwits](https://stocktwits.com/news-articles/markets/equity/why-is-mrvl-stock-rising-today/cZgOBDVReqY) [2026-08-25]
+- [QQQ is up 0.6% today, on MRVL stock price movement - Quiver Quantitative](https://www.quiverquant.com/news/QQQ+is+up+0.6%25+today%2C+on+MRVL+stock+price+movement) [2026-08-25]
+- [Marvell Technology Inc Stock (MRVL) Opened Up by 6.77% on Aug 25: Facts Behind the Movement - TradingKey](https://www.tradingkey.com/news/market-movers/262130604-market-movers-mrvl-20260825) [2026-08-25]
 
-Meta Platforms, Inc. (META) (+4.24%) | 거래대금: $14.31B
-- [Meta (META) Stock Trades Up, Here Is Why - StockStory](https://stockstory.org/us/stocks/nasdaq/meta/news/why-up-down/meta-meta-stock-trades-up-here-is-why-8) [2026-06-03]
-- [Meta Stock Is Dropping Today: What's Happening? - Meta Platforms (NASDAQ:META) - Benzinga](https://www.benzinga.com/trading-ideas/movers/26/06/52916578/meta-stock-is-dropping-today-whats-happening) [2026-06-01]
+Alphabet Inc. (GOOGL) (-0.39%) | 거래대금: $7.93B
+- [How tokenization benefits SpaceX stock 'without taking crypto risk'](https://finance.yahoo.com/video/tokenization-benefits-spacex-stock-without-153500839.html) [2026-08-27]
+- [Marvell (MRVL) Is Betting on Microsoft, AWS and Google to Power Its Next Growth Wave](https://finance.yahoo.com/technology/ai/articles/marvell-mrvl-betting-microsoft-aws-203624975.html) [2026-08-27]
+- [Should SpaceX Join the "Magnificent Seven"? Here's 1 Stock I'd Kick Out to Make Room.](https://www.fool.com/investing/2026/08/27/should-spacex-join-the-magnificent-seven-heres-1-s/) [2026-08-27]
+- [How Your State's AI Data-Center 'Moratorium' Really Works](https://www.investors.com/news/data-center-construction-ban-what-ai-moratoriums-really-mean/?src=A00220&yptr=yahoo) [2026-08-27]
+- [Google Rehires an AI Founder as Cloud Reaches 21% of Sales](https://finance.yahoo.com/technology/ai/articles/google-rehires-ai-founder-cloud-191346218.html) [2026-08-27]
+- [Broadcom Faces New AI Challenge as Google Deepens Marvell Partnership](https://finance.yahoo.com/technology/ai/articles/broadcom-faces-ai-challenge-google-190817740.html) [2026-08-27]
+- [Google Makes Quiet Change to AI Oversight](https://finance.yahoo.com/technology/ai/articles/google-makes-quiet-change-ai-190653772.html) [2026-08-27]
+- [NVIDIA Earnings Wrap Up Strong Mag 7 Reporting Cycle](https://finance.yahoo.com/markets/stocks/articles/nvidia-earnings-wrap-strong-mag-190500686.html) [2026-08-27]
 
-Intel Corporation (INTC) (+4.43%) | 거래대금: $13.35B
-- [Nvidia (NVDA) Stock Has Made Early Investors a Fortune. Is There Still Room to Run?](https://www.fool.com/investing/2026/06/03/nvidia-nvda-stock-has-made-early-investors-a-fortu/) [2026-06-03]
-- [Intel (INTC) Stock Is Up, What You Need To Know](https://finance.yahoo.com/markets/stocks/articles/intel-intc-stock-know-034333269.html) [2026-06-03]
-- [Why Intel Stock Rallied Today](https://www.fool.com/investing/2026/06/03/why-intel-stock-rallied-today/) [2026-06-03]
-- [The SpaceX IPO Could Blow Up This Mega-Popular Investing Strategy](https://www.fool.com/investing/2026/06/03/the-spacex-ipo-could-blow-up-this-mega-popular-inv/) [2026-06-03]
-- [Why Oracle Stock Zoomed 39.9% Higher in May](https://www.fool.com/investing/2026/06/03/why-oracle-stock-zoomed-399-higher-in-may/) [2026-06-03]
-- [Nvidia Wants to Reinvent the PC. Here's What That Means for Intel, AMD, and Qualcomm.](https://www.fool.com/investing/2026/06/03/nvidia-wants-to-reinvent-the-pc-heres-what-that-me/) [2026-06-03]
-- [2 AI Stocks I'd Buy and Hold for the Next Decade -- Even After This Year's Big Run](https://www.fool.com/investing/2026/06/03/2-ai-stocks-id-buy-and-hold-for-the-next-decade-ev/) [2026-06-03]
-- [Has Ferrari Lost Its Mind?](https://www.fool.com/investing/2026/06/03/has-ferrari-lost-its-mind/) [2026-06-03]
-- [Why Circle Internet Group Stock Tumbled Today](https://www.fool.com/investing/2026/06/03/why-circle-internet-group-stock-tumbled-today/) [2026-06-03]
+Broadcom Inc. (AVGO) (+4.49%) | 거래대금: $7.85B
+- [Broadcom Inc Stock (AVGO) Moved Up by 3.33% on Aug 27: Drivers Behind the Movement - TradingKey](https://www.tradingkey.com/news/market-movers/262136258-market-movers-avgo-20260827) [2026-08-27]
 
-Amazon.com, Inc. (AMZN) (-2.53%) | 거래대금: $12.80B
-- [Bank of America resets Amazon stock forecast at tipping point - thestreet.com](https://www.thestreet.com/investing/stocks/bank-of-america-reiterates-amazon-stock-forecast) [2026-06-03]
+Advanced Micro Devices, Inc. (AMD) (-0.89%) | 거래대금: $7.80B
+- [NVIDIA Surges 6% as a 70% Growth Forecast Overrides a Memory Margin Warning, AMD and Intel Tick Up - 24/7 Wall St.](https://247wallst.com/investing/2026/08/27/nvidia-surges-6-as-a-70-growth-forecast-overrides-a-memory-margin-warning-amd-and-intel-tick-up/) [2026-08-27]
+- [Why are Intel and AMD stocks up today? - TradingView](https://www.tradingview.com/news/invezz:41bc8b462094b:0-why-are-intel-and-amd-stocks-up-today/) [2026-08-25]
+- [Advanced Micro Devices Inc Stock (AMD) Opened Up by 3.82% on Aug 25: A Full Analysis - TradingKey](https://www.tradingkey.com/news/market-movers/262130603-market-movers-amd-20260825) [2026-08-25]
 
-Dell Technologies Inc. (DELL) (-3.27%) | 거래대금: $5.96B
-- [Tech ETF inflows surge and defy AI concentration risks](https://finance.yahoo.com/video/tech-etf-inflows-surge-defy-151850175.html) [2026-06-03]
-- [Bitcoin dropped below $70K. So how are crypto traders feeling?](https://finance.yahoo.com/video/bitcoin-dropped-below-70k-crypto-140045948.html) [2026-06-03]
-- [Supermicro Stock Soars 85% in a Month. It’s Time to Worry About Its Valuation.](https://www.barchart.com/story/news/2289338/supermicro-stock-soars-85-in-a-month-its-time-to-worry-about-its-valuation) [2026-06-03]
-- [Move Over, Magnificent 7. Traders Are Flocking to SanDisk, Marvell, Micron, and the Parabolic 7](https://247wallst.com/investing/2026/06/03/move-over-magnificent-7-traders-are-flocking-to-sandisk-marvell-micron-and-the-parabolic-7/) [2026-06-03]
-- [The AI Boom is Even Bigger than We Thought](https://finance.yahoo.com/markets/stocks/articles/ai-boom-even-bigger-thought-165500636.html) [2026-06-03]
-- [DELL Jumps 37% Post Q1 Earnings: Here is Why the Stock is a Buy](https://finance.yahoo.com/markets/stocks/articles/dell-jumps-37-post-q1-164300458.html) [2026-06-03]
-- [Dell Technologies (DELL) Upgraded to Strong Buy: What Does It Mean for the Stock?](https://finance.yahoo.com/markets/stocks/articles/dell-technologies-dell-upgraded-strong-160004515.html) [2026-06-03]
-- [Super Micro Computer Just Unveiled the New AMD Helios Platform. What That Means for SMCI Stock.](https://www.barchart.com/story/news/2285637/super-micro-computer-just-unveiled-the-new-amd-helios-platform-what-that-means-for-smci-stock) [2026-06-03]
+Space Exploration Technologies  (SPCX) (+0.89%) | 거래대금: $7.74B
+- [Inside Nvidia and SpaceX’s growing relationship](https://finance.yahoo.com/video/inside-nvidia-spacex-growing-relationship-194500109.html) [2026-08-27]
+- [Anthropic eyes $30T in potential revenue: Why that actually might be 'sustainable'](https://finance.yahoo.com/video/anthropic-eyes-30t-potential-revenue-120000176.html) [2026-08-27]
+- [Up Nearly 30% in August, Is SpaceX Stock Still a Buy?](https://www.fool.com/investing/2026/08/27/up-nearly-30-in-august-is-spacex-stock-still-a-buy/) [2026-08-27]
+- [Should SpaceX Join the "Magnificent Seven"? Here's 1 Stock I'd Kick Out to Make Room.](https://www.fool.com/investing/2026/08/27/should-spacex-join-the-magnificent-seven-heres-1-s/) [2026-08-27]
+- [SpaceX Ships Intact Starship Home After Near-Failed Ocean Salvage](https://stocktwits.com/news-articles/markets/equity/space-x-ships-intact-starship-home-after-near-failed-ocean-salvage/cZYoQu5RJqZ) [2026-08-27]
+- [Archer Aviation vs. Space Exploration Technologies: Which High Flying Stock Is a Better Buy in 2026?](https://www.fool.com/coverage/better-buy/2026/08/27/archer-aviation-vs-space-exploration-technologies-which-high-flying-stock-is-a-better-buy-in-2026/) [2026-08-27]
+- [Anthropic IPO Could Come in September, But It Has a Massive Risk Factor](https://beincrypto.com/anthropic-ipo-date-insider-share-sales/) [2026-08-27]
+- [NVIDIA Earnings Wrap Up Strong Mag 7 Reporting Cycle](https://finance.yahoo.com/markets/stocks/articles/nvidia-earnings-wrap-strong-mag-190500686.html) [2026-08-27]
 
-Palantir Technologies Inc. (PLTR) (-6.55%) | 거래대금: $5.80B
-- ['Big Short' Star Steve Eisman Warns SpaceX Will Be A 'Retail Cult Stock' With A 'Crazy' Valuation Compared To NVDA](https://finance.yahoo.com/markets/stocks/articles/big-short-star-steve-eisman-233112728.html) [2026-06-03]
-- [Most Income Investors Have Never Heard of These 3 ETFs Paying Over 10 Percent Monthly](https://247wallst.com/investing/2026/06/03/most-income-investors-have-never-heard-of-these-3-etfs-paying-over-10-percent-monthly/) [2026-06-03]
-- [Defense tech is flooded with money, but who’s built to last?](https://finance.yahoo.com/sectors/technology/articles/defense-tech-flooded-money-built-205141602.html) [2026-06-03]
-- [Stocks Retreat as US-Iran Peace Hopes in Doubt](https://www.barchart.com/story/news/2290872/stocks-retreat-as-us-iran-peace-hopes-in-doubt) [2026-06-03]
-- [3 Trump-Promoted US Stocks to Watch in June](https://beincrypto.com/trump-promoted-us-stocks-june-2026/) [2026-06-03]
-- [Palantir Shares Sink After Michael Burry Calls It a 'Sand Castle'](https://finance.yahoo.com/markets/stocks/articles/palantir-shares-sink-michael-burry-182555737.html) [2026-06-03]
-- [Why Palantir Stock Is Sinking Today](https://www.fool.com/investing/2026/06/03/why-palantir-stock-is-sinking-today/) [2026-06-03]
-- [Palantir Lags the S&P 500 in 2026. How to Play the Once-Leading AI Stock Now.](https://www.barchart.com/story/news/2287012/palantir-lags-the-s-p-500-in-2026-how-to-play-the-once-leading-ai-stock-now) [2026-06-03]
-- [Palantir, Axon, Crowdstrike, and Cloudflare: New age defense stocks](https://finance.yahoo.com/video/palantir-axon-crowdstrike-cloudflare-age-164450500.html) [2026-06-03]
+Palantir Technologies Inc. (PLTR) (+4.75%) | 거래대금: $7.55B
+- [Palantir Technologies Inc Stock (PLTR) Opened Up by 3.83% on Aug 27: A Full Analysis - TradingKey](https://www.tradingkey.com/news/market-movers/262136177-market-movers-pltr-20260827) [2026-08-27]
 
-Lumentum (LITE) (-8.86%) | 거래대금: $5.75B
-- [$LITE stock is up 6% today. Here's what we see in our data. - Quiver Quantitative](https://www.quiverquant.com/news/%24LITE+stock+is+up+6%25+today.+Here%27s+what+we+see+in+our+data.) [2026-06-01]
+Strategy Inc (MSTR) (+11.54%) | 거래대금: $6.03B
+- [Strategy Inc Stock (MSTR) Moved Up by 10.91% on Aug 27: A Full Analysis - TradingKey](https://www.tradingkey.com/news/market-movers/262136671-market-movers-mstr-20260827) [2026-08-27]
+- [Strategy (MSTR) Stock Trades Up, Here Is Why - StockStory](https://stockstory.org/us/stocks/nasdaq/mstr/news/why-up-down/strategy-mstr-stock-trades-up-here-is-why-8) [2026-08-24]
 
-Oracle Corporation (ORCL) (-5.83%) | 거래대금: $5.40B
-- [Why Did Oracle Stock Drop Today? - The Motley Fool](https://www.fool.com/investing/2026/06/03/why-did-oracle-stock-drop-today/) [2026-06-03]
-- [Why is Oracle stock surging today? - Investing.com](https://www.investing.com/news/stock-market-news/why-is-oracle-stock-surging-today-93CH-4719722) [2026-06-01]
-- [Buy, Hold, or Sell: Is Oracle Stock a Buy at $245? - 24/7 Wall St.](https://247wallst.com/investing/2026/06/03/buy-hold-or-sell-is-oracle-stock-a-buy-at-245/) [2026-06-03]
+Alphabet Inc. (GOOG) (-0.41%) | 거래대금: $5.74B
+- [How tokenization benefits SpaceX stock 'without taking crypto risk'](https://finance.yahoo.com/video/tokenization-benefits-spacex-stock-without-153500839.html) [2026-08-27]
+- [Marvell (MRVL) Is Betting on Microsoft, AWS and Google to Power Its Next Growth Wave](https://finance.yahoo.com/technology/ai/articles/marvell-mrvl-betting-microsoft-aws-203624975.html) [2026-08-27]
+- [Should SpaceX Join the "Magnificent Seven"? Here's 1 Stock I'd Kick Out to Make Room.](https://www.fool.com/investing/2026/08/27/should-spacex-join-the-magnificent-seven-heres-1-s/) [2026-08-27]
+- [How Your State's AI Data-Center 'Moratorium' Really Works](https://www.investors.com/news/data-center-construction-ban-what-ai-moratoriums-really-mean/?src=A00220&yptr=yahoo) [2026-08-27]
+- [Google Rehires an AI Founder as Cloud Reaches 21% of Sales](https://finance.yahoo.com/technology/ai/articles/google-rehires-ai-founder-cloud-191346218.html) [2026-08-27]
+- [Broadcom Faces New AI Challenge as Google Deepens Marvell Partnership](https://finance.yahoo.com/technology/ai/articles/broadcom-faces-ai-challenge-google-190817740.html) [2026-08-27]
+- [Google Makes Quiet Change to AI Oversight](https://finance.yahoo.com/technology/ai/articles/google-makes-quiet-change-ai-190653772.html) [2026-08-27]
+- [NVIDIA Earnings Wrap Up Strong Mag 7 Reporting Cycle](https://finance.yahoo.com/markets/stocks/articles/nvidia-earnings-wrap-strong-mag-190500686.html) [2026-08-27]
 
-Arm Holdings plc (ARM) (+2.26%) | 거래대금: $4.87B
-- [ARM Stock Soars On This Nvidia Catalyst – Analysts Raise Targets On Agentic AI Demand - Stocktwits](https://stocktwits.com/news-articles/markets/equity/arm-stock-nvidia-rtx-spark-analyst-upgrades-agentic-ai/cZ0gAC0ReHm) [2026-06-03]
-- [Why Arm Stock Is on Pace for Record High on Nvidia’s Chip Announcement - Barron's](https://www.barrons.com/articles/arm-stock-price-nvidia-chip-aad79358) [2026-06-01]
-- [Arm’s stock may be the biggest beneficiary of Nvidia’s new AI effort - MarketWatch](https://www.marketwatch.com/story/arms-stock-may-be-the-biggest-beneficiary-of-nvidias-new-ai-effort-108ca244) [2026-06-01]
+Taiwan Semiconductor Manufactur (TSM) (+2.3%) | 거래대금: $5.44B
+- [TSM Stock Price — TSMC Chart - TradingView](https://www.tradingview.com/symbols/NYSE-TSM/) [2026-08-27]
+- [TSM Stock Today (May 04, 2026) — $401.61 UP +0.99% Ed Miliband (0pdwG64WMX) - Mshale](https://mshale.com/e53dbb88/b279b1884eRbfdTxad4) [2026-08-25]
 
-QUALCOMM Incorporated (QCOM) (+3.81%) | 거래대금: $4.85B
-- [Why Qualcomm (QCOM) Shares Are Trading Lower Today - StockStory](https://stockstory.org/us/stocks/nasdaq/qcom/news/why-up-down/why-qualcomm-qcom-shares-are-trading-lower-today-2) [2026-06-01]
-- [Why is Qualcomm stock tumbling today? - Investing.com](https://www.investing.com/news/stock-market-news/why-is-qualcomm-stock-tumbling-today-93CH-4718873) [2026-06-01]
-- [Qualcomm Stock’s 60% Moment: Is This a Generational Entry Point or a Value Trap? - 24/7 Wall St.](https://247wallst.com/investing/2026/06/01/qualcomm-stocks-60-moment-is-this-a-generational-entry-point-or-a-value-trap/) [2026-06-01]
-- [Qualcomm Inc Stock (QCOM) Moved Up by 5.34% on Jun 3: What Investors Need To Know - TradingKey](https://www.tradingkey.com/news/market-movers/261944379-market-movers-qcom-20260603) [2026-06-03]
+CrowdStrike Holdings, Inc. (CRWD) (+20.5%) | 거래대금: $5.33B
+- [QQQ is up 1.0% today, on CRWD stock price movement - Quiver Quantitative](https://www.quiverquant.com/news/QQQ+is+up+1.0%25+today%2C+on+CRWD+stock+price+movement) [2026-08-27]
+- [CrowdStrike Holdings Inc Stock (CRWD) Moved Up by 19.13% on Aug 27: Facts Behind the Movement - TradingKey](https://www.tradingkey.com/news/market-movers/262136256-market-movers-crwd-20260827) [2026-08-27]
 
-Western Digital (WDC) (+5.51%) | 거래대금: $4.65B
-- [Western Digital Corp Stock (WDC) Opened Up by 3.42% on Jun 3: Facts Behind the Movement - TradingKey](https://www.tradingkey.com/news/market-movers/261944014-market-movers-wdc-20260603) [2026-06-03]
-- [Micron Rises 7%, Western Digital Climbs and SanDisk Climb 4% as Memory Stocks Extend Parabolic Run - 24/7 Wall St.](https://247wallst.com/investing/2026/06/01/micron-rises-7-western-digital-climbs-and-sandisk-climb-4-as-memory-stocks-extend-parabolic-run/) [2026-06-01]
+ServiceNow, Inc. (NOW) (+10.04%) | 거래대금: $3.84B
+- [ServiceNow Inc Stock (NOW) Moved Up by 8.96% on Aug 27: Facts Behind the Movement - TradingKey](https://www.tradingkey.com/news/market-movers/262136393-market-movers-now-20260827) [2026-08-27]
+- [ServiceNow Just Ripped 29% in a Month. What Would It Take to Get NOW Stock Up to $150? - 24/7 Wall St.](https://247wallst.com/investing/2026/08/25/servicenow-just-ripped-29-in-a-month-what-would-it-take-to-get-now-stock-up-to-150/) [2026-08-25]
+- [Moderna Shares Are Up 350% in 2026. Is the Stock a Buy Now? - Morningstar](https://global.morningstar.com/en-nd/stocks/moderna-shares-are-up-350-2026-is-stock-buy-now) [2026-08-25]
 
-Applied Materials (AMAT) (+2.19%) | 거래대금: $4.47B
-- [VOO is up 0.2% today, on AMAT stock price movement - Quiver Quantitative](https://www.quiverquant.com/news/VOO+is+up+0.2%25+today%2C+on+AMAT+stock+price+movement) [2026-06-02]
-- [Applied Materials Inc Stock (AMAT) Moved Up by 4.01% on Jun 2: Key Drivers Unveiled - TradingKey](https://www.tradingkey.com/news/market-movers/261941678-market-movers-amat-20260602) [2026-06-02]
+Okta, Inc. (OKTA) (+28.63%) | 거래대금: $2.82B
+- [Okta's stock skyrockets 29%, CrowdStrike's surges 19% as rising AI threat boosts earnings - CNBC](https://www.cnbc.com/2026/08/27/okta-skyrockets-20percent-and-crowdstrike-surges-15percent-leading-cyber-rally.html) [2026-08-27]
+- [Cybersecurity Stocks Rally on Twin Earnings Beats: Okta Spikes 22%, CrowdStrike Jumps 13% - Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/cybersecurity-stocks-rally-twin-earnings-133439422.html) [2026-08-27]
+- [Okta Inc Stock (OKTA) Moved Up by 28.87% on Aug 27: What Investors Need To Know - TradingKey](https://www.tradingkey.com/news/market-movers/262136722-market-movers-okta-20260827) [2026-08-27]
+- [Why Is Okta (OKTA) Stock Soaring Today - TradingView](https://www.tradingview.com/news/stockstory:d3035dcaf094b:0-why-is-okta-okta-stock-soaring-today/) [2026-08-27]
+- [CrowdStrike and Okta shares jump on second-quarter beats and raised outlooks - SiliconANGLE](https://siliconangle.com/2026/08/26/crowdstrike-and-okta-shares-jump-on-second-quarter-beats-and-raised-outlooks/) [2026-08-26]
 
-Walmart Inc. (WMT) (+3.39%) | 거래대금: $3.83B
-- [Walmart Inc Stock (WMT) Moved Up by 3.06% on Jun 3: A Full Analysis - TradingKey](https://www.tradingkey.com/news/market-movers/261944376-market-movers-wmt-20260603) [2026-06-03]
+Palo Alto Networks, Inc. (PANW) (+12.83%) | 거래대금: $2.79B
+- [Palo Alto Networks Inc Stock (PANW) Opened Up by 10.00% on Aug 27: Drivers Behind the Movement - TradingKey](https://www.tradingkey.com/news/market-movers/262136175-market-movers-panw-20260827) [2026-08-27]
+- [Palo Alto Networks (PANW) Stock Trades Up, Here Is Why - TradingView](https://www.tradingview.com/news/stockstory:6ffc0f1a6094b:0-palo-alto-networks-panw-stock-trades-up-here-is-why/) [2026-08-27]
+- [VOO is up 0.6% today, on PANW stock price movement - Quiver Quantitative](https://www.quiverquant.com/news/VOO+is+up+0.6%25+today%2C+on+PANW+stock+price+movement) [2026-08-27]
 
-Navitas Semiconductor Corporati (NVTS) (+19.26%) | 거래대금: $3.45B
-- [Why Is NVTS Stock Rising Today? - Stocktwits](https://stocktwits.com/news-articles/markets/equity/why-is-nvts-stock-rising-today-june-3/cZ0j7diRexw) [2026-06-03]
-- [Why is NVTS stock rising today? - MSN](https://www.msn.com/en-us/money/other/why-is-nvts-stock-rising-today/ar-AA24JV3u?ocid=finance-verthp-feeds) [2026-06-03]
-- [NVTS Stock: What the Neutral Stance Means at Today's Valuation - TradingView](https://www.tradingview.com/news/zacks:76013b1b3094b:0-nvts-stock-what-the-neutral-stance-means-at-today-s-valuation/) [2026-06-02]
+Synopsys (SNPS) (+13.39%) | 거래대금: $1.89B
+- [Synopsys Inc Stock (SNPS) Moved Up by 10.87% on Aug 27: Key Drivers Unveiled - TradingKey](https://www.tradingkey.com/news/market-movers/262136549-market-movers-snps-20260827) [2026-08-27]
 
-Lam Research (LRCX) (+2.78%) | 거래대금: $2.96B
-- [Why Lam Research (LRCX) Stock Is Trading Up Today - Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/why-lam-research-lrcx-stock-221323968.html) [2026-06-02]
-- [Lam Research Corp Stock (LRCX) Moved Up by 4.68% on Jun 2: Drivers Behind the Movement - TradingKey](https://www.tradingkey.com/news/market-movers/261941785-market-movers-lrcx-20260602) [2026-06-02]
+Adobe Inc. (ADBE) (+5.73%) | 거래대금: $1.88B
+- [Adobe stock climbs as investors weigh BlackRock’s stake and improving AI revenue outlook - Quiver Quantitative](https://www.quiverquant.com/news/Adobe+stock+climbs+as+investors+weigh+BlackRock%E2%80%99s+stake+and+improving+AI+revenue+outlook) [2026-08-27]
+- [Adobe Inc Stock (ADBE) Moved Up by 5.14% on Aug 27: Drivers Behind the Movement - TradingKey](https://www.tradingkey.com/news/market-movers/262136462-market-movers-adbe-20260827) [2026-08-27]
+- [Why Did ADBE, CRM, TTD Stocks Hit 52-Week Lows Today? - Stocktwits](https://stocktwits.com/news-articles/markets/equity/why-did-adbe-crm-ttd-stocks-hit-52-week-lows-today/cZKjp74R7el) [2026-08-26]
 
-Seagate Technology (STX) (+1.52%) | 거래대금: $2.72B
-- [Micron and Sandisk stocks are surging again this week: 2 reasons why memory chip makers are on the rise - Fast Company](https://www.fastcompany.com/91537543/micron-sandisk-stocks-rising-today-reasons-why-memory-chip-makers) [2026-06-03]
-- [Seagate Technology Holdings PLC Stock (STX) Moved Up by 6.71% on Jun 1: Key Drivers Unveiled - TradingKey](https://www.tradingkey.com/news/market-movers/261939724-market-movers-stx-20260601) [2026-06-01]
+Veeva Systems Inc. (VEEV) (+15.2%) | 거래대금: $1.81B
+- [Why Veeva Systems (VEEV) Stock Is Trading Up Today - StockStory](https://stockstory.org/us/stocks/nyse/veev/news/why-up-down/why-veeva-systems-veev-stock-is-trading-up-today-4) [2026-08-27]
+- [Veeva Systems Inc Stock (VEEV) Moved Up by 16.48% on Aug 27: Facts Behind the Movement - TradingKey](https://www.tradingkey.com/news/market-movers/262136672-market-movers-veev-20260827) [2026-08-27]
 
-Analog Devices (ADI) (+3.42%) | 거래대금: $2.49B
-- [Analog Devices Inc Stock (ADI) Moved Up by 3.27% on Jun 3: Facts Behind the Movement - TradingKey](https://www.tradingkey.com/news/market-movers/261944560-market-movers-adi-20260603) [2026-06-03]
+Coinbase Global, Inc. (COIN) (+4.92%) | 거래대금: $1.75B
+- [Coinbase Global Inc Stock (COIN) Moved Up by 5.11% on Aug 27: Key Drivers Unveiled - TradingKey](https://www.tradingkey.com/news/market-movers/262136724-market-movers-coin-20260827) [2026-08-27]
 
-Caterpillar Inc. (CAT) (+1.8%) | 거래대금: $2.32B
-- [Caterpillar Inc Stock (CAT) Moved Up by 4.33% on Jun 2: Key Drivers Unveiled - TradingKey](https://www.tradingkey.com/news/market-movers/261941788-market-movers-cat-20260602) [2026-06-02]
-- [Why Red Cat stock is skyrocketing today - MSN](https://www.msn.com/en-us/money/savingandinvesting/why-red-cat-stock-is-skyrocketing-today/ar-AA24iXGf?ocid=finance-verthp-feeds) [2026-06-02]
+Circle Internet Group, Inc. (CRCL) (+4.82%) | 거래대금: $1.34B
+- [Why Circle Internet Group (CRCL) Stock Is Up Today - Quiver Quantitative](https://www.quiverquant.com/news/Why+Circle+Internet+Group+%28CRCL%29+Stock+Is+Up+Today) [2026-08-24]
+- [Why Did CRCL Stock Lose Steam? Wall Street Split On Circle’s Banking Win - Stocktwits](https://stocktwits.com/news-articles/markets/cryptocurrency/crcl-stock-trims-rally-despite-occ-win-analysts-split-on-what-s-next/cZmrOGkR78Q) [2026-08-25]
 
-Exxon Mobil Corporation (XOM) (+1.99%) | 거래대금: $2.19B
-- [Exxon Mobil Corp Stock (XOM) Moved Up by 3.06% on Jun 3: What Signal Does It Send? - TradingKey](https://www.tradingkey.com/news/market-movers/261944378-market-movers-xom-20260603) [2026-06-03]
+UiPath, Inc. (PATH) (+9.37%) | 거래대금: $1.32B
+- [UiPath (NYSE:PATH) Stock Price Up 8.2% - Here's Why - MarketBeat](https://www.marketbeat.com/instant-alerts/price-uipath-nyse-path-stock-price-up-82-heres-why-2026-08-27/) [2026-08-27]
 
-KLA Corporation (KLAC) (+3.91%) | 거래대금: $2.16B
-- [KLA Corp Stock (KLAC) Moved Up by 3.90% on Jun 3: Drivers Behind the Movement - TradingKey](https://www.tradingkey.com/news/market-movers/261944556-market-movers-klac-20260603) [2026-06-03]
-- [KLA Corp Stock (KLAC) Moved Up by 4.56% on Jun 2: What Signal Does It Send? - TradingKey](https://www.tradingkey.com/news/market-movers/261941869-market-movers-klac-20260602) [2026-06-02]
+TEAM (TEAM) (+10.18%) | 거래대금: $1.13B
+- [Atlassian Corp Stock (TEAM) Moved Up by 8.61% on Aug 27: Facts Behind the Movement - TradingKey](https://www.tradingkey.com/news/market-movers/262136670-market-movers-team-20260827) [2026-08-27]
 
-Medtronic plc. (MDT) (+5.69%) | 거래대금: $1.58B
-- [Why Medtronic Stock Popped Today - The Motley Fool](https://www.fool.com/investing/2026/06/03/why-medtronic-stock-popped-today/) [2026-06-03]
-- [Why is Medtronic stock surging today? - Investing.com](https://www.investing.com/news/stock-market-news/why-is-medtronic-stock-surging-today-93CH-4724644) [2026-06-03]
-- [Medtronic PLC Stock (MDT) Moved Up by 5.59% on Jun 3: Facts Behind the Movement - TradingKey](https://www.tradingkey.com/news/market-movers/261944634-market-movers-mdt-20260603) [2026-06-03]
-- [Why Medtronic stock popped today - MSN](https://www.msn.com/en-us/money/topstocks/why-medtronic-stock-popped-today/ar-AA24LKJ8?ocid=finance-verthp-feeds) [2026-06-03]
+Datadog (DDOG) (+6.7%) | 거래대금: $1.10B
+- [Datadog Inc Stock (DDOG) Moved Up by 6.67% on Aug 27: Facts Behind the Movement - TradingKey](https://www.tradingkey.com/news/market-movers/262136547-market-movers-ddog-20260827) [2026-08-27]
 
-ON Semiconductor Corporation (ON) (+4.11%) | 거래대금: $1.35B
-- [Why Intel Stock Shot Up Again In May - Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/why-intel-stock-shot-again-165757311.html) [2026-06-03]
-- [$BURU stock is up 8% today. Here's what we see in our data. - Quiver Quantitative](https://www.quiverquant.com/news/%24BURU+stock+is+up+8%25+today.+Here%27s+what+we+see+in+our+data.) [2026-06-03]
-- [MRVL: Why is AI chipmaker Marvell’s stock price surging today? It comes down to 4 words from Nvidia's Jensen Huang - Fast Company](https://www.fastcompany.com/91552239/marvell-mrvl-stock-price-up-today-ai-chipmaker-4-words-from-jensen-huang-nvidia) [2026-06-02]
-- [Why Phibro Animal Health (PAHC) Stock Is Trading Up Today - Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/why-phibro-animal-health-pahc-002333957.html) [2026-06-04]
-- [$TPL stock is up 8% today. Here's what we see in our data. - Quiver Quantitative](https://www.quiverquant.com/news/%24TPL+stock+is+up+8%25+today.+Here%27s+what+we+see+in+our+data) [2026-06-03]
+Autodesk (ADSK) (+6.21%) | 거래대금: $1.03B
+- [Why Autodesk (ADSK) Stock Is Up Today - Quiver Quantitative](https://www.quiverquant.com/news/Why+Autodesk+%28ADSK%29+Stock+Is+Up+Today) [2026-08-27]
+- [Autodesk raises its fiscal 2027 revenue-growth forecast after revenue grows 16% - Stock Titan](https://www.stocktitan.net/news/ADSK/autodesk-inc-announces-fiscal-2027-second-quarter-auz2j06ewmj9.html) [2026-08-27]
+- [Autodesk Inc Stock (ADSK) Moved Up by 6.19% on Aug 27: Facts Behind the Movement - TradingKey](https://www.tradingkey.com/news/market-movers/262136551-market-movers-adsk-20260827) [2026-08-27]
 
-Teradyne (TER) (+4.34%) | 거래대금: $1.33B
-- [Vertiv Soars 33% in Three Months: Should Investors Buy VRT Stock?](https://finance.yahoo.com/markets/stocks/articles/vertiv-soars-33-three-months-171900968.html) [2026-06-03]
-- [1 Large-Cap Stock Worth Your Attention and 2 We Avoid](https://finance.yahoo.com/markets/stocks/articles/1-large-cap-stock-worth-143933695.html) [2026-06-03]
-- [Top Wide-Moat Stocks to Buy for Steady Long-Term Returns](https://finance.yahoo.com/markets/stocks/articles/top-wide-moat-stocks-buy-123900118.html) [2026-06-03]
-- [Zacks.com featured highlights include Micron, Credo and Teradyne](https://finance.yahoo.com/markets/stocks/articles/zacks-com-featured-highlights-micron-083600902.html) [2026-06-03]
-- [Skyworks Solutions and Teradyne Stocks Trade Up, What You Need To Know](https://finance.yahoo.com/markets/stocks/articles/skyworks-solutions-teradyne-stocks-trade-233323545.html) [2026-06-03]
-- [Micron & 2 Profitable Stocks to Buy in June for Explosive Upside](https://finance.yahoo.com/markets/stocks/articles/micron-2-profitable-stocks-buy-190000912.html) [2026-06-03]
-- [Quantum Computing Just Hit Commercial Viability and These 3 ETFs Sit on Top of the Compute Transition](https://247wallst.com/investing/2026/05/31/quantum-computing-just-hit-commercial-viability-and-these-3-etfs-sit-on-top-of-the-compute-transition/) [2026-06-03]
-- [Cathie Wood’s ARK Extends Robinhood Selling Streak, Buys KTOS And FUFU Instead](https://stocktwits.com/news-articles/markets/equity/cathie-woods-ark-sells-robinhood-as-stock-soars/cZgmDNQReuE) [2026-06-03]
-- [KLA (KLAC) Up 10.1% Since Last Earnings Report: Can It Continue?](https://finance.yahoo.com/markets/stocks/articles/kla-klac-10-1-since-153016598.html) [2026-06-03]
+Fortinet (FTNT) (+9.67%) | 거래대금: $991.28M
+- [Why Fortinet (FTNT) Stock Is Up Today - Quiver Quantitative](https://www.quiverquant.com/news/Why+Fortinet+%28FTNT%29+Stock+Is+Up+Today) [2026-08-27]
+- [Fortinet Inc Stock (FTNT) Moved Up by 5.83% on Aug 27: Facts Behind the Movement - TradingKey](https://www.tradingkey.com/news/market-movers/262136392-market-movers-ftnt-20260827) [2026-08-27]
 
 ---
 
 마감시황
 
-1. [Broadcom stock sinks in after hours as AI chip forecast disappoints - Yahoo Finance](https://finance.yahoo.com/markets/article/broadcom-stock-sinks-in-after-hours-as-ai-chip-forecast-disappoints-165602504.html)
-- 발행일시: 2026-06-04
-- 본문: Broadcom stock sinks in after hours as AI chip forecast disappoints What happened: Broadcom (AVGO) stock declined 12% in after-hours trading on Wednesday after the custom chip designer’s AI sales outlook missed estimates. By the numbers: The company reported revenue of $22.19 billion, modestly exceeding the consensus estimate of $22.13 billion, although some analysts had anticipated an even stronger result. Earnings per share came in at $2.44, topping estimates of $2.39. The company said it expects revenue for the current quarter to be $29.4 billion, compared with a consensus estimate of $28.61 billion.
+1. 엔비디아의 호실적 발표에 힘입어 나스닥이 급등하며 마감, 기술주 상승세 주도; S&P 500, 다우존스 지수도 상승
 
-> ⚠️ [시스템 경고: 위 기사와 아래 기사는 독립된 별개의 뉴스입니다. 두 기사의 인과관계를 임의로 연결(할루시네이션)하지 마시오.]
+기술주 중심의 나스닥 종합지수는 목요일에 큰 폭으로 상승 마감했고, 벤치마크인 S&P 500과 다우존스 산업평균지수도 반도체 제조 대기업 엔비디아의 호실적 발표에 힘입어 상승세를 보였습니다.
 
-2. [Broadcom Reports Earnings Today. Here's How Much Traders Expect the Stock to Move - Investopedia](https://www.investopedia.com/broadcom-reports-earnings-wednesday-here-is-how-much-traders-expect-the-stock-to-move-avgo-q2-fy2026-update-11985316)
-- 발행일시: 2026-06-03
-- 본문: Get personalized, AI-powered answers built on 27+ years of trusted expertise. Broadcom is slated to report its latest quarterly earnings after the closing bell today, with traders anticipating a big move in its stock that could take it to new highs. 1 Broadcom (AVGO) shares are seen swinging up to about 8.5% in either direction by the end of the week, based on recent options pricing. A move of that size from Tuesday's record close could lift the stock to a fresh high above $522, or pull it back down to around $440. Broadcom shares are up nearly 40% since the start of the year amid a broader rally for chip stocks. The chipmaker has also been boosted by signing new deals to design new custom AI chips for big tech giants like Google parent Alphabet (GOOGL) and Meta Platforms (META).
+나스닥, S&P 500, 다우존스 지수는 각각 1.6%, 0.7%, 0.2% 상승하며 마감했습니다. S&P 500 정보기술(IT) 섹터는 3% 이상 급등했지만, 조사 대상 11개 섹터 중 유일하게 상승 마감했습니다.
 
-> ⚠️ [시스템 경고: 위 기사와 아래 기사는 독립된 별개의 뉴스입니다. 두 기사의 인과관계를 임의로 연결(할루시네이션)하지 마시오.]
+어제 장 마감 후 엔비디아( NVDA ) 는 예상보다 양호한 2분기 실적을 발표했으며 , 3분기 매출 전망치 1,080억 달러는 Visible Alpha의 애널리스트 컨센서스를 상회했습니다. 젠슨 황 CEO는 미리 준비한 성명에서 "AI 인프라 구축이 순조롭게 진행되고 있다"고 밝혔습니다. 엔비디아 주가는 목요일 급등하여 거의 9% 상승 마감했습니다.
 
----
+실적 발표 후 다른 기업들의 주가는 Okta( OKTA )가 29% 급등했고, Salesforce ( CRM )는 23%, CrowdStrike Holdings ( CRWD )는 20% 상승했습니다. Dollar General ( DG )은 2.5% 올랐고, Hormel( HRL )은 10% 하락했습니다. Burlington Stores( BURL )는 7.5%, Best Buy( BBY )는 4.5%, HP( HPQ )는 3% 하락했습니다. Marvell Technology( MRVL ) 주가는 장 마감 후 실적 발표 전 1.5% 하락했습니다.
 
+투자자들이 호르무즈 해협의 해상 통행을 완전히 재개방하기 위한 최근 외교적 노력에 주목하면서 원유 가격이 상승했습니다. 미국 서부 텍사스산 원유(WTI) 선물은 ​​오후 4시(미국 동부시간)경 배럴당 83.90달러로 2.1% 상승했고, 국제 유가 기준인 브렌트유 선물은 2.6% 상승한 90.15달러를 기록했습니다.
+
+주택담보대출을 비롯한 다양한 소비자 대출 금리에 영향을 미치는 10년 만기 미국 국채 수익률은 4.68% 부근으로, 수요일 종가 대비 약 3bp 상승했다.
+
+비트코인이 목요일에 이번 주 들어 두 번째로 8만 달러를 돌파했습니다 . 세계 최대 암호화폐인 비트코인은 최근 8만 100달러를 기록하며 전날 최저치인 7만 8200달러 부근에서 상승했습니다.
+
+주요 외화 대비 달러화 가치를 추적하는 미국 달러 지수는 99.16으로 보합세를 보였다. 금 선물 은 온스당 4,660달러로 0.2% 상승했다.
+
+내일 투자자들의 관심은 캔자스시티 연방준비은행이 주최하는 연례 잭슨홀 경제 정책 심포지엄에서 케빈 워시 연방준비제도 의장이 할 연설에 쏠릴 것이며 , 그는 이 연설에서 금리 정책에 대한 자신의 비전을 명확히 밝힐 것으로 예상됩니다.
+
+관세가 대폭 철폐된 후 여러분은 돈을 돌려받지 못했을 수도 있지만, 미국 기업들은 막대한 관세 환급금을 받았고, 이를 활용해 사상 최고 수준의 이익을 올리고 있습니다.
+
+미국 경제분석국(BEA)이 수요일 발표한 자료에 따르면, 2분기 기업 이익은 연간 기준으로 1분기보다 4천억 달러 증가했습니다. 이는 코로나19 팬데믹의 가장 심각한 여파 이후의 회복세를 제외하면 사상 최대 증가폭입니다. 싱크탱크인 조세재단(The Tax Foundation)의 정부 데이터 분석에 따르면, 이러한 이익 증가는 기업들이 5월과 6월에 받은 약 710억 달러 규모의 관세 환급에 힘입은 것으로 추정됩니다.
+
+이 자료는 미국 기업들이 도널드 트럼프 대통령이 2025년까지 부과한 관세 대부분을 무효화한 2월 대법원 판결로 인해 막대한 이익을 얻고 있음을 보여줍니다. 수입 관세를 납부했던 기업들의 주머니로 돈이 다시 들어가고 있지만, 경제학자들은 대부분의 기업이 궁극적으로 그 비용을 소비자에게 전가했다고 지적합니다 .
+
+그 모든 환급금이 이제 경제 데이터에 반영되고 있으며, 데이터를 왜곡할 가능성이 있습니다.
+
+
+2. 엔비디아의 매출 전망치 발표에 힘입어 S&P 500과 나스닥 종합지수가 목요일 상승 마감했습니다
+
+나스닥 종합지수
+엔비디아 의 최신 실적 발표 이후 목요일 주가가 상승했습니다.
+그리고 다른 유명 기술 기업들의 등장으로 투자 심리가 개선되었습니다.
+
+기술주 중심의 지수는 1.57% 상승한 26,541.35를 기록했고, S&P 500 지수는 하락했습니다.
+0.72% 상승한 7,730.99로 마감했습니다. 다우존스 산업평균지수
+105.56포인트(0.2%) 상승하여 53,569.44로 마감했습니다.
+
+기술주, S&P 500, 나스닥 종합지수는 8월 4일 이후 최고의 상승세를 기록했습니다.
+
+엔비디아 주가는 애널리스트들의 예상을 뛰어넘는 실적 발표와 강력한 매출 성장 전망에 힘입어 8.7% 급등했습니다 . 특히, 엔비디아는 2028 회계연도에 매출이 70% 증가할 것으로 예상되며 , 이는 LSEG가 조사한 애널리스트들의 예상치인 44%를 크게 웃도는 수치입니다. 엔비디아의 2분기 매출은 두 배 이상 증가했습니다. 반도체 산업 관련 주식이 상승세를 보였으며, 브로드컴 도 그중 하나였다.
+4.5%를 추가하고 SK 하이닉스
+그리고 인텔
+각각 2%와 4% 상승했습니다. VanEck Semiconductor ETF(SMH)
+3% 상승했습니다.
+
+심코프의 투자 결정 연구 부문 글로벌 책임자인 멜리사 브라운은 ”최근 하이퍼스케일러 기업들의 순환식 자금 조달 방식과 수익이 막대한 비용을 감당할 수 있을지에 대한 논의가 활발히 이루어지고 있습니다. 이번 인수로 이러한 논의가 잠시 보류될 수도 있겠습니다.”라고 말했습니다. 그녀는 또한 AI 업계의 다른 기업들이 ”단지 엔비디아의 후광을 등에 업고 있을 뿐”이라고 덧붙였습니다.
+
+엔비디아와 다른 반도체 기업들을 제외하면 세일즈포스는
+2분기 매출 이 월가 예상치를 상회 하면서 주가가 22% 이상 급등했다 . 어도비 와 같은 소프트웨어 주식도 상승세를 보였다.
+그리고 오토데스크
+각각 5.7%와 6.2% 상승했습니다.
+
+사이버 보안 분야에서 Okta는
+28% 이상 급등했고 CrowdStrike
+애널리스트들의 예상을 뛰어넘고 전망치를 상향 조정하면서 주가가 20.5% 상승했습니다. 기업들은 인공지능(AI) 기반의 자동화 기술에 대한 수요가 급증할 것으로 전망하고 있습니다. 팔로알토네트웍스 와 같은 다른 사이버 보안 관련 주식들도 비슷한 흐름을 보였습니다.
+그 주식도 함께 상승했습니다. 특히 그 주식은 거의 13%나 급등했습니다.
+
+브라운은 인공지능 관련 주식과 시장의 다른 분야 주식 사이에 큰 차이가 있기 때문에 주식 간 상관관계가 낮아 위험에 영향을 미친다고 지적했습니다.
+
+″변동성은 높지만 상관관계는 낮아서 전반적인 변동성이 낮게 유지되고 있습니다.”라고 그녀는 말했다. ”하지만 저희는 이러한 현상이 투자자들에게 잘못된 안도감을 줄 수 있다는 점을 우려하고 있습니다.”
+
+거래자들은 케빈 워시 연준 의장이 금요일 기조연설을 할 예정인 와이오밍주 잭슨홀에서 열리는 연준 연례 심포지엄을 앞두고 준비에 박차를 가하고 있습니다 .
