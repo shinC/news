@@ -58,57 +58,6 @@ def _fetch_naver_top_stocks() -> List[Dict[str, Any]]:
         except: continue
     return stocks
 
-def fetch_extra_market_info() -> Dict[str, Any]:
-    """18번 증시 정보 수집: 지수/거래대금, 글로벌 지수, 환율/원자재/국채, 투자자 동향"""
-    extra = {
-        "indices_detail": {},
-        "global_indices": {},
-        "exchanges_and_macro": {},
-        "investor_trends": {}
-    }
-    headers = {"User-Agent": "Mozilla/5.0"}
-    
-    # 1. 지수 & 거래대금
-    indices_list = [('KOSPI', '코스피'), ('KOSDAQ', '코스닥'), ('KPI200', '코스피 200')]
-    for code, name in indices_list:
-        try:
-            url = f'https://finance.naver.com/sise/sise_index.naver?code={code}'
-            res = requests.get(url, headers=headers, timeout=5)
-            res.encoding = 'euc-kr'
-            soup = BeautifulSoup(res.text, 'lxml')
-            
-            now = soup.select_one('#now_value').text.strip() if soup.select_one('#now_value') else ""
-            change_elem = soup.select_one('#change_value_and_rate')
-            change_text = change_elem.text.strip() if change_elem else ""
-            
-            cp_str = "+0.00%"
-            if change_elem:
-                parts = change_text.split()
-                for p in parts:
-                    if '%' in p:
-                        clean_p = p.replace('상승', '').replace('하락', '').replace('보합', '')
-                        if not clean_p.startswith('+') and not clean_p.startswith('-'):
-                            sign = "-" if ("하락" in change_text or "-" in change_text) else "+"
-                            cp_str = f"{sign}{clean_p}"
-                        else:
-                            cp_str = clean_p
-                        break
-                        
-            amount_elem = soup.select_one('#amount')
-            tv_str = ""
-            if amount_elem and code != 'KPI200':
-                try:
-                    tv_val = float(amount_elem.text.strip().replace(',', '')) / 1000000
-                    tv_str = f"{round(tv_val, 1)}조"
-                except: pass
-                
-            extra["indices_detail"][name] = {
-                "price": now,
-                "change_pct_str": cp_str,
-                "trading_value_str": tv_str
-            }
-        except: pass
-
 def _format_inv_amt(amt_str: Any) -> str:
     if not amt_str: return "0원"
     clean_str = str(amt_str).replace(',', '').replace('+', '').strip()
@@ -148,7 +97,7 @@ def fetch_extra_market_info() -> Dict[str, Any]:
             soup = BeautifulSoup(res.text, 'lxml')
             
             now = soup.select_one('#now_value').text.strip() if soup.select_one('#now_value') else ""
-            change_elem = soup.select_one('#change_value_and_rate')
+            change_elem = soup.select_one('#change_value_and_rate') or soup.select_one('#change_rate')
             change_text = change_elem.text.strip() if change_elem else ""
             
             cp_str = "+0.00%"
