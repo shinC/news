@@ -180,58 +180,42 @@ def get_market_data() -> Dict[str, Any]:
     try:
         target_tickers, ticker_name_map = get_dynamic_tickers()
         # download 대량 데이터 (빠름)
-        data = yf.download(target_tickers, period="5d", progress=False)
+        data = yf.download(target_tickers, period="7d", progress=False)
         stocks_info = []
         
-        # yf.download 반환 데이터 프레임은 멀티인덱스 컬럼을 가질 수 있음
-        # 컬럼 형태: (Price_Type, Ticker)
+        # 최신 일자 중 전 종목 NaN 행(미국 장 마감 후 반영 지연 일자) 일괄 제거
+        close_df = data['Close'].dropna(how='all') if 'Close' in data else pd.DataFrame()
+        vol_df = data['Volume'].dropna(how='all') if 'Volume' in data else pd.DataFrame()
+        
+        # 다운로드된 대량 데이터의 최신 마감일 추출
+        latest_download_date = close_df.index[-1].date() if len(close_df) > 0 else None
+        
         for ticker in target_tickers:
             try:
-                # yf 버전에 따라 멀티인덱스 접근 방식이 다를 수 있음
-                if hasattr(data.columns, 'levels'):
-                    close_col = ('Close', ticker)
-                    vol_col = ('Volume', ticker)
-                    if close_col in data.columns and vol_col in data.columns:
-                        hist_close = data[close_col].dropna()
-                        hist_vol = data[vol_col].dropna()
+                if ticker in close_df.columns and ticker in vol_df.columns:
+                    s_close = close_df[ticker].dropna()
+                    s_vol = vol_df[ticker].dropna()
+                    
+                    ticker_last_date = s_close.index[-1].date() if len(s_close) > 0 else None
+                    
+                    # 엄격 규칙: 최신 마감 거래일(latest_download_date) 데이터인 경우만 반영
+                    # 날짜가 안 맞거나 과거 데이터인 경우 전날 데이터로 대체 금지하고 스킵
+                    if ticker_last_date and latest_download_date and ticker_last_date == latest_download_date and len(s_close) >= 2 and len(s_vol) >= 1:
+                        last_close = s_close.iloc[-1]
+                        prev_close = s_close.iloc[-2]
+                        last_vol = s_vol.iloc[-1]
                         
-                        last_close = None
-                        prev_close = None
-                        last_vol = None
-                        change_pct = None
-                        trading_value = None
+                        change_pct = ((last_close - prev_close) / prev_close) * 100
+                        trading_value = last_close * last_vol
                         
-                        if len(hist_close) >= 2 and len(hist_vol) >= 1:
-                            last_close = hist_close.iloc[-1]
-                            prev_close = hist_close.iloc[-2]
-                            last_vol = hist_vol.iloc[-1]
-                            
-                            change_pct = ((last_close - prev_close) / prev_close) * 100
-                            trading_value = last_close * last_vol
-                        else:
-                            # 결측치 보완 폴백: yfinance Ticker info API 활용
-                            try:
-                                logger.info(f"{ticker} 데이터 결측으로 yfinance info 폴백 조회 시도...")
-                                t_obj = yf.Ticker(ticker)
-                                info = t_obj.info
-                                if info:
-                                    last_close = info.get('currentPrice') or info.get('regularMarketPrice')
-                                    prev_close = info.get('regularMarketPreviousClose') or info.get('previousClose')
-                                    last_vol = hist_vol.iloc[-1] if len(hist_vol) >= 1 else (info.get('regularMarketVolume') or info.get('volume'))
-                                    
-                                    if last_close and prev_close and last_vol:
-                                        change_pct = ((last_close - prev_close) / prev_close) * 100
-                                        trading_value = last_close * last_vol
-                            except Exception as fallback_e:
-                                logger.warning(f"{ticker} yfinance info 폴백 실패: {fallback_e}")
-                        
-                        if last_close is not None and change_pct is not None:
-                            stocks_info.append({
-                                "ticker": ticker,
-                                "price": round(float(last_close), 2),
-                                "change_pct": round(float(change_pct), 2),
-                                "trading_value": float(trading_value)
-                            })
+                        stocks_info.append({
+                            "ticker": ticker,
+                            "price": round(float(last_close), 2),
+                            "change_pct": round(float(change_pct), 2),
+                            "trading_value": float(trading_value)
+                        })
+                    else:
+                        logger.warning(f"[{ticker}] 최신 마감일({latest_download_date}) 데이터 결측 - 과거 데이터 대체 없이 제외")
             except Exception as e:
                 continue
                 

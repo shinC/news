@@ -1,268 +1,290 @@
-미국 증시 마감 리포트 — 2026년 8월 27일 (현지 기준)
+작성일: 2026년 9월 5일 (미국 현지 기준 2026년 9월 4일 마감)
 
-엔비디아 어닝 서프라이즈가 AI 투자 신뢰를 회복시켰다. 전날 장 마감 후 발표된 엔비디아의 2분기 실적이 시장 예상을 뛰어넘으면서, 나스닥은 8월 4일 이후 최대 하루 상승폭을 기록했다. 실적 발표 효과는 반도체·소프트웨어·사이버보안 전반으로 빠르게 확산됐으며, 세일즈포스·옥타·크라우드스트라이크 등 동시에 어닝 서프라이즈를 낸 종목들이 시장을 함께 이끌었다. 반면 생활소비재·금융·헬스케어 등 AI와 거리가 먼 섹터는 약세를 면치 못해 'AI 수혜주 vs. 비수혜주'의 구도가 뚜렷이 드러난 하루였다.
+─────────────────────────────────────────────
+미국 증시 마감 리포트 | 2026년 9월 4일 (금)
+─────────────────────────────────────────────
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[서두 — 오늘의 시장 종합]
+
+오늘 미국 증시는 예상을 두 배 이상 웃도는 8월 고용지표 발표 후 연방준비제도(Fed)의 금리 인상 우려가 재점화되며 3대 지수 모두 하락 마감했다. 반도체·메모리 섹터는 강한 AI 수요를 배경으로 독자적인 강세를 보였고, 테슬라는 사이버캡 출시 실망감과 NHTSA 조사 착수 소식에 6% 급락해 눈길을 끌었다. 어도비, 룰루레몬, 유이패스 등 실적 발표 종목들은 부진한 가이던스에 큰 폭으로 밀렸다. 골드만삭스는 "AI 트레이드는 이제 막 시작됐으며, 지금까지 오른 종목들이 앞으로도 주도주가 되지는 않을 것"이라고 경고했다.
+
+─────────────────────────────────────────────
 1. 증시 정보
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+─────────────────────────────────────────────
 
-S&P 500: 7,730.99 (+0.72%)
-나스닥: 26,541.35 (+1.57%)
-다우존스: 53,569.44 (+0.20%)
+S&P 500: 7,718.60 (-0.38%)
+NASDAQ: 26,506.99 (-0.29%)
+Dow Jones: 53,414.25 (-0.51%)
 
-VanEck Semiconductor ETF(SMH): +3%
-S&P 500 IT 섹터: +3% 이상 (11개 섹터 중 유일 상승)
-WTI 원유: 배럴당 $83.90 (+2.1%)
-브렌트유: 배럴당 $90.15 (+2.6%)
-10년 만기 미국 국채 수익률: 4.68% (전일 대비 약 3bp 상승)
-미국 달러 지수: 99.16 (보합)
-금 선물: 온스당 $4,660 (+0.2%)
-비트코인: $80,100 (이번 주 두 번째 8만 달러 돌파)
+주간 수익률:
+나스닥: +0.4% | S&P 500: +0.1% | 다우: -0.3%
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-2. 마감시황
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+─────────────────────────────────────────────
+2. 마감시황 — 고용 서프라이즈로 연준 금리 인상 우려 재부상
+─────────────────────────────────────────────
 
-나스닥 종합지수는 목요일 1.57% 급등했고, S&P 500은 0.72%, 다우존스 산업평균지수는 0.20%(105.56포인트) 상승하며 마감했다. 기술주를 포함한 세 지수는 8월 4일 이후 최고의 하루 상승세를 기록했다.
+미국 노동통계국이 발표한 8월 비농업 고용은 16만 2천 명 증가로, 경제학자 예상치(5만 3천 명)를 세 배 가까이 웃돌았다. 실업률은 예상치와 동일한 4.1%를 유지했으며, 6월·7월 수치도 상향 조정됐다.
 
-상승 동력은 엔비디아의 호실적이었다. 엔비디아는 전날 장 마감 후 2분기 실적을 발표하면서, 3분기 매출 전망치를 1,080억 달러로 제시했다. 이는 Visible Alpha 애널리스트 컨센서스를 상회하는 수치였다. 또한 2028 회계연도 매출이 70% 증가할 것으로 예상된다고 밝혀 LSEG 조사 애널리스트 컨센서스인 44%를 크게 웃돌았다. 젠슨 황 CEO는 "AI 인프라 구축이 순조롭게 진행되고 있다"고 밝혔다. 엔비디아 주가는 목요일 약 9% 급등하며 $400억 이상의 시가총액이 추가됐다.
+보고서 발표 이후 국채 수익률이 상승했고, 10년 만기 미국 국채 수익률은 동부시간 오후 4시 기준 4.78%를 넘어섰다(보고서 발표 직전 4.75%, 목요일 종가 대비 1bp 상승). CME 그룹의 FedWatch 도구에 따르면 연준이 9월 회의에서 금리를 인상할 가능성은 발표 직전 51%에서 58%로 높아졌다.
 
-실적 발표 이후 연쇄 상승이 이어졌다. 옥타(OKTA)가 29%, 세일즈포스(CRM)가 23%, 크라우드스트라이크(CRWD)가 20% 상승했다. 브로드컴은 4.5%, SK 하이닉스는 2%, 인텔은 4% 상승했다.
+전날(목요일) 연준 이사 크리스토퍼 월러가 9월 15~16일 회의에서 금리를 3.5%~3.75% 범위로 유지하는 것을 "지지할 의향이 있다"고 밝히면서 수익률이 하락했고 3대 지수는 상승했으나, 금요일 고용 서프라이즈로 분위기가 반전됐다.
 
-반면 S&P 500 IT 섹터 이외 10개 섹터는 하락 마감했다. 달러 제너럴(DG)은 2.5% 올랐지만, 호멜(HRL)은 10%, 버링턴 스토어스(BURL)는 7.5%, 베스트바이(BBY)는 4.5%, HP(HPQ)는 3% 하락했다. 마블 테크놀로지(MRVL)는 장 마감 후 실적 발표를 앞두고 1.5% 하락했다.
+모건 스탠리 자산운용 수석 경제전략가 엘렌 젠트너는 "고용이 예상보다 강하게 나오면 금리 인상 우려가 커지지만, 최종 결론은 다음 주 발표될 인플레이션 수치에 달려 있다"고 밝혔다.
 
-원유 가격은 투자자들이 호르무즈 해협 해상 통행 재개방을 위한 외교적 노력에 주목하면서 WTI가 2.1%, 브렌트유가 2.6% 상승했다.
+도널드 트럼프 대통령은 Truth Social에 "고용 지표가 훌륭하다"고 평가하면서도 금리를 낮추지 않으면 무역 적자를 내는 국가와의 거래를 중단하겠다고 위협하는 게시물을 올렸다.
 
-내일(현지 8월 28일)은 잭슨홀 연례 경제 정책 심포지엄에서 케빈 워시 연준 의장의 기조연설이 예정되어 있어 시장의 관심이 집중될 전망이다.
+원유: WTI +0.1% → 배럴당 $91.35 | 브렌트유 +0.7% → 배럴당 $96.15
+달러 인덱스: +0.3% → 99.14
+금 선물: -1.3% → 온스당 $4,480
+비트코인: 최근 $79,800(5월 이후 최고치) 경신 후 하락
 
-출처: [엔비디아의 호실적 발표에 힘입어 나스닥 급등](https://finance.yahoo.com/markets/stocks/articles/nvidia-earnings-wrap-strong-mag-190500686.html) — Yahoo Finance [2026-08-27]
+출처: [CNBC — Market news, September 4, 2026](https://finance.yahoo.com/markets/stocks/articles/magnificent-seven-flash-strong-signal-195139729.html)
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+─────────────────────────────────────────────
 3. 특징주 상승 이유 (거래대금 순)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+─────────────────────────────────────────────
 
-엔비디아(NVDA) | +8.74% | 거래대금: $67.76B
-사유: 2분기 실적이 시장 예상을 상회하고, 3분기 매출 전망치 1,080억 달러를 제시하며 애널리스트 컨센서스를 웃돌았다. 2028 회계연도에 매출 70% 증가 예상을 밝히며 AI 수요 신뢰를 회복시켰다.
-출처: [Nvidia adds more than $400 billion in value after blowout earnings boost AI confidence](https://www.cnbc.com/2026/08/27/nvidia-nvda-q2-earnings.html) — CNBC [2026-08-27]
+마이크론 테크놀로지(MU) | +6.1% | 거래대금: $35.70B
+AI 메모리 수요 급증으로 NAND 가격 사이클 가속화 전망. 기사들은 "AI 메모리 붐이 랠리를 견인하고 있다"고 직접 기술.
+출처: [SanDisk Rises 8%, Micron Gains 5%: Is the NAND Pricing Cycle Still Accelerating? — 247wallst.com](https://news.google.com/rss/articles/CBMipwFBVV95cUxPVVE3c0dVZTNZdlBTdm85YlhIYS1NOGZIZkoya3U0ZUNhTEZCYzJHbmlKbUFabGxGVWxSX3p0N3pVMGFFeHZmdmVFVEsxXzQ1SkdCUl85b2pRRk41bjFhYllPU290UXE4VDRZUlM4LV90WDhFLUxlZkFmdlpaUXZnNDNPZGRyS19JTXptV3FZV1VOY2daSnQzYno3bU51UlUxUUJONExTbw?oc=5)
 
-마이크론 테크놀로지(MU) | -0.32% | 거래대금: $26.66B
-사유: 엔비디아 실적 발표 직후 메모리 수요 기대로 초반 주목을 받았으나, 엔비디아가 메모리 마진 경고를 함께 발표하면서 랠리가 소진됐다. 트럼프 대통령이 마이크론의 미국 연구소 100억 달러 투자를 언급한 점도 화제가 됐으나 주가 상승으로 이어지지는 않았다.
-출처: [Micron Lags Despite NVIDIA's $279B Memory Commitment; Western Digital Drops 4%, SK Hynix Ticks Up](https://247wallst.com/investing/2026/08/27/micron-lags-despite-nvidias-279b-memory-commitment-western-digital-drops-4-sk-hynix-ticks-up/) — 24/7 Wall St. [2026-08-27]
+엔비디아(NVDA) | +0.84% | 거래대금: $31.09B
+전날(목요일) 오픈소스 AI 플랫폼 허깅페이스를 약 130억 달러에 인수하며 다우존스를 3% 끌어올렸고, 금요일에는 소폭 상승에 그침. 월가 목표주가 $324 언급.
+출처: [Wall Street Sees Nvidia Stock Hitting $324 — Barchart.com](https://news.google.com/rss/articles/CBMivgFBVV95cUxQTjN2ZGo0OURnMEZTUjFFRnN3Nmc1Vmx5OWpPMjdkd01FSWVqQ0Z1R0VCLURQQzI3SzdHTGt4bGpkdDltR0l4b0E4UVRhTDJvS29FVjJzZHRwNFZCLWZRT21pNnZTcnpIdC05VGo2Q2Z4Z1V5OFF6UXQ0Y0RENkhUWkFBQlNfdHVGRzEwRDVwUXdkVXNDVFMzd05FaFlzVlpDNDFfdGkxTTB4elZIQjg4bndpX3R5QnNuWWFRbHZ3?oc=5)
 
-마이크로소프트(MSFT) | +1.75% | 거래대금: $14.45B
-사유: 뚜렷한 재료 없음. 기사에서는 지정학적 긴장(미-이란) 속에서도 주가를 유지하며 "가장 안전한 실적 플레이"로 리테일 투자자들이 평가한다는 내용이 언급됐으나 주가 상승의 직접 원인은 확인되지 않음.
-출처: [MSFT Stock Holds Up Amid US-Iran Geopolitical Jitters](https://stocktwits.com/news-articles/markets/equity/msft-stock-holds-up-amid-us-iran-geopolitical-jitters-retail-calls-it-safest-earnings-play/cZmziMIR7om) — Stocktwits [2026-08-27]
+샌디스크(SNDK) | +11.9% | 거래대금: $28.69B
+NAND 가격 사이클 강세 및 AI 반도체 장세 속 메모리 섹터 전반 상승 흐름에 동반 급등.
+출처: [Why Sandisk Stock Rallied Today — Yahoo Finance](https://news.google.com/rss/articles/CBMinAFBVV95cUxNbEdhWFcxQUtRd2dnM0NWUFJIMElnVEwtNXBvaU1kMDQyVW1pZjBlSzRVNDYwZTVTSUVqRG9hTzFPT3pWT1hGdU9ic1o2Z1dQTHZNRWFqQm44RTBRWngzajVoU1BGMDlhanFLVjhtRmQ0NERJN1RUWlhrbjU5dUUwNHFWMVpyQUtVZ1piLWs5WEgzQzNnVzRsUXdUdkc?oc=5)
 
-세일즈포스(CRM) | +22.58% | 거래대금: $13.97B
-사유: 2분기 매출이 월가 예상치를 상회했고, 연간 전망치를 상향 조정했다. 또한 Anthropic의 Claude와 파트너십 확대를 발표했다.
-출처: [Salesforce Stock Soars After Strong Results, Raised Outlook](https://www.investopedia.com/market-update-salesforce-stock-soars-after-strong-results-raised-outlook-crm-12069299) — Investopedia [2026-08-27]
+테슬라(TSLA) | -5.92% | 거래대금: $22.95B
+사이버캡 출시 후 월가 애널리스트들의 실망감 표출 및 NHTSA가 사이버캡 인증 절차·기술 데이터를 조사하기 위한 조사에 착수했다는 소식이 주가를 6% 이상 끌어내림. 전날 큰 폭 상승분 전량 반납.
+출처: 마감시황 원문(us_economy_news.md)
 
-샌디스크(SNDK) | -0.96% | 거래대금: $13.00B
-사유: 뚜렷한 재료 없음. 메모리 섹터 전반의 혼조세 속에 소폭 하락 마감했다.
+애플(AAPL) | -2.51% | 거래대금: $12.66B
+뚜렷한 재료 없음 (수집된 기사는 9월 1일자로 당일 하락 이유 직접 언급 없음)
 
-테슬라(TSLA) | +2.60% | 거래대금: $10.64B
-사유: 9월 24일 세미 이벤트 발표, 로보택시 네트워크를 오스틴·마이애미 이외 지역으로 확장한다는 소식이 전해졌다.
-출처: [Tesla Announces Semi Event For September 24](https://www.fool.com/investing/2026/08/27/tesla-announces-semi-event-for-september-24-here-s-what-investors-need-to-know/) — The Motley Fool [2026-08-27]
+브로드컴(AVGO) | +0.21% | 거래대금: $11.73B
+뚜렷한 재료 없음 (Q3 어닝 후 하락 이후 소폭 회복 국면, 어닝 관련 기사는 9월 2일자)
 
-애플(AAPL) | +0.36% | 거래대금: $10.14B
-사유: 뚜렷한 재료 없음. M7 어닝 사이클 마무리 관련 보도가 있었으나 주가 상승의 직접 원인은 확인되지 않음.
+메타 플랫폼스(META) | +1.0% | 거래대금: $9.83B
+뚜렷한 재료 없음 (수집된 기사는 9월 3일자로 당일 구체적 상승 이유 미확인)
 
-인텔(INTC) | +4.36% | 거래대금: $9.21B
-사유: 엔비디아 실적 발표에 따른 반도체 섹터 동반 상승 효과.
-출처: [NVIDIA Surges 6% as a 70% Growth Forecast Overrides a Memory Margin Warning, AMD and Intel Tick Up](https://247wallst.com/investing/2026/08/27/nvidia-surges-6-as-a-70-growth-forecast-overrides-a-memory-margin-warning-amd-and-intel-tick-up/) — 24/7 Wall St. [2026-08-27]
+AMD | +4.69% | 거래대금: $9.39B
+메모리·반도체 섹터 전반 상승 흐름 동반. 당일 특정 재료 없음.
 
-아마존(AMZN) | -1.54% | 거래대금: $9.17B
-사유: 뚜렷한 재료 없음.
+인텔(INTC) | +4.51% | 거래대금: $9.33B
+뚜렷한 재료 없음 (기사 제목에 구체적 상승 이유 미명시)
+출처: [Why Intel Stock Popped Today — Yahoo Finance](https://news.google.com/rss/articles/CBMimAFBVV95cUxNOElqdTF3VGpWM3ZEaDJONjctbW00NTU4VmNoVDFsaGUwc0Y5bVJaMDZ1S1Vfd044b08zeC1mak1OaWJPVkdyZHNNeWsxdjdRdHZjcnNCYlBBbl9raV9HSzlOdGJrX3NPaEk3UzhpSjJfT2RNcTl3YWx4MTRfR0VwaTNKZW1qRy1HaHowdnMtZzgyS2VCQTIxUg?oc=5)
 
-메타 플랫폼스(META) | -0.87% | 거래대금: $8.66B
-사유: 뚜렷한 재료 없음. 아동 안전 소송 관련 180억 달러 합의 소식이 전날 보도됐으나 당일 주가 하락과의 직접적 인과관계는 확인되지 않음.
+마이크로소프트(MSFT) | -2.04% | 거래대금: $9.03B
+뚜렷한 재료 없음
 
-마블 테크놀로지(MRVL) | -1.49% | 거래대금: $8.60B
-사유: 장 마감 후 실적 발표를 앞두고 1.5% 하락 마감.
-출처: [Marvell Earnings Today: Could MRVL Stock Move 10% After Nvidia's Blowout Quarter?](https://stocksdownunder.com/marvell-earnings-mrvl-stock/) — Stocks Down Under [2026-08-27]
+아마존(AMZN) | -0.15% | 거래대금: $7.94B
+AWS가 2백만 대 추가 NVIDIA GPU 도입 계획 발표. 주가는 보합 수준.
+출처: [AWS Plans 2 Million More NVIDIA GPUs — Yahoo Finance](https://finance.yahoo.com/technology/ai/articles/aws-plans-2-million-more-230419284.html)
 
-알파벳(GOOGL) | -0.39% | 거래대금: $7.93B
-사유: 뚜렷한 재료 없음.
+알파벳(GOOGL) | -1.11% | 거래대금: $7.84B
+뚜렷한 재료 없음 (아칸소 태양광 전력 계약·AI 앱 유료화 등 관련 기사만 확인)
 
-브로드컴(AVGO) | +4.49% | 거래대금: $7.85B
-사유: 엔비디아 실적 발표에 따른 반도체 섹터 동반 상승 효과.
-출처: [Broadcom Inc Stock (AVGO) Moved Up by 3.33% on Aug 27](https://www.tradingkey.com/news/market-movers/262136258-market-movers-avgo-20260827) — TradingKey [2026-08-27]
+스페이스X(SPCX) | -1.2% | 거래대금: $7.24B
+전날 오펜하이머가 목표주가를 $280으로 상향하며 AI 성장을 이유로 언급했으나, 금요일에는 소폭 하락.
+출처: [SpaceX (NASDAQ:SPCX) Stock Jumps 8% as Oppenheimer Lifts Price Target to $280 — Stocks Down Under](https://news.google.com/rss/articles/CBMie0FVX3lxTE1uMTJhakdDVm9NY3F3QWx2bUJ3S1NZZEkzanBycnF6QWJiT1IteDFkb3p2bUdVTXJDb29OVVBXdjlzWlZLRzVCcTZBeDdSeUUwXzJWeVQtYl82TGJiSjlJR2lYMVJtS01oOEl3Y3pTUERkU01ZWWEtN3dVdw?oc=5)
 
-AMD | -0.89% | 거래대금: $7.80B
-사유: 뚜렷한 재료 없음. 반도체 섹터 전반 상승에도 불구하고 소폭 하락 마감.
+마블 테크놀로지(MRVL) | +7.05% | 거래대금: $4.73B
+S&P 500 편입 앞두고 포토닉 칩 500만 개 이상 출하 달성 소식.
+출처: [MRVL Stock Rises Premarket: Marvell Ships Over 5M Photonic Chips Ahead Of S&P 500 Entry — Stocktwits](https://news.google.com/rss/articles/CBMi6wFBVV95cUxQaWNBN0djRzd4MDQzQ3lIcWN6ejNMMUthXzNsSF9ZOWE2aHU2a2dlazNJTUZja2Y0cVVsVzlzbVpzNGlzbW1vUm5FNXNVYURMOGNfeEpUbDhSRndray1Kbm5jWjJmWl9Gal9TeVIyZ0NMdHZCVU0wNUwzQnl5MkN0QVVIbFlQUzU1dU5MVkMxUDdZU1NmaFQwWTNkRXpKZ0x5R1JKc1VyY1lIOXY5c1lrSDhZUS1CclBQZEI3M3JCb0Ixb3lHOE9lVm9JLXlCeDgzMF9JNUtHa1VCcUxobF8zclFmNGtiTWxlZWhj?oc=5)
 
-스페이스X(SPCX) | +0.89% | 거래대금: $7.74B
-사유: 뚜렷한 재료 없음. 8월 한 달간 약 30% 상승한 이후 현 주가 수준 적정성에 대한 분석 보도가 이어졌다.
+오라클(ORCL) | +3.08% | 거래대금: $4.20B
+오픈AI의 'Astra' 출시 기대감 속 어닝 발표 앞두고 선반영 매수세. 일부 기사는 설비투자 확대 전망 언급.
+출처: [Oracle Stock Climbs Ahead Of Earnings After OpenAI Astra Release — Investor's Business Daily](https://news.google.com/rss/articles/CBMifkFVX3lxTFAwWnpJZ2lRRlBET3Q5YmNuZmpfNC1pNk51U296LXhYUEFndU5uZ0V5a1drMUY0SjF1UGhhSHVDdVNVdEIyUDFvUkg1Snc3VXN6U1B5cEg4TllGOUM5QUU0QUtSazc1VUd4ZVhTeHk5d1FEeTI1TEcxMXVwT1pFZw?oc=5)
 
-팔란티어(PLTR) | +4.75% | 거래대금: $7.55B
-사유: 뚜렷한 재료 없음 (TradingKey 분석 기사 외 구체적 재료 확인 불가).
-출처: [Palantir Technologies Inc Stock (PLTR) Opened Up by 3.83% on Aug 27](https://www.tradingkey.com/news/market-movers/262136177-market-movers-pltr-20260827) — TradingKey [2026-08-27]
+블룸 에너지(BE) | +7.35% | 거래대금: $4.05B
+뚜렷한 재료 없음 (MarketBeat 기사는 7.3% 상승 이유로 구체적 내용 미제공)
 
-스트래티지(MSTR) | +11.54% | 거래대금: $6.03B
-사유: 뚜렷한 재료 없음. 비트코인 8만 달러 돌파와 연계된 동반 상승 흐름으로 추정되나, 직접적 인과관계는 원문에서 확인되지 않음.
+SK 하이닉스(SKHY) | +8.14% | 거래대금: $3.66B
+NAND를 넘어 HBM 등 메모리 전반으로 매수세 확산. SK 하이닉스 AI 메모리에 대한 관세 협상 진전 소식도 언급.
+출처: [SK Hynix Surges 7% as Memory Bid Widens Beyond NAND; Seagate Rallies 5% — 247wallst.com](https://247wallst.com/investing/2026/09/04/sk-hynix-surges-7-as-memory-bid-widens-beyond-nand-seagate-rallies-5/)
 
-TSMC(TSM) | +2.30% | 거래대금: $5.44B
-사유: 뚜렷한 재료 없음. 반도체 섹터 강세 흐름에 동반 상승.
+네비우스(NBIS) | +7.48% | 거래대금: $3.37B
+52주 신고가 경신. 월가는 "피어 대비 빠른 혁신 속도"를 이유로 긍정적으로 평가.
+출처: [NBIS Stock Hits Fresh 52-Week Highs — Stocktwits](https://news.google.com/rss/articles/CBMizgFBVV95cUxQeERLREpWTENRSlBIajlVVUlaajlOZlBhYUhfYm9hY2hkX1lqeklXaHN4d0piR1pqbnJfcUEzWG9mRFJNU3FkNlluM3hLRDFoRndBdmxtb19zNENRcXUtOUY4R3lFaUhYZEFjcGVuOFVEQklHanVCNl9SSHc4cUdyWEhJVXQ4allxOTFiQUNrVTN1ZlhwT1Q3aWRhOVZmYnkzUjF0S1EtX2ZFTTAxUU1MY0ItUHcwemFfZGpmYnRoMm1kbm1UMHVsT1dBbkZtQQ?oc=5)
 
-크라우드스트라이크(CRWD) | +20.50% | 거래대금: $5.33B
-사유: 2분기 실적이 애널리스트 예상을 뛰어넘고 전망치를 상향 조정했다. AI 기반 자동화에 대한 수요 급증을 기업들이 전망함에 따라 사이버보안 지출 확대 기대가 반영됐다.
-출처: [Okta's stock skyrockets 29%, CrowdStrike's surges 19% as rising AI threat boosts earnings](https://www.cnbc.com/2026/08/27/okta-skyrockets-20percent-and-crowdstrike-surges-15percent-leading-cyber-rally.html) — CNBC [2026-08-27]
+루멘텀(LITE) | +4.0% | 거래대금: $3.14B
+뚜렷한 재료 없음
 
-서비스나우(NOW) | +10.04% | 거래대금: $3.84B
-사유: 뚜렷한 재료 없음 (TradingKey 분석 외 구체적 실적 재료 확인 불가).
-출처: [ServiceNow Inc Stock (NOW) Moved Up by 8.96% on Aug 27](https://www.tradingkey.com/news/market-movers/262136393-market-movers-now-20260827) — TradingKey [2026-08-27]
+세레브라스(CBRS) | +10.3% | 거래대금: $2.89B
+뚜렷한 재료 없음 (기사에 구체적 이유 미명시)
+출처: [Why is Cerebras Systems stock surging today? — Investing.com](https://news.google.com/rss/articles/CBMiqAFBVV95cUxPYkJybUthcmRzWWJfekdnTlJuaWJkOVFBRHJTbUVUMVQwYzRxV0sxWE9CR0x1OHVwTV80d09QMXF6ZDdFX2pQYkFwZVk0ek91TjZxWEUzRGQ0N25hMDl2czJ1QlZETzhVWDRVZENMMTJUX3dqRFRwMDR3V3R5QS1ZX1dzaVI5V0ROWGhUNWd3UV9zdFdaQjBoSGs4dUFmcU1kY0M3TlNJRTg?oc=5)
 
-옥타(OKTA) | +28.63% | 거래대금: $2.82B
-사유: 2분기 실적이 시장 예상을 뛰어넘고 전망치를 상향 조정했다. AI 위협 증가로 고객들이 사이버보안 도구 지출을 늘리고 있다는 점이 반영됐다.
-출처: [Okta's stock skyrockets 29%, CrowdStrike's surges 19% as rising AI threat boosts earnings](https://www.cnbc.com/2026/08/27/okta-skyrockets-20percent-and-crowdstrike-surges-15percent-leading-cyber-rally.html) — CNBC [2026-08-27]
+웨스턴 디지털(WDC) | +5.86% | 거래대금: $2.71B
+메모리 섹터 전반 강세 흐름 동반.
+출처: [SK Hynix Surges 7% as Memory Bid Widens Beyond NAND; Seagate Rallies 5% — 247wallst.com](https://247wallst.com/investing/2026/09/04/sk-hynix-surges-7-as-memory-bid-widens-beyond-nand-seagate-rallies-5/)
 
-팔로알토 네트웍스(PANW) | +12.83% | 거래대금: $2.79B
-사유: 옥타·크라우드스트라이크의 어닝 서프라이즈에 따른 사이버보안 섹터 동반 상승.
-출처: [Palo Alto Networks Inc Stock (PANW) Opened Up by 10.00% on Aug 27](https://www.tradingkey.com/news/market-movers/262136175-market-movers-panw-20260827) — TradingKey [2026-08-27]
+램 리서치(LRCX) | +5.12% | 거래대금: $2.57B
+뚜렷한 재료 없음 (반도체 장비 섹터 동반 상승)
 
-시놉시스(SNPS) | +13.39% | 거래대금: $1.89B
-사유: 뚜렷한 재료 없음 (TradingKey 분석 외 구체적 재료 확인 불가).
-출처: [Synopsys Inc Stock (SNPS) Moved Up by 10.87% on Aug 27](https://www.tradingkey.com/news/market-movers/262136549-market-movers-snps-20260827) — TradingKey [2026-08-27]
+KLA(KLAC) | +7.32% | 거래대금: $2.36B
+뚜렷한 재료 없음 (반도체 장비 섹터 동반 상승)
 
-어도비(ADBE) | +5.73% | 거래대금: $1.88B
-사유: 블랙록의 지분 보유 소식과 AI 매출 전망 개선이 투자 심리를 끌어올렸다.
-출처: [Adobe stock climbs as investors weigh BlackRock's stake and improving AI revenue outlook](https://www.quiverquant.com/news/Adobe+stock+climbs+as+investors+weigh+BlackRock%E2%80%99s+stake+and+improving+AI+revenue+outlook) — Quiver Quantitative [2026-08-27]
+씨게이트(STX) | +6.34% | 거래대금: $2.17B
+NAND를 넘어 HDD 포함 스토리지 전반으로 매수세 확산.
+출처: [SK Hynix Surges 7% as Memory Bid Widens Beyond NAND; Seagate Rallies 5% — 247wallst.com](https://247wallst.com/investing/2026/09/04/sk-hynix-surges-7-as-memory-bid-widens-beyond-nand-seagate-rallies-5/)
 
-비바 시스템스(VEEV) | +15.20% | 거래대금: $1.81B
-사유: 뚜렷한 재료 없음 (StockStory 분석 외 구체적 실적 재료 확인 불가).
-출처: [Why Veeva Systems (VEEV) Stock Is Trading Up Today](https://stockstory.org/us/stocks/nyse/veev/news/why-up-down/why-veeva-systems-veev-stock-is-trading-up-today-4) — StockStory [2026-08-27]
+슈퍼마이크로(SMCI) | +4.54% | 거래대금: $2.12B
+뚜렷한 재료 없음
 
-코인베이스(COIN) | +4.92% | 거래대금: $1.75B
-사유: 뚜렷한 재료 없음. 비트코인의 8만 달러 돌파와 연계된 암호화폐 섹터 동반 강세 흐름으로 추정되나 원문에서 직접 인과관계 확인 불가.
+아스테라 랩스(ALAB) | +9.75% | 거래대금: $2.02B
+이달 들어 60% 급등한 가운데 애널리스트가 추가 43% 상승 여력을 제시.
+출처: [ALAB Stock Rocketed 60% This Month — Stocktwits](https://news.google.com/rss/articles/CBMizwFBVV95cUxQc0RNMG5FSTFDaXVsMm5CUkJCRnJ5Ujd1QUxSWFZRR0ZkVWRPc29CZEhfdGhjNkJSRUwyUC1ENVR6ZWNMTzRQRjJLQi1HMWk0UERtOXFDNjUta2FHTXI2aDc2S1NKV0dTSWtjYUkxX2syMVdjNHZpYXNEX1FtaFdMa2tHRzJFb3FvRlJLcVhLRDluNFVBc2Z5aHh3S28tbWFpcy1nOS1XX3FZZVRjLXlrVVhlUXk0bFBaWjQ0dEFxZUp2TGlEbHhzekZuMExUTHM?oc=5)
 
-유아이패스(PATH) | +9.37% | 거래대금: $1.32B
-사유: 2분기 실적 발표에 따른 상승이 MarketBeat에서 보도됐으나 구체적 수치는 원문 접근 제한으로 확인 불가.
-출처: [UiPath (NYSE:PATH) Stock Price Up 8.2% - Here's Why](https://www.marketbeat.com/instant-alerts/price-uipath-nyse-path-stock-price-up-82-heres-why-2026-08-27/) — MarketBeat [2026-08-27]
+코어위브(CRWV) | +5.68% | 거래대금: $1.85B
+짐 크레이머가 "네오클라우드 중 유일하게 선호하는 종목"이라고 언급.
+출처: [Jim Cramer Backs CRWV: 'If You're Going For Neoclouds, Only One I Like Is CoreWeave' — Stocktwits](https://stocktwits.com/news-articles/markets/equity/jim-cramer-backs-crwv-if-you-re-going-for-neoclouds-only-one-i-like-is-core-weave/cZswCCZRJwN)
 
-아틀라시안(TEAM) | +10.18% | 거래대금: $1.13B
-사유: 뚜렷한 재료 없음 (TradingKey 분석 외 구체적 재료 확인 불가).
-출처: [Atlassian Corp Stock (TEAM) Moved Up by 8.61% on Aug 27](https://www.tradingkey.com/news/market-movers/262136670-market-movers-team-20260827) — TradingKey [2026-08-27]
+아이렌(IREN) | +7.27% | 거래대금: $1.61B
+데이터센터 주식과 비트코인 관련 종목 동반 상승 흐름.
+출처: [Data Center Stocks Rally With Bitcoin — 247wallst.com](https://news.google.com/rss/articles/CBMi0AFBVV95cUxQcVVoN2JaTVJyUGtwVFM5SC1RQ05zWWM5Wm5LcDlVT1FaeENHeEo5Ul9TQXE2RGdhVDVLOThtamVEZFlRODJnX3ZjVjVxcndsb2xzYmlJeDVDeFJ1RHAzeGdxdVhhb1drMUc1TUZfbU13VmRZMlROUi1WZTVDWFVuNUFLWmpRMXhrc1hyaXRwQWoyRGF0eWh5NFdiVUpadUxNbkpsV3JEdlF5bU9pUU5PbjhIMjF1dGdaLXJBREpKU2FSTFdIZ1hOOUdrQURYaVU4?oc=5)
 
-데이터독(DDOG) | +6.70% | 거래대금: $1.10B
-사유: 뚜렷한 재료 없음 (TradingKey 분석 외 구체적 재료 확인 불가).
-출처: [Datadog Inc Stock (DDOG) Moved Up by 6.67% on Aug 27](https://www.tradingkey.com/news/market-movers/262136547-market-movers-ddog-20260827) — TradingKey [2026-08-27]
+코히어런트(COHR) | +6.6% | 거래대금: $1.42B
+뚜렷한 재료 없음 (광학 부품 섹터 동반 상승)
 
-오토데스크(ADSK) | +6.21% | 거래대금: $1.03B
-사유: 2분기 매출이 전년 대비 16% 성장(매출 $2.05B)했고, FY2027 매출 성장 전망을 상향 조정했다.
-출처: [Autodesk raises its fiscal 2027 revenue-growth forecast after revenue grows 16%](https://www.stocktitan.net/news/ADSK/autodesk-inc-announces-fiscal-2027-second-quarter-auz2j06ewmj9.html) — Stock Titan [2026-08-27]
+코닝(GLW) | +5.68% | 거래대금: $1.32B
+뚜렷한 재료 없음
 
-포티넷(FTNT) | +9.67% | 거래대금: $991.28M
-사유: 옥타·크라우드스트라이크의 어닝 서프라이즈에 따른 사이버보안 섹터 동반 상승.
-출처: [Why Fortinet (FTNT) Stock Is Up Today](https://www.quiverquant.com/news/Why+Fortinet+%28FTNT%29+Stock+Is+Up+Today) — Quiver Quantitative [2026-08-27]
+버티브(VRT) | +4.35% | 거래대금: $930.97M
+뚜렷한 재료 없음
+출처: [Why Vertiv (VRT) Stock Is Up Today — Yahoo Finance](https://news.google.com/rss/articles/CBMilgFBVV95cUxNVU53YlNfeUw0NFg1OUtHbmNhTHItdXR0U2pZby01T3JPNFlwS01EQng0YWpNZ1hON3ktWmUtYy1Pc2lLUFJrWUNPQlV0VlNJVHhNMTRzcEpranM3T2tMRWtqLWJTMHZUMlpMam1pREVuU01aUk9mSk01TWwwa25qUmM)
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+─────────────────────────────────────────────
 4. 한줄 요약평
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+─────────────────────────────────────────────
 
-엔비디아·세일즈포스·옥타·크라우드스트라이크가 동시에 어닝 서프라이즈를 내며 나스닥을 급등시킨 날 — AI 수혜 섹터와 비수혜 섹터의 격차가 하루 만에 극명하게 드러났다.
+"예상 3배의 고용 서프라이즈로 연준 금리 인상 우려가 재불거진 하락장에서도, AI 메모리 섹터는 독야청청했다."
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-5. 경제 지표 및 거시경제
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+─────────────────────────────────────────────
+5. 경제 지표 및 거시 경제
+─────────────────────────────────────────────
 
-관세 환급과 기업 이익 급증
+8월 비농업 고용 (2026-09-04 발표)
+- 실제: +16만 2천 명 | 예상: +5만 3천 명 (다우존스 설문 기준)
+- 실업률: 4.1% (예상 부합)
+- 6월·7월 수치 모두 상향 조정
 
-미국 경제분석국(BEA)이 수요일(현지 기준) 발표한 자료에 따르면 2분기 기업 이익은 연간 기준으로 1분기보다 4천억 달러 증가했다. 이는 코로나19 팬데믹 회복기를 제외하면 사상 최대 증가폭이다.
+금리 및 채권
+- 10년 만기 미국 국채 수익률: 4.78% (보고서 발표 전 4.75%)
+- 2년 만기 국채 수익률: 2025년 1월 이후 최고치
+- 9월 회의 금리 인상 확률: 49.4%(전일) → 51%(발표 직전) → 58%(발표 후)
+- 현행 기준금리 목표 범위: 3.5%~3.75%
 
-조세재단(Tax Foundation)의 분석에 따르면, 이러한 이익 증가는 기업들이 5월과 6월에 받은 약 710억 달러 규모의 관세 환급에 힘입은 것으로 추정된다. 2025년까지 부과된 관세 대부분을 무효화한 2026년 2월 대법원 판결에 따라 수입 관세를 납부했던 기업들의 주머니로 자금이 돌아오고 있다. 다만 경제학자들은 대부분의 기업이 궁극적으로 그 비용을 소비자에게 전가했다고 지적하며, 이 환급금이 경제 데이터를 왜곡할 가능성이 있다고 우려했다.
+Janus Henderson Investors 포트폴리오 매니저 브래드포드 스미스는 "8월 고용 보고서는 노동 통계의 변동성이 크다는 것을 다시 상기시켜 주며, 연준의 다음 행보는 곧 발표될 인플레이션 데이터에 달려 있다"고 말했다.
 
-출처: [마감시황 원문] us_economy_news.md 내 마감시황 섹션
+출처: 마감시황 원문(us_economy_news.md)
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-7. 섹터별(산업별) 뉴스
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+─────────────────────────────────────────────
+6. 투자자 동향 및 시장 분위기
+─────────────────────────────────────────────
 
-반도체·AI 인프라
+비트코인 관련 주식 로빈후드(HOOD), 스트래티지(MSTR), 코인베이스(COIN)는 목요일 두 자릿수 급등 이후 금요일 모두 하락했다. 메모리 ETF인 라운드힐 메모리 ETF(DRAM)는 약 6.5%, 반도체 ETF iShares(SOXX)는 약 3.5% 상승했다.
 
-엔비디아의 2분기 매출이 두 배 이상 증가했고, 2028 회계연도 매출 70% 성장 예상을 발표했다. 이에 VanEck 반도체 ETF(SMH)가 3% 상승했다. 브로드컴(+4.49%), SK 하이닉스(+2.27%), 인텔(+4.36%), TSMC(+2.30%)가 동반 상승했다. 반면 마이크론은 엔비디아의 메모리 마진 경고 여파로 상승분이 소진됐고, 웨스턴디지털은 하락했다.
+출처: 마감시황 원문(us_economy_news.md)
 
-출처: [Micron Lags Despite NVIDIA's $279B Memory Commitment; Western Digital Drops 4%, SK Hynix Ticks Up](https://247wallst.com/investing/2026/08/27/micron-lags-despite-nvidias-279b-memory-commitment-western-digital-drops-4-sk-hynix-ticks-up/) — 24/7 Wall St. [2026-08-27]
+─────────────────────────────────────────────
+7. 섹터별 뉴스
+─────────────────────────────────────────────
 
-사이버보안
+[반도체·메모리] — 강세
+마이크론(MU), 샌디스크(SNDK), SK하이닉스(SKHY), 웨스턴 디지털(WDC), 씨게이트(STX)가 AI 메모리 수요 강세와 NAND 가격 사이클 가속화 기대에 6~12% 폭등했다. 라운드힐 메모리 ETF(DRAM) +6.5%, 반도체 ETF SOXX +3.5%. 마블 테크놀로지는 S&P 500 편입을 앞두고 포토닉 칩 500만 개 출하 달성 소식에 7% 급등했다. ASML은 TSMC의 장비 수요가 두 배 가까이 늘어났다는 소식에 4.17% 상승했다. 골드만삭스는 "AI 트레이드는 이제 막 시작됐으며, 지금까지 주도한 종목과 앞으로의 주도주가 다를 것"이라고 경고했다.
 
-옥타(+28.63%)와 크라우드스트라이크(+20.50%)가 AI 위협 증가에 따른 고객 지출 확대를 배경으로 2분기 어닝 서프라이즈를 동시에 내며 사이버보안 섹터 전체를 끌어올렸다. 팔로알토 네트웍스(+12.83%), 포티넷(+9.67%)도 동반 상승했다.
+출처: [Micron, SanDisk Lead Memory Chip Stocks Rally on Strong AI Demand — Yahoo Finance](https://finance.yahoo.com/technology/articles/micron-sandisk-lead-memory-chip-174447419.html)
+출처: [Goldman Sachs Says the AI Trade Is Barely Started — 247wallst.com](https://247wallst.com/investing/2026/09/04/goldman-sachs-says-the-ai-trade-is-barely-started-the-stocks-that-got-you-here-will-not-take-you-there/)
 
-출처: [Cybersecurity Stocks Rally on Twin Earnings Beats: Okta Spikes 22%, CrowdStrike Jumps 13%](https://finance.yahoo.com/markets/stocks/articles/cybersecurity-stocks-rally-twin-earnings-133439422.html) — Yahoo Finance [2026-08-27]
+[소프트웨어·AI] — 혼조
+어도비(ADBE)는 아닐 차크라바르티 신임 CEO 선임 이후 AI 소프트웨어 영향 우려가 재부각되며 6.73% 급락했다. 짐 크레이머도 어도비의 추가 리스크를 경고했다. 오라클(ORCL)은 어닝 발표를 앞두고 오픈AI 'Astra' 출시 기대감에 3.08% 상승했다. 팔란티어(PLTR)는 전날 6% 급등 이후 4.49% 되돌림을 나타냈다.
 
-엔터프라이즈 소프트웨어
+출처: 마감시황 원문(us_economy_news.md)
+출처: [Oracle Stock Climbs Ahead Of Earnings After OpenAI Astra Release — Investor's Business Daily](https://news.google.com/rss/articles/CBMifkFVX3lxTFAwWnpJZ2lRRlBET3Q5YmNuZmpfNC1pNk51U296LXhYUEFndU5uZ0V5a1drMUY0SjF1UGhhSHVDdVNVdEIyUDFvUkg1Snc3VXN6U1B5cEg4TllGOUM5QUU0QUtSazc1VUd4ZVhTeHk5d1FEeTI1TEcxMXVwT1pFZw?oc=5)
 
-세일즈포스는 2분기 매출이 월가 예상을 상회하고 연간 전망을 상향한 데 이어 Anthropic Claude와의 파트너십 확대를 발표하며 22.58% 급등했다. 어도비(+5.73%), 오토데스크(+6.21%), 서비스나우(+10.04%), 아틀라시안(+10.18%), 데이터독(+6.70%), UiPath(+9.37%)도 상승했다.
+[전기차·자율주행] — 약세
+테슬라(TSLA)는 사이버캡 출시 후 NHTSA가 인증 절차 및 기술 데이터 조사에 착수했다는 발표와 함께 6% 이상 하락했다. 엘론 머스크는 오스틴에서 사이버캡이 웨이모 대비 운영 효율이 높다고 주장했다.
 
-출처: [CRM Stock Soars 13% After-Hours — Salesforce Crushes Earnings, Raises Guidance And Expands Partnership With Anthropic's Claude](https://finance.yahoo.com/markets/stocks/articles/crm-stock-soars-13-hours-220323682.html) — Yahoo Finance [2026-08-26]
+출처: 마감시황 원문(us_economy_news.md)
 
-전기차(EV)
+[실적 발표 종목] — 약세
+룰루레몬(LULU): 예상 하회 분기 실적 전망 -17.38% / 유이패스(PATH): -16.63% / 가이드와이어(GWRE): -20%(장 중 거래) / 아사나(ASAN): -13% / 지스칼러(ZS): -4.5%
 
-테슬라는 9월 24일 세미 이벤트 예정 및 로보택시 네트워크 확장 소식에 힘입어 2.60% 상승했다. 루시드(LCID)는 7% 급등했으며, 리비안도 소폭 상승하며 EV 섹터 하락세가 진정되는 모습이었다.
+출처: 마감시황 원문(us_economy_news.md)
 
-출처: [Tesla Announces Semi Event For September 24](https://www.fool.com/investing/2026/08/27/tesla-announces-semi-event-for-september-24-here-s-what-investors-need-to-know/) — The Motley Fool [2026-08-27]
+[AI 인프라 클라우드]
+TSMC는 삼헥타르 규모의 패키징 실험실 구축으로 AI 반도체 병목 해소에 나서며 2.85% 상승했다. 코어위브(CRWV)는 짐 크레이머의 언급에 5.68% 올랐다. AWS는 2백만 대 추가 NVIDIA GPU 확보 계획을 발표했다.
 
-소비재·유통
+출처: [TSMC Jumps as a Three-Hectare Lab Attacks Its Packaging Bottleneck — Yahoo Finance](https://finance.yahoo.com/technology/articles/tsmc-jumps-three-hectare-lab-171017164.html)
 
-버링턴 스토어스(-7.5%), 베스트바이(-4.5%), HP(-3%), 홈디포(-1.86%), 코스트코(-2.24%), 맥도날드(-2.57%), 나이키(-0.39%) 등 소비재·유통 종목은 전반적으로 약세를 보였다.
-
-에너지
-
-호르무즈 해협 해상 통행 재개방을 위한 외교적 노력에 주목하면서 WTI 원유는 2.1%, 브렌트유는 2.6% 각각 상승했다.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+─────────────────────────────────────────────
 8. 월가의 시각 및 향후 일정
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+─────────────────────────────────────────────
 
-심코프(Simcorp) 투자 결정 연구 부문 글로벌 책임자인 멜리사 브라운은 "최근 하이퍼스케일러 기업들의 수익이 막대한 비용을 감당할 수 있을지에 대한 논의가 이번 인수(엔비디아 실적)로 잠시 보류될 수 있다"고 밝혔다. 그러나 AI 업계의 다른 기업들은 "단지 엔비디아의 후광을 등에 업고 있을 뿐"이라고 지적했다. 또한 AI 관련 주식과 시장의 다른 분야 주식 간 상관관계가 낮아 "변동성은 높지만 상관관계가 낮아 전반적인 변동성이 낮게 유지되고 있으며, 이는 투자자들에게 잘못된 안도감을 줄 수 있다"고 우려했다.
+- 다음 주 인플레이션 지표(CPI 등) 발표 예정. 연준의 9월 금리 결정에 직결.
+- 미국 및 채권 시장은 노동절 연휴로 9월 7일(월) 휴장.
+- 오라클(ORCL) 어닝 발표 임박.
+- 골드만삭스: "AI 트레이드는 이제 막 시작됐으며, 지금까지 주도한 종목과 앞으로의 주도주가 다를 것."
+- Janus Henderson: "연준의 다음 행보는 인플레이션 데이터에 달려 있다."
+- 모건 스탠리: "인플레 수치가 낮게 나오면 연준은 금리 인상 신호를 미룰 수 있다."
+- Magnificent Seven이 시장에서 '이전에 없던 신호'를 보내고 있다는 분석 기사도 주목됨.
 
-향후 일정: 케빈 워시 연준 의장이 현지 8월 28일(금) 와이오밍주 잭슨홀 연례 경제 정책 심포지엄에서 기조연설을 할 예정이며, 금리 정책에 대한 비전을 밝힐 것으로 기대된다.
+출처: [Goldman Sachs Says the AI Trade Is Barely Started — 247wallst.com](https://247wallst.com/investing/2026/09/04/goldman-sachs-says-the-ai-trade-is-barely-started-the-stocks-that-got-you-here-will-not-take-you-there/)
 
-출처: [마감시황 원문] us_economy_news.md 내 마감시황 섹션
+─────────────────────────────────────────────
+9. 인포그래픽 작성용 특징주 요약 (테마별)
+─────────────────────────────────────────────
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-9. 인포그래픽 작성용 특징주 요약
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[AI 메모리 / 스토리지]
+마이크론(MU) | +6.1% | $35.70B | AI 메모리 붐, NAND 가격 사이클 가속
+샌디스크(SNDK) | +11.9% | $28.69B | 메모리 섹터 전반 강세 동반
+SK하이닉스(SKHY) | +8.14% | $3.66B | AI 메모리 매수세 확산, 관세 협상 진전 소식
+웨스턴 디지털(WDC) | +5.86% | $2.71B | 메모리 섹터 동반 상승
+씨게이트(STX) | +6.34% | $2.17B | NAND·HDD 포함 스토리지 전반 매수 확산
 
-[M7]
-엔비디아(NVDA) | +8.74% | $67.76B | 2분기 어닝 서프라이즈, 3분기 매출 전망 $1,080억 제시
-마이크로소프트(MSFT) | +1.75% | $14.45B | 뚜렷한 재료 없음
-테슬라(TSLA) | +2.60% | $10.64B | 9월 24일 세미 이벤트 예정, 로보택시 네트워크 확장
-애플(AAPL) | +0.36% | $10.14B | 뚜렷한 재료 없음
-아마존(AMZN) | -1.54% | $9.17B | 뚜렷한 재료 없음
-메타 플랫폼스(META) | -0.87% | $8.66B | 뚜렷한 재료 없음
-알파벳(GOOGL/GOOG) | -0.39%/-0.41% | $7.93B/$5.74B | 뚜렷한 재료 없음
+[반도체 설계·AI칩]
+AMD | +4.69% | $9.39B | 반도체 섹터 동반 상승
+인텔(INTC) | +4.51% | $9.33B | 뚜렷한 재료 없음
+마블 테크놀로지(MRVL) | +7.05% | $4.73B | S&P 500 편입 앞두고 포토닉 칩 500만 개 출하
+아스테라 랩스(ALAB) | +9.75% | $2.02B | 이달 60% 급등 후 추가 43% 목표주가 제시
+세레브라스(CBRS) | +10.3% | $2.89B | 뚜렷한 재료 없음
 
-[반도체·AI 인프라]
-마이크론 테크놀로지(MU) | -0.32% | $26.66B | 엔비디아 메모리 마진 경고 여파로 랠리 소진
-브로드컴(AVGO) | +4.49% | $7.85B | 엔비디아 실적에 따른 반도체 섹터 동반 상승
-인텔(INTC) | +4.36% | $9.21B | 엔비디아 실적에 따른 반도체 섹터 동반 상승
-TSMC(TSM) | +2.30% | $5.44B | 반도체 섹터 강세 흐름 동반
-시놉시스(SNPS) | +13.39% | $1.89B | 뚜렷한 재료 없음
-팔란티어(PLTR) | +4.75% | $7.55B | 뚜렷한 재료 없음
-스페이스X(SPCX) | +0.89% | $7.74B | 뚜렷한 재료 없음
+[반도체 장비]
+KLA(KLAC) | +7.32% | $2.36B | 반도체 장비 섹터 동반 상승
+램 리서치(LRCX) | +5.12% | $2.57B | 반도체 장비 섹터 동반 상승
+ASML | +4.17% | $2.21B | TSMC 장비 수요 두 배 증가 소식
 
-[사이버보안]
-크라우드스트라이크(CRWD) | +20.50% | $5.33B | 2분기 어닝 서프라이즈, 전망치 상향
-옥타(OKTA) | +28.63% | $2.82B | 2분기 어닝 서프라이즈, 전망치 상향
-팔로알토 네트웍스(PANW) | +12.83% | $2.79B | 사이버보안 섹터 동반 상승
-포티넷(FTNT) | +9.67% | $991.28M | 사이버보안 섹터 동반 상승
+[AI 인프라 / 클라우드]
+코어위브(CRWV) | +5.68% | $1.85B | 짐 크레이머 "네오클라우드 중 유일한 선호"
+버티브(VRT) | +4.35% | $930.97M | 뚜렷한 재료 없음
+네비우스(NBIS) | +7.48% | $3.37B | 52주 신고가, 피어 대비 빠른 혁신 속도 평가
+아이렌(IREN) | +7.27% | $1.61B | 데이터센터·비트코인 관련주 동반 상승
+블룸 에너지(BE) | +7.35% | $4.05B | 뚜렷한 재료 없음
 
-[엔터프라이즈 소프트웨어·클라우드]
-세일즈포스(CRM) | +22.58% | $13.97B | 2분기 어닝 서프라이즈, Anthropic 파트너십 확대
-서비스나우(NOW) | +10.04% | $3.84B | 뚜렷한 재료 없음
-어도비(ADBE) | +5.73% | $1.88B | 블랙록 지분 보유 소식, AI 매출 전망 개선
-비바 시스템스(VEEV) | +15.20% | $1.81B | 뚜렷한 재료 없음
-유아이패스(PATH) | +9.37% | $1.32B | 2분기 실적 발표 (세부 내용 확인 불가)
-아틀라시안(TEAM) | +10.18% | $1.13B | 뚜렷한 재료 없음
-데이터독(DDOG) | +6.70% | $1.10B | 뚜렷한 재료 없음
-오토데스크(ADSK) | +6.21% | $1.03B | Q2 FY2027 매출 $2.05B(+16%), 연간 성장 전망 상향
+[광학·통신 부품]
+코히어런트(COHR) | +6.6% | $1.42B | 뚜렷한 재료 없음
+코닝(GLW) | +5.68% | $1.32B | 뚜렷한 재료 없음
+루멘텀(LITE) | +4.0% | $3.14B | 뚜렷한 재료 없음
 
-[암호화폐 관련]
-스트래티지(MSTR) | +11.54% | $6.03B | 뚜렷한 재료 없음
-코인베이스(COIN) | +4.92% | $1.75B | 뚜렷한 재료 없음
+[하락 특징주]
+테슬라(TSLA) | -5.92% | $22.95B | 사이버캡 실망감, NHTSA 조사 착수
+룰루레몬(LULU) | -17.38% | $3.75B | 예상 하회 분기 실적 가이던스
+유이패스(PATH) | -16.63% | $1.59B | 실적 발표 후 급락
+어도비(ADBE) | -6.73% | $1.77B | 신임 CEO 선임 후 AI 영향 우려 재부각
 
-[전기차·우주항공]
-샌디스크(SNDK) | -0.96% | $13.00B | 뚜렷한 재료 없음
-마블 테크놀로지(MRVL) | -1.49% | $8.60B | 장 마감 후 실적 발표 앞두고 하락 마감
+─────────────────────────────────────────────
+10. M7 (매그니피센트 세븐) 요약
+─────────────────────────────────────────────
 
-10. M7 종목은 위 9번 항목의 [M7] 섹션에 포함됨.
+[M7 — 매그니피센트 세븐]
+엔비디아(NVDA) | +0.84% | $31.09B | 허깅페이스 인수 이후 소폭 상승, 월가 목표주가 $324
+테슬라(TSLA) | -5.92% | $22.95B | 사이버캡 실망감, NHTSA 조사 착수
+애플(AAPL) | -2.51% | $12.66B | 뚜렷한 재료 없음
+메타(META) | +1.0% | $9.83B | 뚜렷한 재료 없음
+마이크로소프트(MSFT) | -2.04% | $9.03B | 뚜렷한 재료 없음
+아마존(AMZN) | -0.15% | $7.94B | AWS 200만 대 GPU 확보 계획 발표, 보합
+알파벳(GOOGL) | -1.11% | $7.84B | 뚜렷한 재료 없음
+
+비고: M7 ETF(라운드힐 MAGS) -1.5% 마감. "이전에 없던 강한 신호"를 보낸다는 분석 기사 주목.
