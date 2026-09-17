@@ -87,45 +87,32 @@ def fetch_extra_market_info() -> Dict[str, Any]:
     }
     headers = {"User-Agent": "Mozilla/5.0"}
     
-    # 1. 지수 & 거래대금
+    # 1. 지수
     indices_list = [('KOSPI', '코스피'), ('KOSDAQ', '코스닥'), ('KPI200', '코스피 200')]
     for code, name in indices_list:
         try:
-            url = f'https://finance.naver.com/sise/sise_index.naver?code={code}'
+            url = f'https://m.stock.naver.com/api/index/{code}/basic'
             res = requests.get(url, headers=headers, timeout=5)
-            res.encoding = 'euc-kr'
-            soup = BeautifulSoup(res.text, 'lxml')
-            
-            now = soup.select_one('#now_value').text.strip() if soup.select_one('#now_value') else ""
-            change_elem = soup.select_one('#change_value_and_rate') or soup.select_one('#change_rate')
-            change_text = change_elem.text.strip() if change_elem else ""
-            
-            cp_str = "+0.00%"
-            if change_elem:
-                parts = change_text.split()
-                for p in parts:
-                    if '%' in p:
-                        clean_p = p.replace('상승', '').replace('하락', '').replace('보합', '')
-                        if not clean_p.startswith('+') and not clean_p.startswith('-'):
-                            sign = "-" if ("하락" in change_text or "-" in change_text) else "+"
-                            cp_str = f"{sign}{clean_p}"
-                        else:
-                            cp_str = clean_p
-                        break
-                        
-            amount_elem = soup.select_one('#amount')
-            tv_str = ""
-            if amount_elem and code != 'KPI200':
+            if res.status_code == 200:
+                data = res.json()
+                now = data.get("closePrice", "")
+                ratio_str = str(data.get("fluctuationsRatio", "0.00"))
                 try:
-                    tv_val = float(amount_elem.text.strip().replace(',', '')) / 1000000
-                    tv_str = f"{round(tv_val, 1)}조"
-                except: pass
+                    val = float(ratio_str)
+                    if val > 0:
+                        cp_str = f"+{val:.2f}%"
+                    elif val < 0:
+                        cp_str = f"{val:.2f}%"
+                    else:
+                        cp_str = "+0.00%"
+                except:
+                    cp_str = "+0.00%"
                 
-            extra["indices_detail"][name] = {
-                "price": now,
-                "change_pct_str": cp_str,
-                "trading_value_str": tv_str
-            }
+                extra["indices_detail"][name] = {
+                    "price": now,
+                    "change_pct_str": cp_str,
+                    "trading_value_str": ""
+                }
         except: pass
 
     # 2. 투자자 매매동향 (키움 API 우선, 실패/미지원 시 네이버 금융 우회)
@@ -196,27 +183,49 @@ def fetch_extra_market_info() -> Dict[str, Any]:
 
     # 4. 환율 및 유가/국채
     try:
-        url_mkt = 'https://finance.naver.com/marketindex/'
+        url_mkt = 'https://finance.naver.com/marketindex/exchangeList.naver'
         res_m = requests.get(url_mkt, headers=headers, timeout=5)
         res_m.encoding = 'euc-kr'
         soup_m = BeautifulSoup(res_m.text, 'lxml')
 
         target_currencies = {
-            "미국 USD": "달러환율",
-            "일본 JPY(100엔)": "일본JPY(100엔)",
-            "유럽연합 EUR": "유럽연합EUR",
-            "중국 CNY": "중국CNY"
+            "미국 USD": ("달러환율", "KRW=X", False),
+            "일본 JPY": ("일본JPY(100엔)", "JPYKRW=X", True),
+            "유럽연합 EUR": ("유럽연합EUR", "EURKRW=X", False),
+            "중국 CNY": ("중국CNY", "CNYKRW=X", False)
         }
-        for a in soup_m.select('a.head'):
-            h_text = a.select_one('.h_lst').text.strip() if a.select_one('.h_lst') else ""
-            val_text = a.select_one('.value').text.strip() if a.select_one('.value') else ""
-            change_text = a.select_one('.change').text.strip() if a.select_one('.change') else ""
-            blind_text = a.select_one('.blind').text.strip() if a.select_one('.blind') else ""
-            for key, label in target_currencies.items():
-                if key in h_text:
-                    sign = "-" if "하락" in blind_text else "+"
-                    extra["exchanges_and_macro"][label] = f"{val_text}원({sign}{change_text}원)"
-    except: pass
+        
+        naver_vals = {}
+        for tr in soup_m.select('tbody tr'):
+            tds = tr.select('td')
+            if len(tds) >= 2:
+                name = tds[0].text.strip()
+                val = tds[1].text.strip()
+                for key, (label, symbol, is_jpy) in target_currencies.items():
+                    if key in name:
+                        naver_vals[label] = val
+
+        for key, (label, symbol, is_jpy) in target_currencies.items():
+            try:
+                t = yf.Ticker(symbol)
+                hist = t.history(period="5d")
+                if len(hist) >= 2:
+                    prev_c = hist['Close'].iloc[-2]
+                    curr_c = hist['Close'].iloc[-1]
+                    if is_jpy:
+                        prev_c *= 100
+                        curr_c *= 100
+                    diff = curr_c - prev_c
+                    sign = "+" if diff >= 0 else "-"
+                    val_str = naver_vals.get(label, f"{curr_c:,.2f}")
+                    extra["exchanges_and_macro"][label] = f"{val_str}원({sign}{abs(diff):.2f}원)"
+                elif label in naver_vals:
+                    extra["exchanges_and_macro"][label] = f"{naver_vals[label]}원"
+            except:
+                if label in naver_vals:
+                    extra["exchanges_and_macro"][label] = f"{naver_vals[label]}원"
+    except Exception as e:
+        logger.warning(f"환율 정보 수집 중 오류: {e}")
 
     try:
         wti_t = yf.Ticker("CL=F")
@@ -251,33 +260,21 @@ def get_market_data() -> Dict[str, Any]:
         logger.error(f"fetch_extra_market_info error: {e}")
 
     try:
-        url_sise = "https://finance.naver.com/sise/"
-        res = requests.get(url_sise, headers=headers)
-        res.encoding = "euc-kr"
-        soup = BeautifulSoup(res.text, "lxml")
-        time_elem = soup.select_one("#time")
-        if time_elem:
+        indices_list = [('KOSPI', 'KOSPI'), ('KOSDAQ', 'KOSDAQ'), ('KPI200', 'KOSPI200')]
+        for code, name in indices_list:
             try:
-                import pandas as pd
-                market_info["market_date"] = pd.to_datetime(time_elem.text.split()[0]).to_pydatetime()
+                url = f"https://m.stock.naver.com/api/index/{code}/basic"
+                res = requests.get(url, headers=headers, timeout=5)
+                if res.status_code == 200:
+                    d = res.json()
+                    price = d.get("closePrice", "")
+                    cp_str = str(d.get("fluctuationsRatio", "0.00"))
+                    try: cp_f = float(cp_str)
+                    except: cp_f = 0.0
+                    market_info["indices"][name] = {"price": price, "change_pct": cp_f}
             except: pass
-        indices_map = {"KOSPI": ("KOSPI_now", "KOSPI_change"), "KOSDAQ": ("KOSDAQ_now", "KOSDAQ_change"), "KOSPI200": ("KPI200_now", "KPI200_change")}
-        for name, (id_now, id_change) in indices_map.items():
-            now_elem = soup.select_one(f"#{id_now}")
-            change_elem = soup.select_one(f"#{id_change}")
-            if now_elem and change_elem:
-                price = now_elem.text.strip()
-                change_texts = change_elem.text.split()
-                cp = "0.00"
-                for t in change_texts:
-                    if "%" in t:
-                        cp = t.replace("%", "").replace("\uc0c1\uc2b9", "").replace("\ud558\ub77d", "").replace("\ubcf4\ud569", "")
-                        break
-                sign = -1 if "\ud558\ub77d" in change_elem.text or "-" in change_elem.text else 1
-                try: cp_f = float(cp.replace("+", "").replace("-", "")) * sign
-                except: cp_f = 0.0
-                market_info["indices"][name] = {"price": price, "change_pct": cp_f}
-    except: pass
+    except Exception as e:
+        logger.error(f"indices error: {e}")
     
     # 2. 섹터/테마 정보 수집 (Naver Finance 기준)
     try:
