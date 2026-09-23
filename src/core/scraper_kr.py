@@ -416,25 +416,49 @@ def fetch_company_news_kr(companies: List[str], days: int = 3) -> List[Dict[str,
                     
                 # 특징주 키워드와 회사명이 모두 제목에 들어있는 경우 (본문 요약(Snippet) 방지를 위해 길이 90자 제한 추가)
                 if '특징주' in title and company in title and 10 < len(title) < 90:
+                    import re
+
+                    # 1차 검증: URL 내 YYYYMMDD 또는 YYYY-MM-DD 날짜 패턴 추출 검사 (구 기사 원천 차단)
+                    url_date_match = re.search(r'20\d{2}[._-]?(?:0[1-9]|1[0-2])[._-]?(?:0[1-9]|[12]\d|3[01])', url)
+                    if url_date_match:
+                        raw_date_str = re.sub(r'[^0-9]', '', url_date_match.group(0))
+                        if len(raw_date_str) == 8:
+                            try:
+                                url_dt = kst.localize(datetime.strptime(raw_date_str, '%Y%m%d'))
+                                # URL 날짜가 3일 이전인 구 기사인 경우 즉시 제외
+                                if url_dt < cutoff_date - timedelta(hours=12):
+                                    logger.info(f"[{company}] URL 기준 구 기사 제외 ({raw_date_str}): {title}")
+                                    continue
+                            except Exception:
+                                pass
+
                     pub_date = None
                     
-                    # 제목 태그(a)에서부터 상위로 올라가며 날짜 텍스트가 포함된 가장 가까운 컨테이너를 찾음
-                    container = a
-                    raw_title = title
-                    import re
-                    while container and container.name != 'body':
-                        text = container.get_text()
-                        if re.search(r'\d+[분시간일]\s*전|\d{4}\.\d{2}\.\d{2}', text):
-                            raw_title = text
+                    # 2차 검증: 개별 뉴스 카드 영역(최대 4단계 상위 태그) 내에서만 날짜/시간 정보 탐색 (무분별한 body 탐색 방지)
+                    card_container = None
+                    curr = a
+                    for _ in range(4):
+                        if not curr or curr.name == 'body':
                             break
-                        container = container.parent
+                        # 네이버 모바일 뉴스 카드 클래스 패턴 확인
+                        classes = curr.get('class', [])
+                        class_str = ' '.join(classes) if isinstance(classes, list) else str(classes)
+                        if any(k in class_str for k in ['news_wrap', 'news_area', 'bx', 'api_ani_send', 'item']):
+                            card_container = curr
+                            break
+                        curr = curr.parent
+
+                    if not card_container:
+                        card_container = a.parent if a.parent else a
+
+                    raw_info_text = card_container.get_text()
                     
                     # 날짜 파싱
-                    match_min = re.search(r'(\d+)분\s*전', raw_title)
-                    match_hour = re.search(r'(\d+)시간\s*전', raw_title)
-                    match_day = re.search(r'(\d+)일\s*전', raw_title)
-                    match_date = re.search(r'(\d{4}\.\d{2}\.\d{2})\.?', raw_title)
-                    match_short_date = re.search(r'(\d{2}\.\d{2})\.?', raw_title)
+                    match_min = re.search(r'(\d+)분\s*전', raw_info_text)
+                    match_hour = re.search(r'(\d+)시간\s*전', raw_info_text)
+                    match_day = re.search(r'(\d+)일\s*전', raw_info_text)
+                    match_date = re.search(r'(\d{4}\.\d{2}\.\d{2})\.?', raw_info_text)
+                    match_short_date = re.search(r'(\d{2}\.\d{2})\.?', raw_info_text)
                     
                     if match_min:
                         pub_date = now - timedelta(minutes=int(match_min.group(1)))
@@ -475,6 +499,7 @@ def fetch_company_news_kr(companies: List[str], days: int = 3) -> List[Dict[str,
                         except: pass
                     
                     if not pub_date or pub_date < cutoff_date:
+                        logger.info(f"[{company}] 기간(3일) 지난 기사 제외 ({pub_date}): {title}")
                         continue
 
                     # 조선비즈5시간 전네이버뉴스 같은 메타텍스트가 뒤에 붙는 경우가 많으므로 정제 시도
