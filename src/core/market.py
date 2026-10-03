@@ -114,150 +114,168 @@ def get_dynamic_tickers() -> tuple[list, dict]:
         logger.warning(f"동적 티커 수집 실패, 기본 TOP_TICKERS로 대체합니다: {e}")
         return TOP_TICKERS, {}
 
+def fetch_ticker_data(t: yf.Ticker):
+    """fast_info를 최우선으로 시도하고, Rate Limit (429) 발생 시 history(period='2d')로 차단을 우회하여 수집합니다."""
+    lp, pc, vol = None, None, None
+    try:
+        fi = t.fast_info
+        lp = fi.last_price
+        pc = getattr(fi, 'regular_market_previous_close', None) or fi.previous_close
+        vol = fi.last_volume
+    except Exception:
+        pass
+
+    if lp is None or pc is None:
+        try:
+            hist = t.history(period="2d")
+            if len(hist) >= 2:
+                pc = float(hist['Close'].iloc[-2])
+                lp = float(hist['Close'].iloc[-1])
+                vol = float(hist['Volume'].iloc[-1])
+            elif len(hist) == 1:
+                lp = float(hist['Close'].iloc[-1])
+                pc = lp
+                vol = float(hist['Volume'].iloc[-1])
+        except Exception:
+            pass
+
+    if lp is not None and pc is not None and pc > 0:
+        cp = ((lp - pc) / pc) * 100
+        return lp, pc, cp, vol
+    return None, None, None, None
+
 def get_market_data() -> Dict[str, Any]:
     """
-    야후 파이낸스(yfinance)를 사용하여 미국 3대 지수와 주요 11개 섹터 ETF의 전일 종가 기준 등락률을 수집합니다.
+    야후 파이낸스(yfinance)의 공식 마감 종가를 안전하게 병렬 수집하여 미국 3대 지수, 주요 11개 섹터 ETF,
+    그리고 거래대금 상위 특징주의 공식 정규장 종가와 등락률을 수집합니다.
+    - Rate Limited (429) 차단 시 history(period='2d') 우회 폴백을 자동 실행합니다.
     """
-    logger.info("야후 파이낸스(yfinance)에서 시황 데이터 수집 시작...")
+    logger.info("야후 파이낸스(yfinance) 공식 정규장 데이터 수집 시작...")
+    from concurrent.futures import ThreadPoolExecutor
+
     market_info = {
         "indices": {},
         "top_sector": None,
         "bottom_sector": None,
-        "source": "Yahoo Finance (yfinance)"
+        "source": "Yahoo Finance Official (fast_info + history fallback)"
     }
 
-    # 1. 3대 지수 수집
+    # 1. 주요 3대 지수 수집
+    logger.info("1단계: 주요 3대 지수 공식 마감 데이터 수집 중...")
     market_date = None
     for name, ticker in INDICES.items():
         try:
-            stock = yf.Ticker(ticker)
-            hist = stock.history(period="5d")
-            if len(hist) >= 2:
-                last_close = hist['Close'].iloc[-1]
-                prev_close = hist['Close'].iloc[-2]
-                change_pct = ((last_close - prev_close) / prev_close) * 100
+            t = yf.Ticker(ticker)
+            lp, pc, change_pct, _ = fetch_ticker_data(t)
+            if lp is not None and change_pct is not None:
                 market_info["indices"][name] = {
-                    "price": round(last_close, 2),
-                    "change_pct": round(change_pct, 2)
+                    "price": round(float(lp), 2),
+                    "change_pct": round(float(change_pct), 2)
                 }
-                # 기준 날짜 추출 (가장 마지막 데이터의 날짜)
-                if market_date is None:
-                    market_date = hist.index[-1].to_pydatetime()
             else:
-                logger.warning(f"{name} ({ticker}) 데이터를 충분히 가져오지 못했습니다.")
+                logger.error(f"지수 {name}({ticker})의 공식 종가 데이터가 없습니다.")
         except Exception as e:
-            logger.error(f"{name} ({ticker}) 수집 실패: {e}")
+            logger.error(f"지수 {name}({ticker}) 수집 실패: {e}")
 
-    market_info["market_date"] = market_date
-    logger.info(f"수집된 시장 기준 날짜: {market_date}")
+    if len(market_info["indices"]) < 3:
+        raise RuntimeError(f"주요 3대 지수 공식 데이터 수집 실패! (수집 성공: {len(market_info['indices'])}/3). 중단합니다.")
 
-    # 2. 섹터 ETF 등락률 수집 및 비교
-    sector_performance = []
-    for ticker, name in SECTOR_ETFS.items():
+    # 2. 섹터 ETF 등락률 수집
+    logger.info("2단계: 11개 섹터 ETF 공식 마감 데이터 수집 중...")
+    def fetch_etf(item):
+        ticker, name = item
         try:
-            etf = yf.Ticker(ticker)
-            hist = etf.history(period="5d")
-            if len(hist) >= 2:
-                last_close = hist['Close'].iloc[-1]
-                prev_close = hist['Close'].iloc[-2]
-                change_pct = ((last_close - prev_close) / prev_close) * 100
-                sector_performance.append({
+            t = yf.Ticker(ticker)
+            _, _, cp, _ = fetch_ticker_data(t)
+            if cp is not None:
+                return {"ticker": ticker, "name": name, "change_pct": round(float(cp), 2)}
+        except Exception:
+            pass
+        return None
+
+    with ThreadPoolExecutor(max_workers=11) as ex:
+        sector_results = list(ex.map(fetch_etf, SECTOR_ETFS.items()))
+    sector_performance = [s for s in sector_results if s]
+
+    if not sector_performance:
+        raise RuntimeError("섹터 ETF 공식 데이터 수집에 실패했습니다. 중단합니다.")
+
+    sector_performance.sort(key=lambda x: x["change_pct"], reverse=True)
+    market_info["top_sector"] = sector_performance[0]
+    market_info["bottom_sector"] = sector_performance[-1]
+
+    # 3. 거래대금 상위 특징주 수집
+    logger.info("3단계: 거래대금 상위 특징주 공식 마감 데이터 수집 중...")
+    target_tickers, ticker_name_map = get_dynamic_tickers()
+
+    def fetch_stock(ticker):
+        try:
+            t = yf.Ticker(ticker)
+            lp, pc, cp, vol = fetch_ticker_data(t)
+            if lp is not None and cp is not None and lp > 0:
+                tv = lp * (vol if vol else 0)
+                return {
                     "ticker": ticker,
-                    "name": name,
-                    "change_pct": change_pct
-                })
-        except Exception as e:
-            logger.error(f"섹터 ETF {name} ({ticker}) 수집 실패: {e}")
+                    "price": round(float(lp), 2),
+                    "change_pct": round(float(cp), 2),
+                    "trading_value": float(tv)
+                }
+        except Exception:
+            pass
+        return None
 
-    if sector_performance:
-        # 등락률 기준으로 정렬 (내림차순)
-        sector_performance.sort(key=lambda x: x["change_pct"], reverse=True)
-        market_info["top_sector"] = sector_performance[0]
-        market_info["bottom_sector"] = sector_performance[-1]
+    with ThreadPoolExecutor(max_workers=25) as ex:
+        stock_results = list(ex.map(fetch_stock, target_tickers))
 
-    # 3. 거래대금 상위 특징주(상승률 순 50개) 수집
-    logger.info("거래대금 기준 상위 특징주 수집 시작...")
+    stocks_info = [s for s in stock_results if s]
+    logger.info(f"특징주 수집 완료: 총 {len(stocks_info)}개 종목 유효 데이터 확보")
+
+    if len(stocks_info) < 20:
+        raise RuntimeError(f"특징주 공식 데이터 수집 실패! 유효 종목 수가 너무 적습니다 ({len(stocks_info)}개). 임의 대체 없이 중단합니다.")
+
+    # 기준 날짜 추출 (최신 거래일)
     try:
-        target_tickers, ticker_name_map = get_dynamic_tickers()
-        # download 대량 데이터 (빠름)
-        data = yf.download(target_tickers, period="7d", progress=False)
-        stocks_info = []
-        
-        # 최신 일자 중 전 종목 NaN 행(미국 장 마감 후 반영 지연 일자) 일괄 제거
-        close_df = data['Close'].dropna(how='all') if 'Close' in data else pd.DataFrame()
-        vol_df = data['Volume'].dropna(how='all') if 'Volume' in data else pd.DataFrame()
-        
-        # 다운로드된 대량 데이터의 최신 마감일 추출
-        latest_download_date = close_df.index[-1].date() if len(close_df) > 0 else None
-        
-        for ticker in target_tickers:
-            try:
-                if ticker in close_df.columns and ticker in vol_df.columns:
-                    s_close = close_df[ticker].dropna()
-                    s_vol = vol_df[ticker].dropna()
-                    
-                    ticker_last_date = s_close.index[-1].date() if len(s_close) > 0 else None
-                    
-                    # 엄격 규칙: 최신 마감 거래일(latest_download_date) 데이터인 경우만 반영
-                    # 날짜가 안 맞거나 과거 데이터인 경우 전날 데이터로 대체 금지하고 스킵
-                    if ticker_last_date and latest_download_date and ticker_last_date == latest_download_date and len(s_close) >= 2 and len(s_vol) >= 1:
-                        last_close = s_close.iloc[-1]
-                        prev_close = s_close.iloc[-2]
-                        last_vol = s_vol.iloc[-1]
-                        
-                        change_pct = ((last_close - prev_close) / prev_close) * 100
-                        trading_value = last_close * last_vol
-                        
-                        stocks_info.append({
-                            "ticker": ticker,
-                            "price": round(float(last_close), 2),
-                            "change_pct": round(float(change_pct), 2),
-                            "trading_value": float(trading_value)
-                        })
-                    else:
-                        logger.warning(f"[{ticker}] 최신 마감일({latest_download_date}) 데이터 결측 - 과거 데이터 대체 없이 제외")
-            except Exception as e:
-                continue
+        sample_hist = yf.Ticker("^GSPC").history(period="1d")
+        if not sample_hist.empty:
+            market_info["market_date"] = sample_hist.index[-1].to_pydatetime()
+    except Exception:
+        market_info["market_date"] = None
                 
-        if stocks_info:
-            # 1단계: 거래대금(trading_value) 기준 내림차순 정렬
-            stocks_info.sort(key=lambda x: x['trading_value'], reverse=True)
-            
-            # 2단계: 단일 종목(EQUITY)만 필터링하여 상위 100개 확보
-            filtered_stocks = []
-            for stock in stocks_info:
-                try:
-                    # yfinance의 info 호출은 다소 느릴 수 있으므로 상위권에서만 확인하거나
-                    # 티커 명명 규칙을 활용할 수 있으나, 가장 확실한 방법은 info['quoteType'] 확인
-                    # 다만 속도를 위해 여기서는 기본적인 티커 길이 등으로 1차 필터링 후 
-                    # 필요시 상위권만 정밀 확인하는 방식을 취합니다.
-                    # 대부분의 TOP_TICKERS는 이미 주식으로 구성되어 있습니다.
-                    stock['name'] = ticker_name_map.get(stock['ticker'], stock['ticker'])
-                    filtered_stocks.append(stock)
-                    if len(filtered_stocks) >= 100:
-                        break
-                except Exception:
-                    continue
-            
-            top_100 = filtered_stocks
-            
-            # 3단계: 상위 100개 중 상승률 상위 20개 및 거래대금 상위 20개 선정 (중복 제거)
-            top_gn = sorted(top_100, key=lambda x: x['change_pct'], reverse=True)[:20]
-            top_vol = top_100[:20]
-            gn_tk_set = set([s['ticker'] for s in top_gn] + [s['ticker'] for s in top_vol])
-            
-            # 4단계: 선정된 종목들에 대해서만 뉴스 검색 진행
-            for stock in top_100:
-                if stock['ticker'] in gn_tk_set:
-                    stock['reason'] = fetch_stock_reason_us(stock['ticker'], market_date=market_info.get("market_date"))
-                else:
-                    stock['reason'] = []
-                    
-            market_info["top_stocks"] = top_100
-        else:
-            market_info["top_stocks"] = []
-    except Exception as e:
-        logger.error(f"특징주 수집 실패: {e}")
+    if stocks_info:
+        # 1단계: 거래대금(trading_value) 기준 내림차순 정렬
+        stocks_info.sort(key=lambda x: x['trading_value'], reverse=True)
+        
+        # 2단계: 단일 종목(EQUITY)만 필터링하여 상위 100개 확보
+        filtered_stocks = []
+        for stock in stocks_info:
+            try:
+                stock['name'] = ticker_name_map.get(stock['ticker'], stock['ticker'])
+                filtered_stocks.append(stock)
+                if len(filtered_stocks) >= 100:
+                    break
+            except Exception:
+                continue
+        
+        top_100 = filtered_stocks
+        
+        # 3단계: 상위 100개 중 상승률 상위 20개 및 거래대금 상위 20개 선정 (중복 제거)
+        top_gn = sorted(top_100, key=lambda x: x['change_pct'], reverse=True)[:20]
+        top_vol = top_100[:20]
+        gn_tk_set = set([s['ticker'] for s in top_gn] + [s['ticker'] for s in top_vol])
+        
+        # 4단계: 선정된 종목들에 대해서만 뉴스 검색 병렬 진행
+        def get_reason(stock):
+            if stock['ticker'] in gn_tk_set:
+                stock['reason'] = fetch_stock_reason_us(stock['ticker'], market_date=market_info.get("market_date"))
+            else:
+                stock['reason'] = []
+            return stock
+
+        with ThreadPoolExecutor(max_workers=6) as ex:
+            top_100 = list(ex.map(get_reason, top_100))
+                
+        market_info["top_stocks"] = top_100
+    else:
         market_info["top_stocks"] = []
 
     logger.info("시황 데이터 수집 완료.")

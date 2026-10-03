@@ -339,6 +339,10 @@ def fetch_company_news_us(company, company_full_name: str = None, days: int = 3,
 
     news_data = []
     ref_date = market_date if market_date else datetime.now(pytz.utc)
+    if ref_date.tzinfo is None:
+        ref_date = pytz.utc.localize(ref_date)
+    else:
+        ref_date = ref_date.astimezone(pytz.utc)
     cutoff = ref_date - timedelta(days=days)
     seen = set()
     
