@@ -98,7 +98,7 @@ def update_equal_trading_in_markdown(eql_data: Dict[str, List[Dict[str, Any]]],
         if items:
             has_content = True
             new_section_lines.append(f"### 📌 {mkt_name} 동시 순매수 Top {len(items)}\n\n")
-            new_section_lines.append("| 순위 | 종목명 (코드) | 현재가 | 등락률 | 기관 순매수액 | 외국인 순매수액 | 합계 순매수액 |\n")
+            new_section_lines.append("| 순위 | 종목명 | 현재가 | 등락률 | 기관 순매수액 | 외국인 순매수액 | 합계 순매수액 |\n")
             new_section_lines.append("|---|---|---|---|---|---|---|\n")
             for item in items:
                 rank = item.get("rank", "")
@@ -121,7 +121,7 @@ def update_equal_trading_in_markdown(eql_data: Dict[str, List[Dict[str, Any]]],
                 f_amt = _format_eql_amt(item.get("foreign_amt"))
                 t_amt = _format_eql_amt(item.get("total_amt"))
                 
-                new_section_lines.append(f"| {rank} | {name} ({code}) | {prc_str} | {cp_str} | {o_amt} | {f_amt} | {t_amt} |\n")
+                new_section_lines.append(f"| {rank} | {name} | {prc_str} | {cp_str} | {o_amt} | {f_amt} | {t_amt} |\n")
             new_section_lines.append("\n")
 
     if not has_content:
