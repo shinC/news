@@ -295,56 +295,141 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                 f.write("\n> ⚠️ [시스템 경고: 위 기사와 아래 기사는 독립된 별개의 뉴스입니다. 두 기사의 인과관계를 임의로 연결(할루시네이션)하지 마시오.]\n\n")
             f.write("---\n\n")
             
-        if not other_news_list:
-            return
-            
-        f.write("주요 뉴스 헤드라인 (섹션별 & 중요도순)\n\n")
-        # 카테고리별로 그룹화
-        grouped_news = {}
-        for item in other_news_list:
-            cat = item.get('category', '기타')
-            if cat not in grouped_news:
-                grouped_news[cat] = []
-            grouped_news[cat].append(item)
-            
-        global_idx = 1
-        for cat, items in grouped_news.items():
-            f.write(f"{cat}\n\n")
-            
-            for item in items:
-                cluster_id = item.get('cluster_id')
-                cluster_size = item.get('cluster_size', 1)
-                priority_score = item.get('priority_score', 0)
+        if other_news_list:
+            f.write("주요 뉴스 헤드라인 (섹션별 & 중요도순)\n\n")
+            # 카테고리별로 그룹화
+            grouped_news = {}
+            for item in other_news_list:
+                cat = item.get('category', '기타')
+                if cat not in grouped_news:
+                    grouped_news[cat] = []
+                grouped_news[cat].append(item)
                 
-                pub_date = item.get('publish_date')
-                date_str = pub_date.strftime('%Y-%m-%d') if pd.notnull(pub_date) else "Unknown Date"
+            global_idx = 1
+            for cat, items in grouped_news.items():
+                f.write(f"{cat}\n\n")
                 
-                title = item.get('title', 'No Title')
-                url = item.get('url', '#')
-                
-                # 기사 제목에 순번(번호) 추가
-                f.write(f"{global_idx}. [{title}]({url})\n")
-                f.write(f"- 발행일시: {date_str}\n")
-                
-                summary = item.get('summary', '')
-                if summary:
-                    f.write(f"- 요약: {summary[:1500]}...\n")
+                for item in items:
+                    cluster_id = item.get('cluster_id')
+                    cluster_size = item.get('cluster_size', 1)
+                    priority_score = item.get('priority_score', 0)
                     
-                keywords = item.get('keywords', [])
-                if not isinstance(keywords, list):
-                    keywords = []
-                if keywords:
-                    # 'google' 단독 키워드 등 불필요한 키워드 필터링
-                    filtered_keywords = [k for k in keywords if isinstance(k, str) and k.lower() not in ['google', 'news', 'home']]
-                    if filtered_keywords:
-                        f.write(f"- 키워드: {', '.join(filtered_keywords)}\n")
+                    pub_date = item.get('publish_date')
+                    date_str = pub_date.strftime('%Y-%m-%d') if pd.notnull(pub_date) else "Unknown Date"
+                    
+                    title = item.get('title', 'No Title')
+                    url = item.get('url', '#')
+                    
+                    # 기사 제목에 순번(번호) 추가
+                    f.write(f"{global_idx}. [{title}]({url})\n")
+                    f.write(f"- 발행일시: {date_str}\n")
+                    
+                    summary = item.get('summary', '')
+                    if summary:
+                        f.write(f"- 요약: {summary[:1500]}...\n")
+                        
+                    keywords = item.get('keywords', [])
+                    if not isinstance(keywords, list):
+                        keywords = []
+                    if keywords:
+                        # 'google' 단독 키워드 등 불필요한 키워드 필터링
+                        filtered_keywords = [k for k in keywords if isinstance(k, str) and k.lower() not in ['google', 'news', 'home']]
+                        if filtered_keywords:
+                            f.write(f"- 키워드: {', '.join(filtered_keywords)}\n")
+                    
+                    f.write("\n")
+                    global_idx += 1
                 
-                f.write("\n")
-                global_idx += 1
+                f.write("---\n")
             
-            f.write("---\n")
+        # 맨 마지막에 기관/외국인 동시(동일) 순매수 상위(ka10062) 표 추가
+        if is_kr and market_data:
+            eql_data = None
+            if "summary_info" in market_data and "equal_net_trading" in market_data["summary_info"]:
+                eql_data = market_data["summary_info"]["equal_net_trading"]
+            elif "equal_net_trading" in market_data:
+                eql_data = market_data["equal_net_trading"]
+                
+            if eql_data and (eql_data.get("ALL") or eql_data.get("KOSPI") or eql_data.get("KOSDAQ")):
+                f.write("\n---\n\n")
+                f.write("📊 기관 및 외국인 동시(동일) 순매수 상위 (당일/최근 거래일 기준)\n")
+                f.write("> 출처: 키움증권 API (ka10062) | 거래소 통합 | 금액 기준 동시 순매수 상위\n\n")
+                
+                sections = [
+                    ("전체 시장 (KOSPI + KOSDAQ)", "ALL"),
+                    ("코스피 (KOSPI)", "KOSPI"),
+                    ("코스닥 (KOSDAQ)", "KOSDAQ")
+                ]
+                
+                for mkt_name, mkt_key in sections:
+                    items = eql_data.get(mkt_key, [])
+                    if items:
+                        f.write(f"### 📌 {mkt_name} 동시 순매수 Top {len(items)}\n\n")
+                        f.write("| 순위 | 종목명 (코드) | 현재가 | 등락률 | 기관 순매수액 | 외국인 순매수액 | 합계 순매수액 |\n")
+                        f.write("|---|---|---|---|---|---|---|\n")
+                        for item in items:
+                            rank = item.get("rank", "")
+                            name = item.get("name", "")
+                            code = item.get("ticker_cd", "")
+                            
+                            prc = item.get("price", "0")
+                            try:
+                                prc_int = int(prc.replace("+", "").replace("-", ""))
+                                prc_str = f"{prc_int:,}원"
+                            except:
+                                prc_str = f"{prc}원"
+                                
+                            cp = item.get("change_pct", "0.00")
+                            cp_str = f"{cp}%" if not cp.endswith("%") else cp
+                            if not cp_str.startswith("+") and not cp_str.startswith("-") and cp_str != "0.00%":
+                                cp_str = f"+{cp_str}"
+                                
+                            o_amt = _format_eql_amt(item.get("organ_amt"))
+                            f_amt = _format_eql_amt(item.get("foreign_amt"))
+                            t_amt = _format_eql_amt(item.get("total_amt"))
+                            
+                            f.write(f"| {rank} | {name} ({code}) | {prc_str} | {cp_str} | {o_amt} | {f_amt} | {t_amt} |\n")
+                        f.write("\n")
             
     logger.info(f"결과물이 {file_path} 에 저장되었습니다.")
+
+def _format_eql_amt(amt_str: Any) -> str:
+    if not amt_str: return "0원"
+    s = str(amt_str).replace('+', '').strip()
+    try:
+        val = int(s)
+    except:
+        return "0원"
+    if val == 0:
+        return "0원"
+    
+    sign = "-" if val < 0 else "+"
+    abs_val = abs(val)
+    
+    if abs_val >= 100000: # 1,000억원 이상
+        eok = abs_val // 100
+        rem_eok = eok % 10000
+        if eok >= 10000:
+            cho = eok // 10000
+            amt_formatted = f"{cho}조 {rem_eok:,}억원" if rem_eok > 0 else f"{cho}조원"
+        else:
+            amt_formatted = f"{eok:,}억원"
+    elif abs_val >= 100: # 1억원 이상 (예: 6870 -> 68억 7,000만원)
+        eok = abs_val // 100
+        man = (abs_val % 100) * 100
+        if man > 0:
+            amt_formatted = f"{eok:,}억 {man:,}만원"
+        else:
+            amt_formatted = f"{eok:,}억원"
+    else: # 1억원 미만 (예: 27 -> 2,700만원)
+        man = abs_val * 100
+        amt_formatted = f"{man:,}만원"
+        
+    return f"{sign}{amt_formatted}"
+
+
+
+
     
 # pandas is used in date_str check
 import pandas as pd

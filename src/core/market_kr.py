@@ -115,7 +115,7 @@ def fetch_extra_market_info() -> Dict[str, Any]:
                 }
         except: pass
 
-    # 2. 투자자 매매동향 (키움 API 우선, 실패/미지원 시 네이버 금융 우회)
+    # 2. 투자자 매매동향 및 기관외국인 연속 매매 현황 (키움 API 우선, 실패/미지원 시 네이버 금융 우회)
     kiwoom_success = False
     try:
         kiwoom = KiwoomAPI()
@@ -137,9 +137,9 @@ def fetch_extra_market_info() -> Dict[str, Any]:
             kiwoom_success = True
             logger.info("키움 API (ka10051) 기반 매매동향 수집 성공")
     except Exception as e:
-        logger.warning(f"키움 API 매매동향 수집 실패, 네이버 금융으로 우회: {e}")
+        logger.warning(f"키움 API 매매동향 수집 예외 발생: {e}")
 
-    # 키움 API 실패 또는 유효 데이터 미비 시 네이버 금융 우회
+    # 키움 API 실패 또는 유효 데이터 미비 시 네이버 금융 우회 (매매동향만 우회)
     if not kiwoom_success or len(extra["investor_trends"]) < 2:
         extra["investor_trends"] = {}
         for code, name in [('KOSPI', '코스피 시장'), ('KOSDAQ', '코스닥 시장')]:
@@ -154,6 +154,7 @@ def fetch_extra_market_info() -> Dict[str, Any]:
                 }
             except Exception as ex:
                 logger.error(f"네이버 금융 매매동향 수집 실패 ({name}): {ex}")
+
 
 
 

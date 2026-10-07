@@ -249,4 +249,84 @@ class KiwoomAPI:
 
         return None
 
+    def get_equal_net_trading_rank(self, market_code: str = "000", limit: int = 10, target_date: str = None, sort_cnd: str = "3") -> List[Dict[str, Any]]:
+        """
+        기관과 외국인이 동시에 순매수한 종목 순위를 조회합니다 (ka10062).
+        market_code: '000' (전체), '001' (코스피), '101' (코스닥)
+        sort_cnd: '1' (기관순), '2' (외국인순), '3' (합계순 - HTS [0798] 기본)
+        limit: 수집 종목 수 (기본 10개)
+        URL: /api/dostk/rkinfo
+        """
+        import datetime
+
+        if not self.token and not self.get_token():
+            return []
+
+        # 무조건 오늘 날짜(당일 YYYYMMDD) 기준 지정
+        if not target_date:
+            target_date = datetime.datetime.now().strftime("%Y%m%d")
+
+        url = f"{self.base_url}/api/dostk/rkinfo"
+        headers = {
+            "Content-Type": "application/json;charset=UTF-8",
+            "Authorization": f"Bearer {self.token}",
+            "api-id": "ka10062"
+        }
+
+        body = {
+            "mrkt_tp": market_code,  # 전체: 000, 코스피: 001, 코스닥: 101
+            "stex_tp": "3",         # 거래소: 3 (통합)
+            "amt_qty_tp": "0",      # 금액: 0, 수량: 1
+            "trde_tp": "1",         # 순매수: 1
+            "sort_cnd": sort_cnd,   # 정렬조건: 1(기관), 2(외인), 3(합계)
+            "unit_tp": "1",         # 단위: 1
+            "strt_dt": target_date, # 시작일자
+            "end_dt": target_date   # 종료일자
+        }
+
+        items = []
+        try:
+            res = requests.post(url, headers=headers, json=body, timeout=10)
+            if res.status_code == 200:
+                resp_json = res.json()
+                if resp_json.get("return_code") == 0 or resp_json.get("return_code") == "0":
+                    items = resp_json.get("eql_nettrde_rank", [])
+                else:
+                    logger.warning(f"ka10062 응답 메시지 ({target_date}): {resp_json.get('return_msg')}")
+        except Exception as e:
+            logger.error(f"ka10062 fetch error ({target_date}): {e}")
+
+        results = []
+        for item in items[:limit]:
+            try:
+                rank = item.get("rank", "")
+                ticker_cd = item.get("stk_cd", "").replace("_AL", "").strip()
+                name = item.get("stk_nm", "").strip()
+                cur_prc = item.get("cur_prc", "0").strip()
+                flu_rt = item.get("flu_rt", "0.00").strip()
+                orgn_amt = item.get("orgn_nettrde_amt", "0").strip()
+                for_amt = item.get("for_nettrde_amt", "0").strip()
+                total_amt = item.get("nettrde_amt", "0").strip()
+
+                results.append({
+                    "rank": rank,
+                    "ticker_cd": ticker_cd,
+                    "name": name,
+                    "price": cur_prc,
+                    "change_pct": flu_rt,
+                    "organ_amt": orgn_amt,
+                    "foreign_amt": for_amt,
+                    "total_amt": total_amt,
+                    "date": target_date
+                })
+            except Exception as ex:
+                logger.warning(f"ka10062 항목 파싱 중 예외: {ex}")
+                continue
+
+        logger.info(f"Kiwoom ka10062 ({market_code}, 날짜:{target_date}) 수집 완료: {len(results)}개")
+        return results
+
+
+
+
 
