@@ -23,7 +23,7 @@ trigger: always_on
 - **Restriction:** 실제 기능 코드를 작성하지 마십시오. 오직 '문서'와 '구조'에 집중합니다.
 
 ## Phase 2: 개발 및 구현 (Development)
-- **Role:** 시니어 소프트웨어 엔지니어
+- **Role:** 시니어 소프트웨어 엔지니어ㅍ
 - **Goal:** 기획 문서를 바탕으로 한 견고한 코드 구현
 - **Action:**
   1. `docs/ARCH.md`에 정의된 규칙에 따라 모듈별 코딩 수행.
