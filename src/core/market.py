@@ -144,10 +144,49 @@ def fetch_ticker_data(t: yf.Ticker):
         return lp, pc, cp, vol
     return None, None, None, None
 
+def fetch_top_stocks_naver_us(limit: int = 100) -> list:
+    """
+    네이버 증권(https://stock.naver.com/market/stock/usa/stocklist/priceTop) API를 호출하여
+    미국 주식 거래대금 상위 종목을 수집합니다.
+    """
+    url = f"https://stock.naver.com/api/foreign/market/stock/global?nation=USA&tradeType=ALL&orderType=priceTop&startIdx=0&pageSize={limit}"
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Referer': 'https://stock.naver.com/market/stock/usa/stocklist/priceTop'
+    }
+    try:
+        logger.info(f"네이버 증권 미국 주식 거래대금 상위 API 호출 중 (limit={limit})...")
+        res = requests.get(url, headers=headers, timeout=10)
+        res.raise_for_status()
+        items = res.json()
+
+        stocks = []
+        for item in items:
+            ticker = item.get("symbolCode", "").replace('.', '-')
+            # 한글명 우선, 없을 경우 영문명 또는 티커 사용
+            name = item.get("koreanCodeName") or item.get("englishCodeName") or ticker
+            price = round(float(item.get("closePrice") or item.get("currentPrice") or 0), 2)
+            change_pct = round(float(item.get("fluctuationsRatio") or 0), 2)
+            trading_value = float(item.get("accumulatedTradingValue") or 0)
+
+            stocks.append({
+                "ticker": ticker,
+                "name": name,
+                "price": price,
+                "change_pct": change_pct,
+                "trading_value": trading_value
+            })
+
+        logger.info(f"네이버 증권 미국 주식 거래대금 상위 {len(stocks)}개 수집 성공")
+        return stocks
+    except Exception as e:
+        logger.error(f"네이버 증권 미국 주식 거래대금 상위 수집 실패: {e}")
+        return []
+
 def get_market_data() -> Dict[str, Any]:
     """
-    야후 파이낸스(yfinance)의 공식 마감 종가를 안전하게 병렬 수집하여 미국 3대 지수, 주요 11개 섹터 ETF,
-    그리고 거래대금 상위 특징주의 공식 정규장 종가와 등락률을 수집합니다.
+    야후 파이낸스(yfinance)의 공식 마감 종가를 안전하게 병렬 수집하여 미국 3대 지수, 주요 11개 섹터 ETF를 수집하고,
+    네이버 증권에서 거래대금 상위 특징주의 공식 정규장 종가와 등락률을 수집합니다.
     - Rate Limited (429) 차단 시 history(period='2d') 우회 폴백을 자동 실행합니다.
     """
     logger.info("야후 파이낸스(yfinance) 공식 정규장 데이터 수집 시작...")
@@ -157,7 +196,7 @@ def get_market_data() -> Dict[str, Any]:
         "indices": {},
         "top_sector": None,
         "bottom_sector": None,
-        "source": "Yahoo Finance Official (fast_info + history fallback)"
+        "source": "Yahoo Finance & Naver Finance Official"
     }
 
     # 1. 주요 3대 지수 수집
@@ -204,35 +243,6 @@ def get_market_data() -> Dict[str, Any]:
     market_info["top_sector"] = sector_performance[0]
     market_info["bottom_sector"] = sector_performance[-1]
 
-    # 3. 거래대금 상위 특징주 수집
-    logger.info("3단계: 거래대금 상위 특징주 공식 마감 데이터 수집 중...")
-    target_tickers, ticker_name_map = get_dynamic_tickers()
-
-    def fetch_stock(ticker):
-        try:
-            t = yf.Ticker(ticker)
-            lp, pc, cp, vol = fetch_ticker_data(t)
-            if lp is not None and cp is not None and lp > 0:
-                tv = lp * (vol if vol else 0)
-                return {
-                    "ticker": ticker,
-                    "price": round(float(lp), 2),
-                    "change_pct": round(float(cp), 2),
-                    "trading_value": float(tv)
-                }
-        except Exception:
-            pass
-        return None
-
-    with ThreadPoolExecutor(max_workers=25) as ex:
-        stock_results = list(ex.map(fetch_stock, target_tickers))
-
-    stocks_info = [s for s in stock_results if s]
-    logger.info(f"특징주 수집 완료: 총 {len(stocks_info)}개 종목 유효 데이터 확보")
-
-    if len(stocks_info) < 20:
-        raise RuntimeError(f"특징주 공식 데이터 수집 실패! 유효 종목 수가 너무 적습니다 ({len(stocks_info)}개). 임의 대체 없이 중단합니다.")
-
     # 기준 날짜 추출 (최신 거래일)
     try:
         sample_hist = yf.Ticker("^GSPC").history(period="1d")
@@ -240,30 +250,61 @@ def get_market_data() -> Dict[str, Any]:
             market_info["market_date"] = sample_hist.index[-1].to_pydatetime()
     except Exception:
         market_info["market_date"] = None
-                
-    if stocks_info:
-        # 1단계: 거래대금(trading_value) 기준 내림차순 정렬
-        stocks_info.sort(key=lambda x: x['trading_value'], reverse=True)
-        
-        # 2단계: 단일 종목(EQUITY)만 필터링하여 상위 100개 확보
-        filtered_stocks = []
-        for stock in stocks_info:
-            try:
-                stock['name'] = ticker_name_map.get(stock['ticker'], stock['ticker'])
-                filtered_stocks.append(stock)
-                if len(filtered_stocks) >= 100:
-                    break
-            except Exception:
-                continue
-        
-        top_100 = filtered_stocks
-        
-        # 3단계: 상위 100개 중 상승률 상위 20개 및 거래대금 상위 20개 선정 (중복 제거)
+
+    # 3. 거래대금 상위 특징주 수집
+    # -------------------------------------------------------------
+    # [기존 로직 주석 처리: yfinance 동적 티커 크롤링 방식]
+    # logger.info("3단계: 거래대금 상위 특징주 공식 마감 데이터 수집 중 (기존 yfinance 방식)...")
+    # target_tickers, ticker_name_map = get_dynamic_tickers()
+    # def fetch_stock(ticker):
+    #     try:
+    #         t = yf.Ticker(ticker)
+    #         lp, pc, cp, vol = fetch_ticker_data(t)
+    #         if lp is not None and cp is not None and lp > 0:
+    #             tv = lp * (vol if vol else 0)
+    #             return {
+    #                 "ticker": ticker,
+    #                 "price": round(float(lp), 2),
+    #                 "change_pct": round(float(cp), 2),
+    #                 "trading_value": float(tv)
+    #             }
+    #     except Exception:
+    #         pass
+    #     return None
+    # with ThreadPoolExecutor(max_workers=25) as ex:
+    #     stock_results = list(ex.map(fetch_stock, target_tickers))
+    # stocks_info = [s for s in stock_results if s]
+    # logger.info(f"특징주 수집 완료: 총 {len(stocks_info)}개 종목 유효 데이터 확보")
+    # if len(stocks_info) < 20:
+    #     raise RuntimeError(f"특징주 공식 데이터 수집 실패! 유효 종목 수가 너무 적습니다 ({len(stocks_info)}개). 임의 대체 없이 중단합니다.")
+    # if stocks_info:
+    #     stocks_info.sort(key=lambda x: x['trading_value'], reverse=True)
+    #     filtered_stocks = []
+    #     for stock in stocks_info:
+    #         try:
+    #             stock['name'] = ticker_name_map.get(stock['ticker'], stock['ticker'])
+    #             filtered_stocks.append(stock)
+    #             if len(filtered_stocks) >= 100:
+    #                 break
+    #         except Exception:
+    #             continue
+    #     top_100 = filtered_stocks
+    # -------------------------------------------------------------
+
+    # [신규 로직: 네이버 증권 API (https://stock.naver.com/market/stock/usa/stocklist/priceTop) 수집]
+    logger.info("3단계: 네이버 증권에서 미국 거래대금 상위 100개 종목 수집 중...")
+    top_100 = fetch_top_stocks_naver_us(limit=100)
+
+    if not top_100 or len(top_100) < 20:
+        raise RuntimeError(f"네이버 증권 특징주 데이터 수집 실패! 유효 종목 수가 너무 적습니다 ({len(top_100)}개). 중단합니다.")
+
+    if top_100:
+        # 상위 100개 중 상승률 상위 20개 및 거래대금 상위 20개 선정 (중복 제거)
         top_gn = sorted(top_100, key=lambda x: x['change_pct'], reverse=True)[:20]
         top_vol = top_100[:20]
         gn_tk_set = set([s['ticker'] for s in top_gn] + [s['ticker'] for s in top_vol])
-        
-        # 4단계: 선정된 종목들에 대해서만 뉴스 검색 병렬 진행
+
+        # 선정된 종목들에 대해서만 뉴스 검색 병렬 진행
         def get_reason(stock):
             if stock['ticker'] in gn_tk_set:
                 stock['reason'] = fetch_stock_reason_us(stock['ticker'], market_date=market_info.get("market_date"))
@@ -273,7 +314,7 @@ def get_market_data() -> Dict[str, Any]:
 
         with ThreadPoolExecutor(max_workers=6) as ex:
             top_100 = list(ex.map(get_reason, top_100))
-                
+
         market_info["top_stocks"] = top_100
     else:
         market_info["top_stocks"] = []

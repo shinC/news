@@ -206,11 +206,9 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                             
                         price_display = formatted_price
                     else:
-                        # 미국 시장 (기존 방식)
-                        if trading_value >= 1e9:
-                            tv_str = f"${trading_value/1e9:.2f}B"
-                        else:
-                            tv_str = f"${trading_value/1e6:.2f}M"
+                        # 미국 시장 (억 달러 단위 표시)
+                        eok_dollar = trading_value / 1e8
+                        tv_str = f"{eok_dollar:,.1f}억 달러"
                         price_display = f"${price}"
                         
                     sign = "+" if change_pct > 0 else ""
@@ -234,10 +232,8 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                                 eok = int(trading_value // 1e8)
                                 tv_str = f"{eok:,}억원"
                         else:
-                            if trading_value >= 1e9:
-                                tv_str = f"${trading_value/1e9:.2f}B"
-                            else:
-                                tv_str = f"${trading_value/1e6:.2f}M"
+                            eok_dollar = trading_value / 1e8
+                            tv_str = f"{eok_dollar:,.1f}억 달러"
                                 
                         f.write(f"{name} ({ticker}) ({change_pct_str}) | 거래대금: {tv_str}\n")
                         reasons = stock.get('reason', [])
