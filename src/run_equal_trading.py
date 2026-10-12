@@ -14,36 +14,25 @@ from config.settings import settings_kr
 logger = logging.getLogger("run_equal_trading")
 
 def _format_eql_amt(amt_str: Any) -> str:
-    if not amt_str: return "0원"
+    if not amt_str: return "0억원"
     s = str(amt_str).replace('+', '').strip()
     try:
         val = int(s)
     except:
-        return "0원"
+        return "0억원"
     if val == 0:
-        return "0원"
+        return "0억원"
     
-    sign = "-" if val < 0 else "+"
+    sign = "-" if val < 0 else ""
     abs_val = abs(val)
     
-    if abs_val >= 100000: # 1,000억원 이상
-        eok = abs_val // 100
-        rem_eok = eok % 10000
-        if eok >= 10000:
-            cho = eok // 10000
-            amt_formatted = f"{cho}조 {rem_eok:,}억원" if rem_eok > 0 else f"{cho}조원"
-        else:
-            amt_formatted = f"{eok:,}억원"
-    elif abs_val >= 100: # 1억원 이상 (예: 6870 -> 68억 7,000만원)
-        eok = abs_val // 100
-        man = (abs_val % 100) * 100
-        if man > 0:
-            amt_formatted = f"{eok:,}억 {man:,}만원"
-        else:
-            amt_formatted = f"{eok:,}억원"
-    else: # 1억원 미만 (예: 27 -> 2,700만원)
-        man = abs_val * 100
-        amt_formatted = f"{man:,}만원"
+    eok_float = abs_val / 100.0
+    eok_round = round(eok_float)
+    
+    if eok_round == 0 and abs_val > 0:
+        amt_formatted = f"{eok_float:.1f}억원"
+    else:
+        amt_formatted = f"{int(eok_round):,}억원"
         
     return f"{sign}{amt_formatted}"
 
@@ -98,30 +87,17 @@ def update_equal_trading_in_markdown(eql_data: Dict[str, List[Dict[str, Any]]],
         if items:
             has_content = True
             new_section_lines.append(f"### 📌 {mkt_name} 동시 순매수 Top {len(items)}\n\n")
-            new_section_lines.append("| 순위 | 종목명 | 현재가 | 등락률 | 기관 순매수액 | 외국인 순매수액 | 합계 순매수액 |\n")
-            new_section_lines.append("|---|---|---|---|---|---|---|\n")
+            new_section_lines.append("| 순위 | 종목명 | 기관 순매수액 | 외국인 순매수액 | 합계 순매수액 |\n")
+            new_section_lines.append("| :---: | :--- | ---: | ---: | ---: |\n")
             for item in items:
                 rank = item.get("rank", "")
                 name = item.get("name", "")
-                code = item.get("ticker_cd", "")
                 
-                prc = item.get("price", "0")
-                try:
-                    prc_int = int(prc.replace("+", "").replace("-", ""))
-                    prc_str = f"{prc_int:,}원"
-                except:
-                    prc_str = f"{prc}원"
-                    
-                cp = item.get("change_pct", "0.00")
-                cp_str = f"{cp}%" if not cp.endswith("%") else cp
-                if not cp_str.startswith("+") and not cp_str.startswith("-") and cp_str != "0.00%":
-                    cp_str = f"+{cp_str}"
-                    
                 o_amt = _format_eql_amt(item.get("organ_amt"))
                 f_amt = _format_eql_amt(item.get("foreign_amt"))
                 t_amt = _format_eql_amt(item.get("total_amt"))
                 
-                new_section_lines.append(f"| {rank} | {name} | {prc_str} | {cp_str} | {o_amt} | {f_amt} | {t_amt} |\n")
+                new_section_lines.append(f"| {rank} | {name} | {o_amt} | {f_amt} | {t_amt} |\n")
             new_section_lines.append("\n")
 
     if not has_content:
