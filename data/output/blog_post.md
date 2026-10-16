@@ -1,266 +1,264 @@
-2026년 10월 2일(금) 미국 증시 마감 요약
+미국 증시 마감 리포트 — 2026년 10월 15일 (현지 기준)
 
-예상보다 크게 밑돈 9월 고용지표가 연준 금리 동결 기대를 높이면서 뉴욕 증시는 주 후반에 강하게 반등했다. 특히 엔비디아가 사상 최고가를 경신하고 테슬라·스페이스X 등 일론 머스크 계열 종목이 급등하며 나스닥이 장중 신고가를 달성했다. 반면 웨스턴디지털·씨게이트 등 HDD 관련주는 도시바의 생산능력 확대 보도에 10% 이상 급락하며 명암이 엇갈린 하루였다.
+오늘 미국 증시는 AI 트레이드에서 이탈한 자금이 가치주·소비재로 흘러들면서 다우존스는 556포인트 이상 급등한 반면, 나스닥은 장중 1.4%까지 밀렸다가 가까스로 보합권에서 마감했다. 전일 CPI에 이어 이날 공개된 9월 PPI 역시 예상치를 크게 상회하며 연준의 추가 긴축 가능성이 재부각됐고, 10년물 국채 금리는 장중 5.33%까지 치솟았다가 5.09%로 소폭 반납했다. 반도체·데이터센터 장비주는 이틀째 하락 압력을 받은 반면, 서비스나우는 실적 서프라이즈로 6% 넘게 올라 소프트웨어 섹터에 희망을 안겼다.
 
+---
 
 1. 증시 정보
 
-S&P 500: 7,722.72 (+0.73%, +56.27pt)
-NASDAQ: 27,190.86 (+1.19%, +319.27pt) — 장중 사상 최고가 달성
-Dow Jones: 51,176.96 (+0.49%, +250pt)
+다우존스: 52,177.69 (+1.08%)
+S&P 500: 7,744.06 (+0.33%)
+나스닥: 26,713.03 (+0.08%)
 
-주간 기준:
-- 나스닥: +0.5% (3주 연속 상승)
-- S&P 500: -0.3%
-- 다우존스: -1.3%
+10년물 국채 금리: 장중 5.33% 고점 후 5.09%로 마감
+비트코인: $82,400 내외
+WTI 원유: $97.65/배럴 (+2.7%)
+브렌트유: $105.85/배럴 (-0.2%)
+금 선물: $4,195/온스 (+2.1%)
+달러 인덱스: 102.04 (-0.5%)
 
-10년물 국채 금리: 약 5.30% (전일 대비 +5bp 이상, 직전 24년 최고치 약 5.35% 근접)
-비트코인: $84,200 (전일 대비 소폭 하락)
-달러 인덱스: 101.88 (-0.2%)
-금 선물: $4,170/온스 (-0.7%)
-WTI 원유: $91.45/배럴 (-1.5%)
-브렌트유: $102.80/배럴 (+0.5%)
-
-출처: Stocks rise Friday after soft jobs data, Nvidia leads Nasdaq to intraday record (CNBC, 2026-10-02)
-출처: Markets News, Oct. 2, 2026: Indexes Rise Friday After Weak Jobs Report (Yahoo Finance, 2026-10-02)
+참고: Yahoo Finance / Naver Finance
 
 ---
 
 2. 마감시황
 
-9월 비농업부문 고용(NFP)이 2만 9천 명 증가로 예상치(8만 4천 명)를 크게 밑돌고, 실업률도 4.2%(예상 4.1%)로 상승하면서 연준이 10월 회의에서 금리를 동결할 것이라는 기대가 높아졌다. CME 페드워치에 따르면 10월 금리 동결 가능성은 보도 시점 기준 77%로 상승했다.
+다우존스는 556포인트(+1.08%) 상승하며 52,177.69로 마감했다. S&P 500은 0.33% 오른 7,744.06을, 나스닥은 세션 저점 대비 반등해 0.08% 상승한 26,713.03으로 장을 끝냈다.
 
-테크주가 위험 선호 심리 회복을 주도했다. 엔비디아는 장중 사상 최고가를 기록했으며(종가는 직전 최고 종가 하회), AMD·크라우드스트라이크·팔로알토네트웍스도 모두 사상 최고가를 경신했다. 테슬라는 3분기 차량 인도량이 예상을 상회했다는 소식에 4.5% 급등했고, 일론 머스크의 또 다른 회사인 스페이스X(SPCX)도 7.5% 뛰었다.
+오늘 시장을 움직인 주요 흐름은 AI 트레이드 이탈과 비(非)기술주로의 로테이션이었다. 전날 CPI 쇼크로 나스닥과 S&P 500이 7월 이후 최대 낙폭을 기록한 데 이어, 이날 발표된 9월 PPI(도매 생산자물가) 역시 전월 대비 +1.3%, 전년 대비 +6.3%로 2022년 이후 최대 월간·연간 상승률을 기록하며 시장에 충격을 줬다.
 
-파이낸셜타임스(FT) 보도에 따르면 아마존이 재무 건전성 강화를 위해 80억 달러 상당의 엔비디아 첨단 칩을 투자자에게 매각하려 한다는 소식이 전해지면서 매그니피센트 세븐 전체 종목이 평균 1.3% 상승했다. 블룸버그는 브로드컴 신디케이트가 앤트로픽 등 AI 기업을 위한 600억 달러 규모의 AI 칩 파이낸싱을 추진하고 있다고 보도했으며, 이에 브로드컴 주가는 약 3.5% 올랐다. 아이셰어즈 반도체 ETF(SOXX)도 2% 상승했다.
+"국채 금리가 5%를 넘어 2000년대 초 이후 최고치를 찍으면서 투자자들이 AI에 얼마나 집중적으로 베팅할지를 재고하기 시작했다"고 MAI 캐피털 매니지먼트의 Alex Shahidi 공동 CIO는 전했다.
 
-HDD(하드디스크드라이브) 섹터는 부진했다. 닛케이아시아가 도시바의 HDD 생산능력이 2배 확대될 예정이라고 보도하면서 씨게이트(STX)와 웨스턴디지털(WDC) 주가가 각각 10% 이상 급락했고, 이에 Roundhill 메모리 ETF(DRAM)는 0.5% 하락 마감했다.
+반도체 및 데이터센터 장비주는 이틀째 약세를 이었다. 엔비디아는 전일 3% 하락에 이어 이날도 2% 가까이 빠졌다. 델 테크놀로지와 휴렛팩커드 엔터프라이즈는 S&P 500 내 최대 낙폭 종목에 이틀 연속 이름을 올렸다. 씨게이트와 웨스턴 디지털도 하락세를 이었고, SK하이닉스 ADR 급락이 한국 코스피 지수 급락을 불렀다. 일론 머스크 테슬라 CEO는 X를 통해 "중국이 2028년 어마어마한 양의 메모리를 생산하게 될 것"이라 언급해 시장 우려에 불을 지폈다.
 
-오일 가격은 G7 국가들이 원유·경유 비축분 1억 배럴 방출에 합의한 소식에 하락 압력을 받았으며, 이는 주식시장에 우호적으로 작용했다.
+AI 관련주 중에서는 코어위브가 전일 15% 이상 급락에서 반전해 6% 상승 마감했고, 마이크론도 초반 하락을 딛고 거의 2% 올라섰다.
 
-Saira Malik 누빈 최고투자책임자(CIO)는 CNBC 스쿼크박스에서 이번 고용지표가 실적 시즌 전 시장 지지대가 될 수 있으며, "산타 랠리의 시작이 될 수 있다"고 언급했다. Phil Blancato 오세익 수석 시장전략가는 "너무 뜨겁지도, 너무 차갑지도 않은, 시장이 원하는 고용지표"라고 평가했다.
+반면 월마트가 1.5%, 나이키가 5% 이상 오르는 등 가치주·소비재 주도의 반등이 다우 상승을 이끌었다.
 
-출처: Stocks rise Friday after soft jobs data, Nvidia leads Nasdaq to intraday record (CNBC, 2026-10-02)
-출처: Markets News, Oct. 2, 2026 (Yahoo Finance, 2026-10-02)
+소매 지표: 9월 미국 소매판매는 전월 대비 +0.8%로 예상치(+0.4%)의 두 배를 기록했다. 주간 신규 실업수당 청구 건수는 예상치를 소폭 하회한 199,000건이었다.
 
+참고 기사:
+- [Dow rises more than 500 points as investors rotate away from AI trade - CNBC](https://www.cnbc.com/) [2026-10-15]
+- [Dow Ends Up 550 Points as Investors Rotate Out of Tech Stocks; Wholesale Prices Top Expectations - Investopedia](https://www.investopedia.com/) [2026-10-15]
+
+---
 
 3. 특징주 상승 이유 (거래대금 순)
 
-엔비디아(NVDA) | +1.34% | 거래대금: $31.46B
-→ 150억 달러 규모 자사주 매입 프로그램 승인(누적 2,350억 달러)이 알려지며 CEO 젠슨 황이 자사주를 저평가로 보는 신호로 해석됨. 장중 사상 최고가 경신(5월 이후 처음). 아마존의 엔비디아 칩 매각 보도로도 주목.
-출처: Nvidia's record buyback shows chipmaker's stock is too cheap for CEO Huang to resist (CNBC, 2026-09-29)
-출처: Stock Market Today, Sept. 30: Nvidia Authorizes $150B Buyback (Yahoo Finance, 2026-09-30)
+마이크론 테크놀로지(MU) | +1.87% | 거래대금: $344.9억
+장 초반 하락 후 반등. 뚜렷한 당일 개별 상승 재료 없음. AI 메모리 수요 관련 버핀스타인 분석 긍정 언급 있으나, 전일 대비 회복성 반등으로 분류됨.
+참고: [MU, AMD, MRVL, QCOM Stocks Surge — Bernstein's Stacy Rasgon Says AI Demand Is Exploding - Stocktwits](https://stocktwits.com/news-articles/markets/equity/mu-amd-mrvl-qcom-stocks-surge-bernstein-analyst-ai-memory-demand/cZmYPqGR7nm) [2026-10-14]
 
-마이크론(MU) | -2.05% | 거래대금: $28.51B
-→ 4분기 실적 및 1분기 가이던스가 예상을 상회했으나, 높아진 설비투자(Capex) 전망이 시간 외에서 주가를 끌어내림. 장중 52주 최고가 경신 이후 하락 전환.
-출처: Micron beats on earnings and issues strong guidance as data center revenue jumps 11-fold (CNBC, 2026-09-30)
-출처: MU Stock Drops After Hours: Micron's Heightened Capex Forecast Overpowers Q4 Beat (Yahoo Finance, 2026-09-30)
+마이크로소프트(MSFT) | +1.08% | 거래대금: $121.0억
+뚜렷한 당일 개별 재료 없음. 소매 투자자들이 지정학적 불안에도 '가장 안전한 어닝 플레이'로 보유를 유지했다는 보도.
+참고: [MSFT Stock Holds Up Amid US-Iran Geopolitical Jitters: Retail Calls It 'Safest Earnings Play' - Stocktwits](https://stocktwits.com/news-articles/markets/equity/msft-stock-holds-up-amid-us-iran-geopolitical-jitters-retail-calls-it-safest-earnings-play/cZmziMIR7om) [2026-10-14]
 
-테슬라(TSLA) | +4.65% | 거래대금: $20.07B
-→ 3분기 차량 인도량이 예상을 상회했다는 소식에 급등.
-출처: Markets News, Oct. 2, 2026 (Yahoo Finance, 2026-10-02)
+코어위브(CRWV) | +5.94% | 거래대금: $82.9억
+전일 15% 이상 급락(과도한 부채 우려)에서 강하게 반전. 주가 회복세.
+참고: [Why Dell (DELL) Stock Is Falling Today - The Globe and Mail](https://www.theglobeandmail.com/investing/markets/stocks/DELL/pressreleases/7613982/why-dell-dell-stock-is-falling-today/) [2026-10-14]
 
-스페이스X(SPCX) | +7.35% | 거래대금: $18.96B
-→ AI 관련 기업으로 재평가 받으며 급등. 모틀리풀은 "스페이스X는 우주회사이기도 하지만 오늘날 더욱 AI 기업"이라고 보도.
-출처: Why SpaceX Stock Popped on Friday (The Motley Fool, 2026-10-02)
-출처: Why is Space Exploration Technologies stock surging 6% today? (Investing.com, 2026-10-02)
+스트래티지(MSTR) | +5.62% | 거래대금: $30.6억
+비트코인이 $65,000선 재탈환하며 비트코인 관련주 동반 상승.
+참고: [MSTR, CRCL, BMNR Stocks Rally After Bitcoin Reclaims $65K Despite CLARITY Delay - Stocktwits](https://stocktwits.com/news-articles/markets/equity/mstr-crcl-bmnr-stocks-rally-after-bitcoin-reclaims-65-k-despite-clarity-delay/cZof4wsRJBz) [2026-10-13]
 
-샌디스크(SNDK) | -3.79% | 거래대금: $14.00B
-→ 뚜렷한 재료 없음 (DRAM/스토리지 섹터 전반 약세 분위기 영향으로 추정되나 원문 기사에서 구체적 이유 확인 불가).
+오라클(ORCL) | +3.0% | 거래대금: $39.8억
+뚜렷한 당일 신규 재료 없음. 월가 일부에서 최근 실적 발표 후 주가 급락을 매수 기회로 활용하는 모습.
+참고: [ORCL Stock Tumbles 10% Despite Earnings Beat, But Wall Street Recommends 'Aggressive' Buying On Selloff - Stocktwits](https://stocktwits.com/news-articles/markets/equity/orcl-stock-tumbles-despite-q4-beat-wall-street-recommends-aggressive-buying/cZKTYnRR72B) [2026-10-14]
 
-AMD | +2.95% | 거래대금: $12.25B
-→ 장중 사상 최고가 경신. 뚜렷한 단독 재료 없음, 테크주 전반 강세 속 동반 상승.
-출처: Advanced Micro Devices Inc Stock (AMD) Opened Up by 3.33% on Oct 2 (TradingKey, 2026-10-02)
+월마트(WMT) | +1.47% | 거래대금: $38.0억
+AI 트레이드에서 이탈한 자금의 안전자산·가치주 로테이션 수혜.
 
-씨게이트(STX) | -10.21% | 거래대금: $11.48B
-→ 닛케이아시아 보도에서 일본 도시바가 HDD 생산능력을 2배로 확대할 계획이라는 소식에 경쟁 심화 우려로 급락.
-출처: Markets News, Oct. 2, 2026 (Yahoo Finance, Nikkei Asia 보도 언급, 2026-10-02)
+비자(V) | +2.13% | 거래대금: $34.3억
+뚜렷한 재료 없음. 금융 섹터 전반의 상승세 동참.
 
-인텔(INTC) | -0.56% | 거래대금: $11.33B
-→ 뚜렷한 재료 없음. 9월 한 달 강세(1년 수익률 +246%) 이후 숨 고르기.
-출처: Intel Stock Is Up 246% Over the Past Year (TIKR.com, 2026-09-29)
+써모 피셔 사이언티픽(TMO) | +3.46% | 거래대금: $27.3억
+전일 3.21% 상승에 이은 연속 강세. 뚜렷한 당일 재료 없음.
+참고: [Thermo Fisher Scientific Inc Stock (TMO) Moved Up by 3.21% on Oct 15: What Investors Need To Know - TradingKey](https://www.tradingkey.com/news/market-movers/262219276-market-movers-tmo-20261015) [2026-10-15]
 
-애플(AAPL) | +1.02% | 거래대금: $10.64B
-→ 뚜렷한 재료 없음. 매그니피센트 세븐 전반 상승 동조.
+서비스나우(NOW) | +6.14% | 거래대금: $25.8억
+2분기 실적 발표: 매출 24% 증가($3.99B), 구독 매출 예상치($3.93B) 상회. 연간 구독 매출 가이던스를 $15.735~$15.775B에서 $15.760~$15.780B으로 상향. 수주잔고 21% 증가($13.20B). AI 주도 SaaS 붕괴('SaaSpocalypse') 우려를 불식시키는 결과로 평가받음.
+참고: [Why Is NOW Stock Soaring In Premarket Trading Today? - Stocktwits](https://stocktwits.com/news-articles/markets/equity/why-is-now-stock-soaring-in-premarket-trading-today/cZZnjtiR7xm) [2026-10-15]
 
-웨스턴디지털(WDC) | -10.22% | 거래대금: $10.24B
-→ 도시바의 HDD 생산능력 2배 확대 보도(닛케이아시아)에 씨게이트와 함께 급락.
-출처: Markets News, Oct. 2, 2026 (Yahoo Finance, Nikkei Asia 보도 언급, 2026-10-02)
+마스터카드(MA) | +2.17% | 거래대금: $25.7억
+뚜렷한 재료 없음. 금융 섹터 동반 강세.
 
-메타(META) | +0.3% | 거래대금: $9.37B
-→ 뚜렷한 재료 없음. 매그니피센트 세븐 전반 상승 동조.
+나이키(NKE) | +5.21% | 거래대금: $17.2억
+AI 트레이드에서 이탈한 자금이 저평가된 소비재 종목으로 로테이션하며 급등. 마감시황 원문에서 "시장은 기술주 이외 영역의 상승에 힘입었고, 나이키 주가가 5% 이상 뛰었다"고 직접 언급.
+참고: [Why Nike Stock Was Climbing Today - The Motley Fool](https://www.fool.com/investing/2026/10/15/why-nike-stock-was-climbing-today/) [2026-10-15]
 
-마이크로소프트(MSFT) | +0.92% | 거래대금: $8.89B
-→ 뚜렷한 재료 없음. 매그니피센트 세븐 전반 상승 동조.
+어도비(ADBE) | +4.57% | 거래대금: $16.5억
+뚜렷한 재료 없음.
 
-브로드컴(AVGO) | +3.35% | 거래대금: $8.70B
-→ 블룸버그 보도에서 브로드컴 신디케이트가 앤트로픽 등 AI 기업을 위해 600억 달러 규모의 AI 칩 파이낸싱 조성에 나섰다는 소식에 약 3.5% 상승.
-출처: Markets News, Oct. 2, 2026 (Yahoo Finance, Bloomberg 보도 언급, 2026-10-02)
+코인베이스(COIN) | +6.32% | 거래대금: $15.7억
+비트코인 $65,000선 재탈환에 따른 크립토 관련주 동반 강세.
 
-아마존(AMZN) | +1.33% | 거래대금: $8.31B
-→ FT 보도에서 아마존이 재무 건전성을 위해 80억 달러 상당 엔비디아 첨단 칩을 투자자에게 매각하려 한다는 소식. 매그니피센트 세븐 동반 상승.
-출처: Markets News, Oct. 2, 2026 (Yahoo Finance, FT 보도 언급, 2026-10-02)
+아이온큐(IONQ) | +9.33% | 거래대금: $15.4억
+사이버보안 기업 Elisity를 최대 13억 달러에 전량 주식 교환 방식으로 인수한다고 발표.
+참고: [IonQ to acquire cybersecurity firm Elisity in an all-stock deal for up to $1.3 billion - CNBC](https://www.cnbc.com/2026/10/12/ionq-elisity-acquisition-cybersecurity.html) [2026-10-12]
 
-알파벳(GOOGL) | +1.56% | 거래대금: $7.81B
-→ 제미나이 4 아르곤(Gemini 4 Argon) AI 모델 출시로 주가 상승.
-출처: Google Stock Rises On Gemini 4 Argon Release After New AI Model Delays (IBD, 2026-09-30)
+인튜이트(INTU) | +6.36% | 거래대금: $14.8억
+AI 스타트업 Sequence 인수 발표. Sequence는 가격 산정·고객 계약·청구·수금·수익 인식 등 영업부터 수익까지의 전 과정을 자동화하는 플랫폼. QuickBooks Online Advanced 및 인튜이트 엔터프라이즈 스위트에 해당 기능이 추가될 예정. 인수금액 미공개.
+참고: [Why Is INTU Stock Rising Today? - Stocktwits](https://stocktwits.com/news-articles/markets/equity/why-is-intu-stock-rising-today/cZxWUltRBAC) [2026-10-15]
 
-루멘텀(LITE) | +3.79% | 거래대금: $5.06B
-→ 뚜렷한 재료 없음. 광학 부품 섹터 강세 분위기 동조.
-출처: Lumentum Holdings Inc Stock (LITE) Moved Up by 7.76% on Oct 1 (TradingKey, 2026-10-01)
+블랙록(BLK) | +4.38% | 거래대금: $13.5억
+뚜렷한 재료 없음.
+참고: [BlackRock Inc Stock (BLK) Moved Up by 3.32% on Oct 15: A Full Analysis - TradingKey](https://www.tradingkey.com/news/market-movers/262219199-market-movers-blk-20261015) [2026-10-15]
 
-나이키(NKE) | -3.64% | 거래대금: $4.81B
-→ 해당 회계연도 연간 매출 감소폭이 애널리스트 예상보다 클 것으로 전망하면서 다우 구성 종목 중 최대 하락.
-출처: Markets News, Oct. 2, 2026 (Yahoo Finance, 2026-10-02)
+써클 인터넷 그룹(CRCL) | +9.33% | 거래대금: $13.3억
+비트코인 $65,000선 재탈환에 따른 크립토/스테이블코인 관련주 동반 상승.
+참고: [MSTR, CRCL, BMNR Stocks Rally After Bitcoin Reclaims $65K Despite CLARITY Delay - Stocktwits](https://stocktwits.com/news-articles/markets/equity/mstr-crcl-bmnr-stocks-rally-after-bitcoin-reclaims-65-k-despite-clarity-delay/cZof4wsRJBz) [2026-10-13]
 
-TSMC(TSM) | +2.96% | 거래대금: $4.60B
-→ 뚜렷한 재료 없음. 반도체 섹터 강세 동조.
-출처: Taiwan Semiconductor Manufacturing Co Ltd Stock (TSM) Moved Up by 3.16% on Oct 2 (TradingKey, 2026-10-02)
+일라이 릴리(LLY) | +3.55% | 거래대금: $47.0억
+뚜렷한 재료 없음.
+참고: [Eli Lilly and Co Stock (LLY) Opened Up by 3.70% on Oct 14: Key Drivers Unveiled - TradingKey](https://www.tradingkey.com/news/market-movers/262216420-market-movers-lly-20261014) [2026-10-14]
 
-HPE(HPE) | +7.36% | 거래대금: $2.01B
-→ 뚜렷한 재료 없음 (주간 강세 흐름 지속 언급 외 구체적 단독 재료 원문 확인 불가).
-출처: Hewlett Packard Enterprise stock had a week for the books (Yahoo Finance, 2026-10-02)
+퀄컴(QCOM) | +3.35% | 거래대금: $20.7억
+뚜렷한 재료 없음. 버핀스타인 AI 메모리 수요 긍정 전망 관련 언급.
+참고: [Qualcomm Inc Stock (QCOM) Moved Up by 3.22% on Oct 15: Key Drivers Unveiled - TradingKey](https://www.tradingkey.com/news/market-movers/262219339-market-movers-qcom-20261015) [2026-10-15]
 
-테라다인(TER) | +8.0% | 거래대금: $1.51B
-→ 뚜렷한 재료 없음.
-출처: Teradyne Inc Stock (TER) Moved Up by 7.54% on Oct 2 (TradingKey, 2026-10-02)
+홈디포(HD) | +4.31% | 거래대금: $20.2억
+뚜렷한 재료 없음. 가치주 로테이션 흐름 수혜.
+참고: [Home Depot Inc Stock (HD) Moved Up by 4.07% on Oct 15: What Signal Does It Send? - TradingKey](https://www.tradingkey.com/news/market-movers/262219045-market-movers-hd-20261015) [2026-10-15]
 
-어플라이드 옵토일렉트로닉스(AAOI) | +7.71% | 거래대금: $1.27B
-→ 뚜렷한 재료 없음. 연초 대비 231% 상승 모멘텀 지속 언급.
-출처: Applied Optoelectronics Is Unstoppable: Up 8% Today and 231% This Year (Yahoo Finance, 2026-10-02)
+액센추어(ACN) | +4.63% | 거래대금: $19.0억
+뚜렷한 재료 없음.
+참고: [Accenture PLC Stock (ACN) Moved Up by 4.33% on Oct 15: Key Drivers Unveiled - TradingKey](https://www.tradingkey.com/news/market-movers/262219343-market-movers-acn-20261015) [2026-10-15]
 
-넷앱(NTAP) | +5.22% | 거래대금: $1.07B
-→ SAP, 오라클, 슈퍼마이크로와의 전략적 파트너십 확대 소식에 사상 최고가 달성.
-출처: NTAP Stock Hits Record High: NetApp Expands Strategic Partnerships With SAP, Oracle, and Supermicro (Yahoo Finance, 2026-09-29)
+쇼피파이(SHOP) | +3.27% | 거래대금: $18.5억
+뚜렷한 재료 없음. 소매·이커머스 섹터 동반 강세.
+참고: [Shopify Inc Stock (SHOP) Closed Up by 3.26% on Oct 15: Key Drivers Unveiled - TradingKey](https://www.tradingkey.com/news/market-movers/262219485-market-movers-shop-20261015) [2026-10-15]
+
+세일즈포스(CRM) | +4.57% | 거래대금: $21.3억
+뚜렷한 당일 재료 없음. 마감시황에서 다우 상승에 기여한 종목으로 직접 언급.
+참고: [Salesforce Inc Stock (CRM) Moved Up by 3.49% on Oct 13: Key Drivers Unveiled - TradingKey](https://www.tradingkey.com/news/market-movers/262214110-market-movers-crm-20261013) [2026-10-13]
 
 ---
 
 4. 한줄 요약평
 
-"예상 밖 고용 둔화가 오히려 시장의 선물이 됐고, AI 테마를 중심으로 나스닥이 사상 최고가를 찍으며 산타 랠리 기대가 고개를 들었다."
+AI 버블 우려와 인플레이션 재점화 속 다우만 홀로 반등, 기술주 과집중에서 벗어난 포트폴리오 리밸런싱이 본격화되는 신호탄이었다.
 
 ---
 
 5. 경제 지표 및 거시 경제
 
-9월 고용지표 (2026년 10월 2일 발표):
-- 비농업 취업자 수: +2만 9천 명 (예상 +8만 4천 명, 8월 +16만 2천 명 대폭 하회)
-- 실업률: 4.2% (예상 4.1%, 전월 4.1%에서 상승)
+9월 PPI (도매 생산자물가): 전월 대비 +1.3%, 전년 대비 +6.3% — 2022년 이후 최대 월간·연간 상승률 (예상치: 전월 대비 +0.6%, 전년 대비 +5.5%)
 
-연준 금리 전망 (CME 페드워치 기준):
-- 10월 금리 동결 가능성: 77% (보도 전 72%, 1주일 전 36%)
-- 10월 금리 인상 가능성: 23% (보도 전 28%)
+9월 소매판매: 전월 대비 +0.8% — 예상치(+0.4%)의 2배
 
-10년물 국채 금리: 약 5.30% (고용지표 직후 5.16%까지 하락했다가 반등, 전일 24년 최고치 약 5.35% 근접)
+주간 신규 실업수당 청구: 199,000건 (예상치를 소폭 하회)
 
-Jeffrey Roach (LPL 파이낸셜 수석 이코노미스트): "AI 붐을 뒷받침하는 재화생산 섹터와 기술변화 충격을 받는 서비스 섹터 간의 긴장이 보인다. 전반적인 노동시장 연약세를 감안하면 연준의 두 차례 추가 인상 가능성은 낮아지고 있다."
+금리 전망: CME FedWatch 기준, 이번 달 회의에서 금리 인상 확률 29%, 12월 회의에서 최소 0.25%p 인상 확률 88%
 
-출처: Markets News, Oct. 2, 2026 (Yahoo Finance, 2026-10-02)
-출처: Stocks rise Friday after soft jobs data (CNBC, 2026-10-02)
+"CPI도 PPI도 연준의 목표로 물가가 돌아가고 있다는 신호를 주지 않고 있다. 소매판매 결과도 연준의 시선을 인플레이션에서 돌릴 만큼 약하지 않았다." — Bill Adams, Fifth Third Commercial Bank 수석 이코노미스트
 
+"오늘 PPI 보고서는 수요일의 CPI 이후 에너지 가격이 높게 유지되는 가운데 인플레이션이 악화되고 있음을 확인해 준다. 연준이 행동을 강요받을 수도 있다." — David Russell, TradeStation 글로벌 시장전략 총괄
 
-6. 투자자 동향 및 시장 분위기
-
-매그니피센트 세븐 전체 평균 +1.3%, Roundhill Magnificent Seven ETF(MAGS) +1.5% 상승.
-반도체 ETF SOXX +2%, Roundhill 메모리 ETF(DRAM) -0.5%.
-S&P 500 11개 섹터 중 헬스케어를 제외한 10개 섹터 상승 마감.
-
-출처: Markets News, Oct. 2, 2026 (Yahoo Finance, 2026-10-02)
-출처: Nebius Climbs 4% Despite Michael Burry's Bigger Bearish Bet (24/7 Wall St., 2026-09-29)
+참고 기사:
+- [Dow rises more than 500 points as investors rotate away from AI trade - CNBC](https://www.cnbc.com/) [2026-10-15]
+- [Dow Ends Up 550 Points as Investors Rotate Out of Tech Stocks; Wholesale Prices Top Expectations - Investopedia](https://www.investopedia.com/) [2026-10-15]
 
 ---
 
-7. 섹터별(산업별) 뉴스
+6. 투자자 동향 및 시장 분위기
 
-[반도체·AI 인프라]
-- 엔비디아: 자사주 매입 총 2,350억 달러 규모로 확대. 장중 5월 이후 처음으로 사상 최고가 경신.
-- 마이크론: 4분기 데이터센터 매출이 전년 대비 11배 증가. 실적·가이던스 모두 예상 상회했으나 설비투자 확대 전망에 시간외 주가 하락 후 당일 -2.05%.
-- 브로드컴: 앤트로픽 등 AI 기업 대상 600억 달러 AI 칩 파이낸싱 추진 소식 (블룸버그).
-- TSMC CEO: "AI 칩 수급 격차는 당분간 해소되지 않을 것" 발언 보도.
-출처: Micron beats on earnings (CNBC, 2026-09-30)
+AI 과잉 투자 우려: Anthropic의 3분기 매출이 168억 달러로 성장했음에도 일부 트레이더들은 AI 대형 기업의 수익 성장이 칩 메이커들의 주가 상승을 정당화하기에 충분하지 않을 수 있다는 우려를 표했다고 CNBC 소식통이 전했다.
 
-[HDD·스토리지]
-- 씨게이트(-10.21%)·웨스턴디지털(-10.22%)·샌디스크(-3.79%): 닛케이아시아, 도시바의 HDD 생산능력 2배 확대 계획 보도. 경쟁 심화 우려에 급락.
-출처: Markets News, Oct. 2, 2026 (Yahoo Finance, Nikkei Asia 언급, 2026-10-02)
+소매 투자자: 소매 투자자들은 AI 급락 이후 구글(GOOGL) 등의 저점을 매수하는 모습을 보였다.
 
-[EV·우주·AI]
-- 테슬라: 3분기 차량 인도량 예상 상회로 +4.65%.
-- 스페이스X(SPCX): AI 기업으로 재평가 흐름 속 +7.35%.
-- 로켓랩(RKLB): 52주 최고가 경신, +4.91%.
-출처: MU, F, RKLB Stocks Jumped To 52-Week Highs Today (Stocktwits, 2026-10-02)
+메모리 칩 공급 우려: 한국 SK하이닉스 ADR 급락이 한국 코스피를 끌어내렸고, 중국발 메모리 칩 공급 과잉 가능성이 씨게이트와 웨스턴 디지털 하락으로 이어졌다.
 
-[소비재]
-- 나이키(NKE): 해당 회계연도 매출 감소 전망이 애널리스트 예상보다 커 -3.64%. 다우 최대 낙폭.
-출처: Markets News, Oct. 2, 2026 (Yahoo Finance, 2026-10-02)
+---
 
-[클라우드·엔터프라이즈 IT]
-- 넷앱(NTAP): SAP·오라클·슈퍼마이크로와 전략적 파트너십 확대 발표, 사상 최고가 경신 +5.22%.
-출처: NTAP Stock Hits Record High (Yahoo Finance, 2026-09-29)
+7. 섹터별 뉴스
 
-[에너지·원자재]
-- 유가: G7 국가들 원유·경유 1억 배럴 비축분 방출 합의, WTI -1.5%($91.45/배럴), 브렌트 +0.5%($102.80/배럴).
-출처: Markets News, Oct. 2, 2026 (Yahoo Finance, 2026-10-02)
+반도체·AI 인프라 (약세)
+엔비디아(NVDA) -1.84%, AMD -1.5%, 인텔(INTC) -2.8%, TSMC ADR(TSM) -1.8%, 브로드컴(AVGO) -0.55% 등 반도체주 전반 하락. 어플라이드 머티어리얼즈(AMAT) -3.72%, 램 리서치(LRCX) -3.3%, 아리스타 네트웍스(ANET) -5.04%. 이튼(ETN) -1.56%, GE 버노바(GEV) -1.63%, 버티브(VRT) -3.63% 등 AI 전력·냉각 인프라주도 동반 약세.
+
+소프트웨어 (혼조, 실적주 강세)
+서비스나우(NOW)가 2분기 실적 발표로 +6.14% 급등하며 SaaS 붕괴 우려를 불식시켰다. 세일즈포스(CRM) +4.57%, 어도비(ADBE) +4.57%, 인튜이트(INTU) +6.36% 등 주요 소프트웨어주도 동반 강세. 반면 팔란티어(PLTR)는 -0.23%, 크라우드스트라이크(CRWD)는 -1.89%.
+
+가치주·소비재 (강세)
+나이키(NKE) +5.21%, 홈디포(HD) +4.31%, 월마트(WMT) +1.47%, 맥도날드(MCD) +1.76% 등 AI 트레이드 이탈 자금 수혜로 강세. 다우 상승을 주도.
+
+헬스케어 (강세)
+일라이 릴리(LLY) +3.55%, 써모 피셔 사이언티픽(TMO) +3.46%, 유나이티드헬스(UNH) +2.79%, 암젠(AMGN) +1.86%.
+
+금융 (강세)
+골드만삭스(GS) +1.43%, 비자(V) +2.13%, 마스터카드(MA) +2.17%, 웰스파고(WFC) +2.29%, 블랙록(BLK) +4.38%. 금리 인상 전망 속 금융주 강세.
+
+크립토 관련 (강세)
+비트코인이 $82,400 내외로 소폭 상승하며, 코인베이스(COIN) +6.32%, 스트래티지(MSTR) +5.62%, 써클 인터넷(CRCL) +9.33% 상승.
+
+양자컴퓨팅
+아이온큐(IONQ)가 사이버보안 기업 Elisity를 최대 13억 달러에 인수한다고 발표하며 +9.33% 급등.
 
 ---
 
 8. 월가의 시각 및 향후 일정
 
-Saira Malik (누빈 CIO): "이번 고용지표가 실적 시즌 전 시장 지지대가 될 수 있으며, 우리가 기다려온 산타 클로스 랠리의 시작이 될 수 있다."
+Alex Shahidi (MAI 캐피털 매니지먼트 공동 CIO): "국채가 5%를 주고 있고 이는 2000년대 초 이후 최고 수준이다. 투자자들은 이 수익률과 AI에 대한 거대한 베팅을 비교 평가하기 시작했다. AI 안이냐 밖이냐가 아니라, 얼마나 집중적으로 베팅할 것이냐의 문제다."
 
-Phil Blancato (오세익 수석 시장전략가): "시장이 노동 측면에서 원하던 바로 그 수치다. 너무 뜨겁지도, 너무 차갑지도 않다."
+JPMorgan: 브로드컴(AVGO)에 대해 현재 수준에서 '공격적 매수'를 권고했다.
 
-Jeffrey Roach (LPL 파이낸셜 수석 이코노미스트): "AI 붐을 뒷받침하는 재화생산 섹터와 기술변화 충격을 받는 서비스 섹터 간의 긴장이 나타나고 있다. 노동시장의 전반적인 연약세를 감안하면 연준의 두 차례 추가 인상 가능성은 낮아지고 있다."
+향후 주목 일정:
+- 연준 금리 결정 회의 (이번 달 내, CME FedWatch 기준 인상 확률 29%)
+- 12월 연준 회의 (금리 최소 0.25%p 인상 확률 88%)
 
-주요 일정:
-- 조만간 미국 기업 실적 시즌 개막 예정 (Malik CIO 전망: "매우 강한 실적 시즌")
-
-출처: Stocks rise Friday after soft jobs data (CNBC, 2026-10-02)
-출처: Markets News, Oct. 2, 2026 (Yahoo Finance, 2026-10-02)
+참고:
+- [Dow rises more than 500 points as investors rotate away from AI trade - CNBC](https://www.cnbc.com/) [2026-10-15]
 
 ---
 
 9. 인포그래픽 작성용 특징주 요약
 
-[M7 (매그니피센트 세븐)]
-엔비디아(NVDA) | +1.34% | $31.46B | 자사주 매입 2,350억 달러 확대, 장중 사상 최고가 경신
-테슬라(TSLA) | +4.65% | $20.07B | 3분기 차량 인도량 예상 상회
-애플(AAPL) | +1.02% | $10.64B | 매그니피센트 세븐 동반 상승
-메타(META) | +0.3% | $9.37B | 매그니피센트 세븐 동반 상승
-마이크로소프트(MSFT) | +0.92% | $8.89B | 매그니피센트 세븐 동반 상승
-아마존(AMZN) | +1.33% | $8.31B | FT 보도: 엔비디아 칩 $80억 매각 추진, M7 동반 상승
-알파벳(GOOGL) | +1.56% | $7.81B | 제미나이 4 아르곤 AI 모델 출시
+[M7 — 매그니피센트 세븐]
+애플(AAPL) | -0.28% | $133.8억 | 중국 AI 승인 보도로 프리마켓 상승 후 소폭 하락 마감
+마이크로소프트(MSFT) | +1.08% | $121.0억 | 소매 투자자 '최안전 어닝 플레이' 보유 유지
+메타(META) | -0.11% | $113.0억 | 뚜렷한 재료 없음
+테슬라(TSLA) | -1.29% | $95.4억 | 사이버캡 기대감 일부 지속, 중국 메모리 우려 발언
+알파벳(GOOGL) | +0.45% | $72.8억 | 소매 투자자 저점 매수 유입
+아마존(AMZN) | +0.27% | $86.1억 | 뚜렷한 재료 없음
+엔비디아(NVDA) | -1.84% | $271.9억 | AI 과소비 우려·메모리 공급 과잉 우려 지속
 
-[반도체·AI 인프라]
-마이크론(MU) | -2.05% | $28.51B | 실적·가이던스 예상 상회, Capex 전망 부담으로 하락
-AMD | +2.95% | $12.25B | 장중 사상 최고가, 테크주 전반 강세 동조
-브로드컴(AVGO) | +3.35% | $8.70B | 블룸버그: $600억 AI칩 파이낸싱 추진 소식
-TSMC(TSM) | +2.96% | $4.60B | 반도체 섹터 강세 동조
-ASML | +3.25% | $2.49B | 반도체 섹터 강세 동조
+[AI 인프라 — 약세]
+마이크론(MU) | +1.87% | $344.9억 | 전일 낙폭 회복, AI 메모리 수요 긍정 전망
+코어위브(CRWV) | +5.94% | $82.9억 | 전일 15% 급락 후 반전
+델 테크놀로지(DELL) | -6.8% | $75.6억 | 이틀 연속 AI 우려 매도세
 
-[HDD·스토리지 (급락)]
-샌디스크(SNDK) | -3.79% | $14.00B | 도시바 HDD 생산 2배 확대 보도 영향
-씨게이트(STX) | -10.21% | $11.48B | 도시바 HDD 생산 2배 확대 보도에 급락
-웨스턴디지털(WDC) | -10.22% | $10.24B | 도시바 HDD 생산 2배 확대 보도에 급락
+[소프트웨어 — 실적 주도 강세]
+서비스나우(NOW) | +6.14% | $25.8억 | 2분기 매출 24% 증가, 가이던스 상향
+인튜이트(INTU) | +6.36% | $14.8억 | AI 스타트업 Sequence 인수 발표
+세일즈포스(CRM) | +4.57% | $21.3억 | 다우 상승 기여 종목 직접 언급
+어도비(ADBE) | +4.57% | $16.5억 | 뚜렷한 재료 없음
 
-[우주·EV·AI]
-스페이스X(SPCX) | +7.35% | $18.96B | AI 기업으로 재평가, 모틀리풀 "AI 회사로서 주목" 보도
-로켓랩(RKLB) | +4.91% | $1.97B | 52주 최고가 경신
+[가치주·소비재 — AI 로테이션 수혜]
+나이키(NKE) | +5.21% | $17.2억 | 저평가 소비재로 자금 로테이션
+홈디포(HD) | +4.31% | $20.2억 | 가치주 로테이션 수혜
+월마트(WMT) | +1.47% | $38.0억 | 가치주 로테이션 수혜
 
-[AI 광통신·옵틱스]
-루멘텀(LITE) | +3.79% | $5.06B | 광학 섹터 강세 동조
-코히런트(COHR) | +5.59% | $2.53B | 뚜렷한 재료 없음
-어플라이드 옵토일렉트로닉스(AAOI) | +7.71% | $1.27B | 연초 대비 231% 상승 모멘텀 지속
+[헬스케어]
+일라이 릴리(LLY) | +3.55% | $47.0억 | 뚜렷한 재료 없음
+써모 피셔(TMO) | +3.46% | $27.3억 | 뚜렷한 재료 없음
+유나이티드헬스(UNH) | +2.79% | $41.4억 | 뚜렷한 재료 없음
 
-[클라우드·스토리지·엔터프라이즈 IT]
-HPE | +7.36% | $2.01B | 뚜렷한 재료 없음
-넷앱(NTAP) | +5.22% | $1.07B | SAP·오라클·슈퍼마이크로 전략적 파트너십 확대, 사상 최고가
+[금융]
+블랙록(BLK) | +4.38% | $13.5억 | 뚜렷한 재료 없음
+비자(V) | +2.13% | $34.3억 | 금융 섹터 동반 강세
+골드만삭스(GS) | +1.43% | $21.1억 | 금리 인상 전망 수혜
 
-[소비재·기타]
-나이키(NKE) | -3.64% | $4.81B | 연간 매출 감소 폭 예상 상회, 다우 최대 하락
+[크립토]
+코인베이스(COIN) | +6.32% | $15.7억 | 비트코인 $65,000선 재탈환
+스트래티지(MSTR) | +5.62% | $30.6억 | 비트코인 $65,000선 재탈환
+써클 인터넷(CRCL) | +9.33% | $13.3억 | 비트코인 $65,000선 재탈환
 
-10. 인포그래픽 M7 섹션 (별도 강조)
+[양자컴퓨팅]
+아이온큐(IONQ) | +9.33% | $15.4억 | 사이버보안 기업 Elisity 최대 $13억 인수 발표
 
-M7 (매그니피센트 세븐) 종합
-NVDA +1.34% / TSLA +4.65% / AAPL +1.02% / META +0.3% / MSFT +0.92% / AMZN +1.33% / GOOGL +1.56%
-평균: +약 1.3% | Roundhill M7 ETF(MAGS): +1.5%
-주요 공통 모멘텀: 고용지표 둔화 → 연준 금리 동결 기대 → 위험 선호 심리 회복 → 테크 대형주 전반 상승
+[액센추어 / IT서비스]
+액센추어(ACN) | +4.63% | $19.0억 | 뚜렷한 재료 없음
+쇼피파이(SHOP) | +3.27% | $18.5억 | 소매·이커머스 동반 강세
+
+10. M7 포함 인포그래픽 특징주 (별도 정리)
+
+M7 종목은 위 9번 항목 [M7 — 매그니피센트 세븐] 섹션에 포함 정리됨.
