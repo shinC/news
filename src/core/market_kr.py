@@ -253,7 +253,7 @@ def fetch_extra_market_info() -> Dict[str, Any]:
     return extra
 
 def get_market_data() -> Dict[str, Any]:
-    market_info = {"indices": {}, "top_sector": None, "bottom_sector": None, "top_themes_detailed": [], "top_stocks": [], "source": "Naver Finance & Kiwoom API"}
+    market_info = {"indices": {}, "top_sector": None, "bottom_sector": None, "top_themes_detailed": [], "top_stocks": [], "top_fluctuation_stocks": [], "source": "Naver Finance & Kiwoom API"}
     headers = {"User-Agent": "Mozilla/5.0"}
     try:
         market_info["summary_info"] = fetch_extra_market_info()
@@ -367,15 +367,20 @@ def get_market_data() -> Dict[str, Any]:
     try:
         kiwoom = KiwoomAPI()
         # 사용자의 지적대로, 코스피/코스닥을 따로 가져와 합치면 실제 전체 시장 기준 랭킹이 왜곡되므로 다시 전체(000)로 롤백합니다.
-        all_st = kiwoom.get_top_trading_value("000")
+        # 거래대금 상위(ka10032): 3페이지(최대 300개)까지 조회하여 ETF 제외 후에도 100종목을 온전히 확보합니다.
+        all_st = kiwoom.get_top_trading_value("000", max_pages=3)
         
         if not all_st: all_st = _fetch_naver_top_stocks()
         if all_st:
             unique_st = []
             seen = set()
+            tv_map = {}
             for s in all_st:
                 t = s.get("ticker")
                 n = s.get("name", t)
+                cd = s.get("ticker_cd", "").replace("_AL", "").replace("_NX", "")
+                if cd and "trading_value" in s:
+                    tv_map[cd] = s["trading_value"]
                 if t and t not in seen and not is_etf(n):
                     unique_st.append(s)
                     seen.add(t)
@@ -389,5 +394,32 @@ def get_market_data() -> Dict[str, Any]:
                 if s["ticker"] in gn_tk: s["reason"] = fetch_stock_reason_kr(s["ticker"])
                 else: s["reason"] = []
             market_info["top_stocks"] = top_100
-    except: pass
+
+            # 전일대비등락률 상위(ka10027) 수집: 거래대금 500억 이상, 상승률 순
+            flu_raw = kiwoom.get_top_fluctuation_stocks(
+                market_code="000",
+                sort_tp="1",
+                trde_qty_cnd="0000",
+                stk_cnd="1",
+                crd_cnd="0",
+                updown_incls="1",
+                pric_cnd="0",
+                trde_prica_cnd="5000",
+                stex_tp="3",
+                tv_map=tv_map
+            )
+            if flu_raw:
+                unique_flu = []
+                seen_flu = set()
+                for s in flu_raw:
+                    t = s.get("ticker")
+                    n = s.get("name", t)
+                    cd = s.get("ticker_cd", "").replace("_AL", "").replace("_NX", "")
+                    if cd and cd not in seen_flu and not is_etf(n):
+                        unique_flu.append(s)
+                        seen_flu.add(cd)
+                unique_flu.sort(key=lambda x: x.get("change_pct", 0), reverse=True)
+                market_info["top_fluctuation_stocks"] = unique_flu[:100]
+    except Exception as e:
+        logger.error(f"Kiwoom top stocks error: {e}")
     return market_info

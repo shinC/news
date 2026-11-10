@@ -45,9 +45,10 @@ class KiwoomAPI:
             logger.error(f"키움 토큰 발급 예외: {e}")
         return False
 
-    def get_top_trading_value(self, market_code: str = "000") -> List[Dict[str, Any]]:
+    def get_top_trading_value(self, market_code: str = "000", max_pages: int = 3) -> List[Dict[str, Any]]:
         """거래대금 상위 종목을 조회합니다 (ka10032).
         stex_tp="3" (통합)을 사용하여 KRX 및 NXT 합산 데이터를 가져옵니다.
+        ETF 제외 후에도 100종목을 확보하기 위해 max_pages(기본 3페이지, 300종목)까지 연속 조회합니다.
         """
         if not self.token and not self.get_token():
             return []
@@ -68,20 +69,31 @@ class KiwoomAPI:
             "data_limit": "100"
         }
         
+        data = []
         try:
-            res = requests.post(url, headers=headers, json=body, timeout=10)
-            if res.status_code == 200:
-                resp_json = res.json()
-                data = resp_json.get("trde_prica_upper", [])
-                logger.info(f"Kiwoom API 거래대금 조회 성공, 수신 종목 수: {len(data)}")
-                if not data:
-                    logger.warning(f"Kiwoom API 응답에 trde_prica_upper 데이터가 없습니다: {resp_json}")
-            else:
-                logger.error(f"Kiwoom API 거래대금 조회 실패 ({res.status_code}): {res.text}")
-                data = []
+            curr_headers = dict(headers)
+            for page in range(max_pages):
+                res = requests.post(url, headers=curr_headers, json=body, timeout=10)
+                if res.status_code == 200:
+                    resp_json = res.json()
+                    page_data = resp_json.get("trde_prica_upper", [])
+                    data.extend(page_data)
+                    logger.info(f"Kiwoom API 거래대금 조회 {page+1}페이지 수신: {len(page_data)}종목 (누적 {len(data)})")
+                    
+                    cont_yn = res.headers.get("cont-yn")
+                    next_key = res.headers.get("next-key")
+                    if cont_yn == "Y" and next_key:
+                        curr_headers["cont-yn"] = "Y"
+                        curr_headers["next-key"] = next_key
+                    else:
+                        break
+                else:
+                    logger.error(f"Kiwoom API 거래대금 조회 실패 ({res.status_code}): {res.text}")
+                    break
         except Exception as e:
             logger.error(f"Kiwoom API fetch error (stex_tp=3): {e}")
-            return []
+            if not data:
+                return []
 
         formatted_stocks = []
         for item in data:
@@ -97,6 +109,86 @@ class KiwoomAPI:
                 formatted_stocks.append({
                     "ticker": name,       # 종목명 (메인 스크립트 호환용)
                     "ticker_cd": ticker,  # 종목코드
+                    "price": price,
+                    "change_pct": change_pct,
+                    "trading_value": tv
+                })
+            except Exception:
+                continue
+                
+        return formatted_stocks
+
+    def get_top_fluctuation_stocks(
+        self,
+        market_code: str = "000",
+        sort_tp: str = "1",
+        trde_qty_cnd: str = "0000",
+        stk_cnd: str = "1",
+        crd_cnd: str = "0",
+        updown_incls: str = "1",
+        pric_cnd: str = "0",
+        trde_prica_cnd: str = "5000",
+        stex_tp: str = "3",
+        tv_map: Optional[Dict[str, float]] = None
+    ) -> List[Dict[str, Any]]:
+        """전일대비등락률 상위 종목을 조회합니다 (ka10027).
+        리턴값에 거래대금이 없으므로 tv_map(거래대금 맵) 또는 현재가 * 누적거래량으로 산출합니다.
+        """
+        if not self.token and not self.get_token():
+            return []
+            
+        url = f"{self.base_url}/api/dostk/rkinfo"
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.token}",
+            "api-id": "ka10027"
+        }
+        body = {
+            "mrkt_tp": market_code,
+            "sort_tp": sort_tp,
+            "trde_qty_cnd": trde_qty_cnd,
+            "stk_cnd": stk_cnd,
+            "crd_cnd": crd_cnd,
+            "updown_incls": updown_incls,
+            "pric_cnd": pric_cnd,
+            "trde_prica_cnd": trde_prica_cnd,
+            "stex_tp": stex_tp
+        }
+        
+        try:
+            res = requests.post(url, headers=headers, json=body, timeout=10)
+            if res.status_code == 200:
+                resp_json = res.json()
+                data = resp_json.get("pred_pre_flu_rt_upper", [])
+                logger.info(f"Kiwoom API 등락률 상위(ka10027) 조회 성공, 수신 종목 수: {len(data)}")
+            else:
+                logger.error(f"Kiwoom API 등락률 상위 조회 실패 ({res.status_code}): {res.text}")
+                data = []
+        except Exception as e:
+            logger.error(f"Kiwoom API ka10027 fetch error: {e}")
+            return []
+
+        formatted_stocks = []
+        for item in data:
+            name = item.get("stk_nm", "").strip()
+            ticker = item.get("stk_cd", "").strip()
+            if not name or not ticker:
+                continue
+            try:
+                price = item.get("cur_prc", "0").replace("+", "").replace("-", "").replace(",", "")
+                change_pct = float(item.get("flu_rt", "0").replace("+", "").replace("%", ""))
+                clean_cd = ticker.replace("_AL", "").replace("_NX", "")
+                
+                # 거래대금 산출: 전달받은 tv_map 매핑 우선, 없으면 현재가 * 누적거래량
+                if tv_map and clean_cd in tv_map:
+                    tv = tv_map[clean_cd]
+                else:
+                    qty = int(item.get("now_trde_qty", "0"))
+                    tv = float(int(float(price)) * qty)
+                
+                formatted_stocks.append({
+                    "ticker": name,       # 종목명
+                    "ticker_cd": clean_cd,
                     "price": price,
                     "change_pct": change_pct,
                     "trading_value": tv

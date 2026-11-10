@@ -163,18 +163,22 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                     f.write(f"가장 부진한 섹터: {bottom_sector['name']} ({round(bottom_sector['change_pct'], 2)}%)\n")
                 f.write("\n")
                 
+            # 한국 시장 여부 확인
+            is_kr = "Korea" in report_title or "한국" in report_title
+            
             top_stocks = market_data.get("top_stocks", [])
             if top_stocks:
                 f.write("거래대금 기준 특징주 상위 100 (거래대금 순)\n")
                 f.write("> 참고: 거래대금 상위 100개 종목 중 상승률 상위 20개 및 거래대금 상위 20개 종목에 대해 관련 뉴스를 검색하여 표 아래에 제공합니다.\n\n")
-                f.write("| 순위 | 종목명 | 심볼 | 현재가 | 등락률(%) | 거래대금(대략) |\n")
-                f.write("|---|---|---|---|---|---|\n")
+                if is_kr:
+                    f.write("| 순위 | 종목명 | 현재가 | 등락률(%) | 거래대금(대략) |\n")
+                    f.write("|---|---|---|---|---|\n")
+                else:
+                    f.write("| 순위 | 종목명 | 심볼 | 현재가 | 등락률(%) | 거래대금(대략) |\n")
+                    f.write("|---|---|---|---|---|---|\n")
                 
                 # 뉴스 수집 대상이 된 상위 10개 상승 종목만 따로 필터링
                 stocks_with_news = []
-                
-                # 한국 시장 여부 확인
-                is_kr = "Korea" in report_title or "한국" in report_title
                 
                 for i, stock in enumerate(top_stocks, 1):
                     ticker = stock['ticker']
@@ -212,51 +216,93 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                         price_display = f"${price}"
                         
                     sign = "+" if change_pct > 0 else ""
-                    f.write(f"| {i} | {name} | {ticker} | {price_display} | {sign}{change_pct}% | {tv_str} |\n")
+                    if is_kr:
+                        f.write(f"| {i} | {name} | {price_display} | {sign}{change_pct}% | {tv_str} |\n")
+                    else:
+                        f.write(f"| {i} | {name} | {ticker} | {price_display} | {sign}{change_pct}% | {tv_str} |\n")
+                f.write("\n")
+
+            # 전일대비등락률 상위 100 (거래대금 상위 100 바로 다음에 위치)
+            top_fluctuation = market_data.get("top_fluctuation_stocks", [])
+            if top_fluctuation:
+                f.write("전일대비등락률 기준 특징주 상위 100 (상승률 순, 거래대금 500억 이상)\n\n")
+                if is_kr:
+                    f.write("| 순위 | 종목명 | 현재가 | 등락률(%) | 거래대금(대략) |\n")
+                    f.write("|---|---|---|---|---|\n")
+                else:
+                    f.write("| 순위 | 종목명 | 심볼 | 현재가 | 등락률(%) | 거래대금(대략) |\n")
+                    f.write("|---|---|---|---|---|---|\n")
+                for i, stock in enumerate(top_fluctuation, 1):
+                    ticker = stock['ticker']
+                    name = stock.get('name', ticker)
+                    price = stock['price']
+                    change_pct = stock['change_pct']
+                    trading_value = stock.get('trading_value', 0)
+                    
+                    try:
+                        formatted_price = f"{int(float(price)):,}원"
+                    except:
+                        formatted_price = f"{price}원"
+                        
+                    if trading_value >= 1e12:
+                        cho = int(trading_value // 1e12)
+                        eok = int((trading_value % 1e12) // 1e8)
+                        tv_str = f"{cho}조 {eok:,}억원" if eok > 0 else f"{cho}조원"
+                    else:
+                        eok = int(trading_value // 1e8)
+                        tv_str = f"{eok:,}억원"
+                        
+                    sign = "+" if change_pct > 0 else ""
+                    if is_kr:
+                        f.write(f"| {i} | {name} | {formatted_price} | {sign}{change_pct}% | {tv_str} |\n")
+                    else:
+                        f.write(f"| {i} | {name} | {ticker} | {formatted_price} | {sign}{change_pct}% | {tv_str} |\n")
                 f.write("\n")
                 
-                if stocks_with_news:
-                    f.write("특징주 상승 이유 (관련 주요 뉴스)\n\n")
-                    for stock in stocks_with_news:
-                        ticker = stock['ticker']
-                        name = stock.get('name', ticker)
-                        sign = "+" if stock['change_pct'] > 0 else ""
-                        change_pct_str = f"{sign}{stock['change_pct']}%"
-                        trading_value = stock.get('trading_value', 0)
-                        if is_kr:
-                            if trading_value >= 1e12:
-                                cho = int(trading_value // 1e12)
-                                eok = int((trading_value % 1e12) // 1e8)
-                                tv_str = f"{cho}조 {eok:,}억원" if eok > 0 else f"{cho}조원"
-                            else:
-                                eok = int(trading_value // 1e8)
-                                tv_str = f"{eok:,}억원"
+            if top_stocks and stocks_with_news:
+                f.write("특징주 상승 이유 (관련 주요 뉴스)\n\n")
+                for stock in stocks_with_news:
+                    ticker = stock['ticker']
+                    name = stock.get('name', ticker)
+                    sign = "+" if stock['change_pct'] > 0 else ""
+                    change_pct_str = f"{sign}{stock['change_pct']}%"
+                    trading_value = stock.get('trading_value', 0)
+                    if is_kr:
+                        if trading_value >= 1e12:
+                            cho = int(trading_value // 1e12)
+                            eok = int((trading_value % 1e12) // 1e8)
+                            tv_str = f"{cho}조 {eok:,}억원" if eok > 0 else f"{cho}조원"
                         else:
-                            eok_dollar = trading_value / 1e8
-                            tv_str = f"{eok_dollar:,.1f}억 달러"
-                                
-                        f.write(f"{name} ({ticker}) ({change_pct_str}) | 거래대금: {tv_str}\n")
-                        reasons = stock.get('reason', [])
-                        for item in reasons:
-                            if isinstance(item, dict):
-                                title = item.get('title', 'No Title')
-                                url = item.get('url', '#')
-                                pub_date = item.get('publish_date')
-                                date_str = ""
-                                if pub_date:
-                                    try:
-                                        # dateutil parser might produce naive or aware datetimes, but strftime works either way
-                                        date_str = pub_date.strftime('%Y-%m-%d')
-                                    except:
-                                        date_str = str(pub_date)
-                                
-                                if date_str:
-                                    f.write(f"- [{title}]({url}) [{date_str}]\n")
-                                else:
-                                    f.write(f"- [{title}]({url})\n")
+                            eok = int(trading_value // 1e8)
+                            tv_str = f"{eok:,}억원"
+                        display_title = f"{name} ({change_pct_str}) | 거래대금: {tv_str}"
+                    else:
+                        eok_dollar = trading_value / 1e8
+                        tv_str = f"{eok_dollar:,.1f}억 달러"
+                        display_title = f"{name} ({ticker}) ({change_pct_str}) | 거래대금: {tv_str}"
+                            
+                    f.write(f"{display_title}\n")
+                    reasons = stock.get('reason', [])
+                    for item in reasons:
+                        if isinstance(item, dict):
+                            title = item.get('title', 'No Title')
+                            url = item.get('url', '#')
+                            pub_date = item.get('publish_date')
+                            date_str = ""
+                            if pub_date:
+                                try:
+                                    # dateutil parser might produce naive or aware datetimes, but strftime works either way
+                                    date_str = pub_date.strftime('%Y-%m-%d')
+                                except:
+                                    date_str = str(pub_date)
+                            
+                            if date_str:
+                                f.write(f"- [{title}]({url}) [{date_str}]\n")
                             else:
-                                f.write(f"- {item}\n")
-                        f.write("\n")
+                                f.write(f"- [{title}]({url})\n")
+                        else:
+                            f.write(f"- {item}\n")
+                    f.write("\n")
         
         f.write("---\n\n")
         
