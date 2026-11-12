@@ -395,7 +395,7 @@ def get_market_data() -> Dict[str, Any]:
                 else: s["reason"] = []
             market_info["top_stocks"] = top_100
 
-            # 전일대비등락률 상위(ka10027) 수집: 거래대금 500억 이상, 상승률 순
+            # 전일대비등락률 상위(ka10027) 수집: 상승률 순 (거래대금 제한 없음: 전체)
             flu_raw = kiwoom.get_top_fluctuation_stocks(
                 market_code="000",
                 sort_tp="1",
@@ -404,7 +404,7 @@ def get_market_data() -> Dict[str, Any]:
                 crd_cnd="0",
                 updown_incls="1",
                 pric_cnd="0",
-                trde_prica_cnd="5000",
+                trde_prica_cnd="0",
                 stex_tp="3",
                 tv_map=tv_map
             )

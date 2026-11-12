@@ -127,7 +127,7 @@ class KiwoomAPI:
         crd_cnd: str = "0",
         updown_incls: str = "1",
         pric_cnd: str = "0",
-        trde_prica_cnd: str = "5000",
+        trde_prica_cnd: str = "0",
         stex_tp: str = "3",
         tv_map: Optional[Dict[str, float]] = None
     ) -> List[Dict[str, Any]]:

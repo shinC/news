@@ -225,7 +225,7 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
             # 전일대비등락률 상위 100 (거래대금 상위 100 바로 다음에 위치)
             top_fluctuation = market_data.get("top_fluctuation_stocks", [])
             if top_fluctuation:
-                f.write("전일대비등락률 기준 특징주 상위 100 (상승률 순, 거래대금 500억 이상)\n\n")
+                f.write("전일대비등락률 기준 특징주 상위 100 (상승률 순)\n\n")
                 if is_kr:
                     f.write("| 순위 | 종목명 | 현재가 | 등락률(%) | 거래대금(대략) |\n")
                     f.write("|---|---|---|---|---|\n")

@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Changed
+- [Market KR] 한국 전일대비등락률 상위 종목 수집(`ka10027`) 시 적용되던 거래대금 500억 이상(`trde_prica_cnd="5000"`) 필터를 거래대금 제한 없는 전체 조회(`trde_prica_cnd="0"`)로 변경 및 마크다운 헤더 문구 수정 (`market_kr.py`, `kiwoom_api.py`, `formatter.py`).
 ### Added
 - [News Scraper] 야후 파이낸스 뉴스 목록이 뒤로 밀려있는 경우를 고려하여, 최대 3페이지까지 기어가며 탐색하는 페이지네이션(Pagination) 스크래핑 루프 구현 (`scraper.py`).
 - [News Scraper] 야후 파이낸스 마감시황 뉴스는 제목이 `"stock market"`으로 시작하고, 인베스토페디아 뉴스는 `"markets news"` 또는 `"market news"`로 시작하는 최신 기사만 엄격히 수집하는 시작 패턴(startswith) 매칭 필터 적용 (`scraper.py`).
