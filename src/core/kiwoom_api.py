@@ -102,14 +102,12 @@ class KiwoomAPI:
             if not name or not ticker:
                 continue
             try:
-                price = item.get("cur_prc", "0").replace("+", "").replace("-", "").replace(",", "")
                 change_pct = float(item.get("flu_rt", "0").replace("+", "").replace("%", ""))
                 tv = float(item.get("trde_prica", "0")) * 1000000 
                 
                 formatted_stocks.append({
                     "ticker": name,       # 종목명 (메인 스크립트 호환용)
                     "ticker_cd": ticker,  # 종목코드
-                    "price": price,
                     "change_pct": change_pct,
                     "trading_value": tv
                 })
@@ -175,7 +173,6 @@ class KiwoomAPI:
             if not name or not ticker:
                 continue
             try:
-                price = item.get("cur_prc", "0").replace("+", "").replace("-", "").replace(",", "")
                 change_pct = float(item.get("flu_rt", "0").replace("+", "").replace("%", ""))
                 clean_cd = ticker.replace("_AL", "").replace("_NX", "")
                 
@@ -183,13 +180,13 @@ class KiwoomAPI:
                 if tv_map and clean_cd in tv_map:
                     tv = tv_map[clean_cd]
                 else:
+                    price = item.get("cur_prc", "0").replace("+", "").replace("-", "").replace(",", "")
                     qty = int(item.get("now_trde_qty", "0"))
                     tv = float(int(float(price)) * qty)
                 
                 formatted_stocks.append({
                     "ticker": name,       # 종목명
                     "ticker_cd": clean_cd,
-                    "price": price,
                     "change_pct": change_pct,
                     "trading_value": tv
                 })

@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 ### Changed
+- [Market KR / Formatter] `kr_economy_news.md`의 거래대금 상위 100위 및 전일대비등락률 상위 100위 수집·출력에서 '현재가' 필드 및 테이블 컬럼 제거 (`formatter.py`, `kiwoom_api.py`, `market_kr.py`).
 - [Market KR] 한국 전일대비등락률 상위 종목 수집(`ka10027`) 시 적용되던 거래대금 500억 이상(`trde_prica_cnd="5000"`) 필터를 거래대금 제한 없는 전체 조회(`trde_prica_cnd="0"`)로 변경 및 마크다운 헤더 문구 수정 (`market_kr.py`, `kiwoom_api.py`, `formatter.py`).
 ### Added
 - [News Scraper] 야후 파이낸스 뉴스 목록이 뒤로 밀려있는 경우를 고려하여, 최대 3페이지까지 기어가며 탐색하는 페이지네이션(Pagination) 스크래핑 루프 구현 (`scraper.py`).

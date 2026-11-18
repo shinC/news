@@ -171,8 +171,8 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                 f.write("거래대금 기준 특징주 상위 100 (거래대금 순)\n")
                 f.write("> 참고: 거래대금 상위 100개 종목 중 상승률 상위 20개 및 거래대금 상위 20개 종목에 대해 관련 뉴스를 검색하여 표 아래에 제공합니다.\n\n")
                 if is_kr:
-                    f.write("| 순위 | 종목명 | 현재가 | 등락률(%) | 거래대금(대략) |\n")
-                    f.write("|---|---|---|---|---|\n")
+                    f.write("| 순위 | 종목명 | 등락률(%) | 거래대금(대략) |\n")
+                    f.write("|---|---|---|---|\n")
                 else:
                     f.write("| 순위 | 종목명 | 심볼 | 현재가 | 등락률(%) | 거래대금(대략) |\n")
                     f.write("|---|---|---|---|---|---|\n")
@@ -183,7 +183,6 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                 for i, stock in enumerate(top_stocks, 1):
                     ticker = stock['ticker']
                     name = stock.get('name', ticker)
-                    price = stock['price']
                     change_pct = stock['change_pct']
                     trading_value = stock['trading_value']
                     reason = stock.get('reason', [])
@@ -193,12 +192,6 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                     
                     # 화폐 및 단위 설정
                     if is_kr:
-                        # 가격 포맷 (천단위 콤마 + 원)
-                        try:
-                            formatted_price = f"{int(float(price)):,}원"
-                        except:
-                            formatted_price = f"{price}원"
-                            
                         # 거래대금 포맷 (조/억 단위)
                         if trading_value >= 1e12:
                             cho = int(trading_value // 1e12)
@@ -207,17 +200,16 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                         else:
                             eok = int(trading_value // 1e8)
                             tv_str = f"{eok:,}억원"
-                            
-                        price_display = formatted_price
                     else:
                         # 미국 시장 (억 달러 단위 표시)
+                        price = stock.get('price', '')
                         eok_dollar = trading_value / 1e8
                         tv_str = f"{eok_dollar:,.1f}억 달러"
                         price_display = f"${price}"
                         
                     sign = "+" if change_pct > 0 else ""
                     if is_kr:
-                        f.write(f"| {i} | {name} | {price_display} | {sign}{change_pct}% | {tv_str} |\n")
+                        f.write(f"| {i} | {name} | {sign}{change_pct}% | {tv_str} |\n")
                     else:
                         f.write(f"| {i} | {name} | {ticker} | {price_display} | {sign}{change_pct}% | {tv_str} |\n")
                 f.write("\n")
@@ -227,22 +219,16 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
             if top_fluctuation:
                 f.write("전일대비등락률 기준 특징주 상위 100 (상승률 순)\n\n")
                 if is_kr:
-                    f.write("| 순위 | 종목명 | 현재가 | 등락률(%) | 거래대금(대략) |\n")
-                    f.write("|---|---|---|---|---|\n")
+                    f.write("| 순위 | 종목명 | 등락률(%) | 거래대금(대략) |\n")
+                    f.write("|---|---|---|---|\n")
                 else:
                     f.write("| 순위 | 종목명 | 심볼 | 현재가 | 등락률(%) | 거래대금(대략) |\n")
                     f.write("|---|---|---|---|---|---|\n")
                 for i, stock in enumerate(top_fluctuation, 1):
                     ticker = stock['ticker']
                     name = stock.get('name', ticker)
-                    price = stock['price']
                     change_pct = stock['change_pct']
                     trading_value = stock.get('trading_value', 0)
-                    
-                    try:
-                        formatted_price = f"{int(float(price)):,}원"
-                    except:
-                        formatted_price = f"{price}원"
                         
                     if trading_value >= 1e12:
                         cho = int(trading_value // 1e12)
@@ -254,8 +240,13 @@ def save_to_markdown(news_data: List[Dict[str, Any]], market_data: Dict[str, Any
                         
                     sign = "+" if change_pct > 0 else ""
                     if is_kr:
-                        f.write(f"| {i} | {name} | {formatted_price} | {sign}{change_pct}% | {tv_str} |\n")
+                        f.write(f"| {i} | {name} | {sign}{change_pct}% | {tv_str} |\n")
                     else:
+                        price = stock.get('price', '')
+                        try:
+                            formatted_price = f"{int(float(price)):,}원"
+                        except:
+                            formatted_price = f"{price}원"
                         f.write(f"| {i} | {name} | {ticker} | {formatted_price} | {sign}{change_pct}% | {tv_str} |\n")
                 f.write("\n")
                 
