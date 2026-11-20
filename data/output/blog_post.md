@@ -1,247 +1,208 @@
-미국 증시 마감 리포트 (2026년 11월 9일 월요일 장)
+미국 증시 마감 리포트 (2026년 11월 19일, 목요일)
 
-0. 오늘의 시장 종합
 
-지난주 AI 관련주 급락으로 크게 밀렸던 뉴욕 증시가 월요일 일제히 급반등했다. 다우지수는 1,104포인트(+2.15%) 뛰며 선거일 종가 위로 올라섰고, S&P 500은 +2.34%, 나스닥은 +2.74% 상승했다. CNBC는 이날 상승의 배경으로 국제유가 하락과 지난주 변동성 이후 기술주 반등을 꼽았다. 지난주 급락의 중심에 있던 반도체주가 반등을 이끌었는데, AMD가 13%대, 브로드컴이 8%대 급등했고 반도체 ETF(SOXX)도 7% 넘게 올랐다.
+0. 마감시황 — 앤트로픽 상장 순간 차익실현, 3대 지수 일제히 2%대 급락
 
-반면 시장의 대장주 엔비디아는 홀로 역주행했다. 이사회가 젠슨 황 CEO와 관련된 보도에 대해 독립 조사에 착수했다는 소식에 주가가 4.27% 하락했고, 매그니피센트7 가운데 유일한 하락 종목이 되었다. 그럼에도 엔비디아는 803.2억 달러로 거래대금 1위를 기록하며 시장의 관심이 집중되었음을 보여줬다. 아마존과 메타는 JP모건의 최선호주(Analyst Focus List) 편입 소식에, 알파벳은 신규 TPU 시스템 발표에, AMD는 구글 클라우드 관련 발표와 오펜하이머의 투자의견 상향에 각각 상승했다.
+목요일 뉴욕 증시는 3대 지수가 모두 2% 넘게 하락하며 마감했다. S&P 500은 -2.02%, 나스닥은 -2.25%, 다우존스는 -2.19%를 기록했고, 다우는 50,000선 아래로 내려왔다.
 
-다만 전문가들은 경계를 늦추지 않았다. 인프라스트럭처 캐피털 어드바이저스의 제이 햇필드 CEO는 반도체 매도세가 "과도했다"면서도 민주당발 정책 부담이 여전하며 S&P 500이 연말까지 박스권에 머물 것으로 내다봤다. 이번 주에는 코어위브·시스코·어플라이드 머티어리얼즈의 실적과 화요일 소비자물가지수(CPI), 금요일 생산자물가지수(PPI) 발표가 예정되어 있다.
+이날 시장의 중심에는 사상 최대 규모로 기록된 앤트로픽(ANT)의 나스닥 상장이 있었다. 앤트로픽은 공모 물량을 늘리고 공모가를 희망 범위보다 높은 주당 83달러로 확정했으며, 이 소식에 오전장에서는 반도체주와 AI 관련주가 동반 상승했다. 나스닥은 장중 한때 2%까지 오르기도 했다.
+
+그러나 정오 직전 앤트로픽이 공모가 대비 34% 높은 111.50달러에 첫 거래를 시작한 직후, 주요 지수는 곧바로 장중 저점으로 떨어졌다. 관련 기사는 이를 투자자들이 AI 트레이드의 정점이 된 이 순간에 차익을 실현한 것으로 보인다고 설명했다. 앤트로픽 주가는 첫 거래가 대비 10% 이상 밀렸고, 최종적으로 공모가 대비 +17.07%인 97.17달러에 마감했다.
+
+엔비디아와 마이크론은 오전 상승분을 모두 반납했고, 마이크로소프트와 메타도 하락 전환했다. AMD는 헌터브룩 캐피털이 공매도 포지션을 공개하며 중국 관련 미국 수출통제 위반 의혹을 제기한 뒤 7% 넘게 급락했다. S&P 500의 11개 섹터가 모두 크게 하락했으며, 그중 경기소비재와 헬스케어 섹터가 2% 넘게 떨어지며 하락을 주도했다. S&P 500은 6거래일 연속 하락 흐름을 이어갔다.
+
+월가의 공포지수로 불리는 VIX는 앤트로픽 거래 시작 직후 29 가까이 치솟으며 3월 이후 최고 수준을 기록했고, 이후 28 위에서 거래됐다.
+
+시장은 최근 AI에 대한 막대한 투자가 의미 있는 이익으로 이어질지에 주목하며 신중해진 상태다. 아이셰어즈 AI 이노베이션 앤 테크 액티브 ETF(BAI)는 이달 들어 10% 하락했고, 코어위브는 11월에만 16% 떨어졌다. 엔비디아는 젠슨 황 CEO의 사임 문제를 겪으며 큰 폭으로 하락한 상태다.
+
+반면 사이버보안주는 시스템 취약성과 사이버 공격 가능성에 대한 우려가 커지는 가운데 전날에 이어 강세를 이어갔다. 팔로알토 네트웍스는 예상을 웃도는 실적과 가이던스 상향으로 상승했고, 크라우드스트라이크도 올랐다.
+
+출처
+- Dow closes below 50,000; Nasdaq falls 2% as Anthropic IPO fails to resuscitate AI trade (us_economy_news.md 마감시황 1번 원문)
+- Stock Market Today: Major Indexes Plunge as Anthropic IPO Fails to Stem Broad Sell-Off; Dow Sinks 800 Points, S&P 500 Pacing for 6th Straight Decline (us_economy_news.md 마감시황 2번 원문)
 
 
 1. 증시 정보
 
-S&P 500: 7,549.81 (+2.34%)
-나스닥: 25,253.14 (+2.74%)
-다우존스: 52,389.75 (+2.15%)
+- S&P 500: 7,175.83 (-2.02%)
+- 나스닥: 23,879.20 (-2.25%)
+- 다우존스: 49,097.06 (-2.19%)
+- VIX(변동성 지수): 장중 29 근접, 3월 이후 최고 수준
+- 미 국채 10년물 금리: 5.07%로 소폭 하락
+- 금 선물: 온스당 3,675달러 (-1.7%), 2025년 9월 이후 최저 수준
+- WTI 원유 선물: 배럴당 83.70달러 (+0.5%)
+- 비트코인: 62,800달러 (장중 고점 약 64,000달러에서 후퇴)
 
-반도체 ETF(SOXX): +7% 이상 (지난주 약 13% 하락)
-WTI 원유 선물: 배럴당 86.85달러 (-4.38%)
-브렌트유: 배럴당 92.57달러 (-5.85%)
-금 선물: 온스당 4,115달러 (+1%, 장중 기준)
-비트코인: 74,500달러 (주말 고점 76,000달러 상회 대비 하락, 장중 기준)
-미국 10년물 국채금리: 4.88% (소폭 상승, 장중 기준)
+출처
+- 데이터 출처: Yahoo Finance & Naver Finance (us_economy_news.md 간편 시황 요약)
+- Dow closes below 50,000; Nasdaq falls 2% as Anthropic IPO fails to resuscitate AI trade
+- Stock Market Today: Major Indexes Plunge as Anthropic IPO Fails to Stem Broad Sell-Off; Dow Sinks 800 Points, S&P 500 Pacing for 6th Straight Decline
 
-출처:
-- Yahoo Finance & Naver Finance (us_economy_news.md 지수 데이터)
-- CNBC: Dow surges 1,100 points, Nasdaq climbs more than 2% as tech rebounds from last week's tumult (us_economy_news.md 수록 원문)
-- Investopedia: Stock Market Today: Dow Climbs 1,100 Points as Market Rebounds from Last Week's AI Meltdown; Nvidia Shares Sink Amid CEO Probe (us_economy_news.md 수록 원문)
 
+2. 특징주 상승 이유 (거래대금 순)
 
-2. 마감시황
+앤트로픽(ANT) | +17.07% | 거래대금: 858.1억 달러
+- 나스닥 상장 첫날. 공모 물량을 늘리고 공모가를 희망 범위보다 높은 83달러로 확정했으며, 111.50달러에 첫 거래를 시작했다. 사상 최대 규모 IPO로 스페이스X의 기록을 넘어섰다. 첫 거래가 대비로는 10% 넘게 밀렸다.
 
-뉴욕 증시는 월요일 급등 마감했다. CNBC에 따르면 이날 상승은 유가 하락과 지난주 변동성 이후 기술주의 반등에 힘입은 것이다. 다우지수는 골드만삭스와 캐터필러 등의 상승에 힘입어 1,104포인트(2.15%) 올랐고, S&P 500은 2.34%, 나스닥 종합지수는 2.74% 상승했다. 이번 반등으로 다우는 선거일 종가 위로 올라섰지만, S&P 500과 나스닥은 여전히 선거일 수준을 소폭 밑돌고 있다.
+인텔(INTC) | +1.92% | 거래대금: 71.0억 달러
+- 트레이딩키는 첨단 공정 로드맵과 파운드리 사업 진전에 대한 낙관론, 구조조정과 비용 절감 노력을 상승 배경으로 꼽았다. 반도체주 전반이 밀리는 가운데 상승세를 지켰다.
 
-유가 하락이 투자심리를 끌어올렸다. 미국 서부텍사스산원유(WTI) 선물은 4.38% 내린 배럴당 86.85달러, 브렌트유는 5.85% 내린 92.57달러에 마감했다. Investopedia는 WTI가 이란 전쟁 긴장이 완화될 수 있다는 기대 속에 8월 말 이후 최저 수준 부근에서 거래되었다고 전했다.
+팔로알토 네트웍스(PANW) | +6.42% | 거래대금: 67.9억 달러
+- 예상을 웃도는 실적 발표와 가이던스 상향. 전날 10% 급등에 이어 추가 상승했다. 시스템 취약성 및 사이버 공격 우려 속 사이버보안주 강세 흐름도 함께했다.
 
-지수는 지난주 큰 폭으로 하락했었다. Investopedia에 따르면 S&P 500은 2025년 4월 이후 최악의 한 주를 보냈는데, 이는 중간선거에서 민주당이 압승한 뒤 AI 개발 속도가 둔화될 수 있다는 우려로 기술주 매도세가 촉발되었기 때문이다. CNBC는 데이터센터 건설, 에너지 사용, 개발 비용에 대한 규제 강화가 AI 인프라 붐을 늦출 수 있다는 투자자들의 우려가 여전히 남아 있다고 전했다.
+크라우드스트라이크(CRWD) | +2.71% | 거래대금: 28.6억 달러
+- 시스템 취약성과 사이버 공격 가능성에 대한 우려가 커지는 가운데 사이버보안주가 전날에 이어 강세를 보였다.
 
-지난주 급락의 선두에 섰던 반도체주는 이날 대부분 상승했다. AMD가 13% 급등했고, 브로드컴과 마벨 테크놀로지는 각각 9% 이상, 인텔과 램 리서치는 8% 올랐다. 지난주 약 13% 하락했던 iShares 반도체 ETF(SOXX)는 7% 넘게 상승했다.
+씨게이트(STX) | +1.06% | 거래대금: 27.1억 달러
+- 퀴버 퀀티테이티브는 AI 및 데이터 인프라 관련주 전반의 반등을 가장 유력한 상승 요인으로 분석했다. 장중 7%대까지 올랐으나 상승폭을 대부분 반납했다.
 
-엔비디아는 흐름을 거슬렀다. 일요일 엔비디아 이사회는 미국 정보기관이 중국 스파이로 지목한 여성 사업가와 젠슨 황 CEO의 관계에 대해 조사에 착수한다고 발표했다. 황 CEO는 직원들에게 보낸 성명에서 혼외 관계를 인정하고 조사에 협조하겠다고 밝혔다. 엔비디아는 매그니피센트7 중 유일한 하락 종목이었으며, 나머지 M7 종목은 모두 상승했다.
+코히런트(COHR) | +0.99% | 거래대금: 26.9억 달러
+- 뚜렷한 재료 없음
 
-실적 발표는 많지 않았지만, 분기 실적을 발표한 원전 대기업 콘스텔레이션 에너지와 세계 최대 금광업체 중 하나인 배릭 마이닝은 각각 10%, 5% 상승했다.
+웨스턴 디지털(WDC) | +2.98% | 거래대금: 24.9억 달러
+- 트레이딩키는 하이퍼스케일러의 AI 인프라 투자 확대에 따른 고용량 HDD 수요와 업계 공급 부족에 따른 가격 결정력을 상승 배경으로 제시했다.
 
-출처:
-- CNBC: Dow surges 1,100 points, Nasdaq climbs more than 2% as tech rebounds from last week's tumult (us_economy_news.md 수록 원문)
-- Investopedia: Stock Market Today: Dow Climbs 1,100 Points as Market Rebounds from Last Week's AI Meltdown; Nvidia Shares Sink Amid CEO Probe (us_economy_news.md 수록 원문)
+퀄컴(QCOM) | +1.38% | 거래대금: 21.2억 달러
+- 트레이딩키에 따르면 경영진이 자동차, IoT, PC 등 스마트폰 모뎀 외 사업 확대를 골자로 한 장기 성장 프레임워크와 매출 목표를 제시한 것이 상승 요인으로 작용했다.
 
+인스메드(INSM) | +20.58% | 거래대금: 20.3억 달러
+- 사노피가 인스메드 인수를 검토하고 있다는 보도가 나오며 급등했다.
 
-3. 특징주 상승 이유 (거래대금 순)
+핀둬둬(PDD) | +11.04% | 거래대금: 19.2억 달러
+- 시장 예상을 웃돈 3분기 실적 발표로 급등했다.
 
-엔비디아(NVDA) | -4.27% | 거래대금: 803.2억 달러
-이사회가 젠슨 황 CEO가 외국 정보기관의 표적이 되었다는 보도와 관련해 독립 조사에 착수했다는 소식에 하락했다. 이사회는 사외이사와 외부 법률 자문단이 조사를 감독하며, 영업비밀이나 국가안보가 침해되었다고 볼 이유는 없다고 밝혔다.
+모더나(MRNA) | +1.29% | 거래대금: 16.2억 달러
+- 뚜렷한 재료 없음
 
-AMD(AMD) | +13.26% | 거래대금: 251.4억 달러
-5세대 EPYC 서버 CPU가 구글 클라우드 TPU 8tx의 호스트 기반으로 채택되어 클라우드 AI 시스템의 하드웨어 기반 기밀 컴퓨팅을 구현한다고 공식 발표했다. 별도로 오펜하이머가 투자의견을 매수(Buy)로 상향했다(TipRanks 보도). 지난주 AI주 급락 이후 저가 매수세가 유입된 지수 반등도 상승세에 기여했다.
+셰브론(CVX) | +0.34% | 거래대금: 14.9억 달러
+- 뚜렷한 재료 없음 (다우 구성 종목 중 유일하게 상승권을 유지했다)
 
-마이크론 테크놀로지(MU) | +6.25% | 거래대금: 229.0억 달러
-TradingKey는 고대역폭메모리(HBM) 채택 가속과 클라우드 하이퍼스케일러들의 설비투자 지속 등 AI 인프라 수혜 기대 속에 기관 매수세가 유입되었다고 분석했다. 개별 신규 발표는 확인되지 않았다.
+클라우드플레어(NET) | +0.92% | 거래대금: 14.1억 달러
+- 뚜렷한 재료 없음
 
-애플(AAPL) | +2.43% | 거래대금: 160.6억 달러
-뚜렷한 재료 없음 (엔비디아를 제외한 M7 종목 전반 상승 흐름에 동참)
+옥타(OKTA) | +5.75% | 거래대금: 12.6억 달러
+- 디지털 인프라 취약성에 대한 우려 속에 주가가 랠리를 보였다는 보도가 있었다.
 
-스페이스X(SPCX) | +5.81% | 거래대금: 143.9억 달러
-뚜렷한 재료 없음
+출처
+- [Why Anthropic Stock Is Up (and Down) Today - Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/why-anthropic-stock-down-today-184502049.html)
+- [ANT update: Anthropic stock opens higher in Nasdaq debut - Fast Company](https://www.fastcompany.com/91645598/anthropic-ipo-what-time-trading-start-stock-price-live-update)
+- [Intel Corp Stock (INTC) Moved Up by 7.21% on Nov 19 - TradingKey](https://www.tradingkey.com/news/market-movers/262313409-market-movers-intc-20261119)
+- [Why Intel Stock Is Gaining Today - Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/why-intel-stock-gaining-today-165901744.html)
+- [Palo Alto Networks Inc Stock (PANW) Moved Up by 6.38% on Nov 19 - TradingKey](https://www.tradingkey.com/news/market-movers/262313411-market-movers-panw-20261119)
+- [CrowdStrike Holdings Inc Stock (CRWD) Moved Up by 7.24% on Nov 19 - TradingKey](https://www.tradingkey.com/news/market-movers/262313548-market-movers-crwd-20261119)
+- [Why Seagate Technology (STX) Stock Is Up Today - Quiver Quantitative](https://www.quiverquant.com/news/Why+Seagate+Technology+%28STX%29+Stock+Is+Up+Today)
+- [Western Digital Corp Stock (WDC) Moved Up by 3.38% on Nov 19 - TradingKey](https://www.tradingkey.com/news/market-movers/262313759-market-movers-wdc-20261119)
+- [Qualcomm Inc Stock (QCOM) Moved Up by 3.81% on Nov 19 - TradingKey](https://www.tradingkey.com/news/market-movers/262313573-market-movers-qcom-20261119)
+- [Sanofi Reportedly Gears Up For The Biggest Biotech Deal In Years - Investor's Business Daily](https://www.investors.com/news/technology/insmed-stock-sanofi-takeover-deal-rumor/)
+- [Insmed Soars 18% on Report That Sanofi Is Weighing a Takeover - TIKR.com](https://www.tikr.com/blog/insmed-soars-18-on-report-that-sanofi-is-weighing-a-takeover?)
+- [PDD Holdings Soars 9% on Forecast-Beating Third-Quarter Earnings - TIKR.com](https://www.tikr.com/blog/pdd-holdings-soars-6-on-forecast-beating-third-quarter-earnings?ref=yahoofinance&tlnk=yf-261119-jjgxjmv9)
+- [Why PDD Holdings stock is up today - TradingView](https://www.tradingview.com/news/stockstory:7104f116c094b:0-why-pdd-holdings-stock-is-up-today/)
+- [Okta Stock Rallies Amid Concerns Over Digital Infrastructure Vulnerability - Benzinga](https://www.benzinga.com/trading-ideas/movers/26/11/63407584/okta-stock-rallies-amid-concerns-over-digital-infrastructure-vulnerability)
+- Stock Market Today: Major Indexes Plunge as Anthropic IPO Fails to Stem Broad Sell-Off (us_economy_news.md 마감시황 2번 원문)
 
-마이크로소프트(MSFT) | +2.75% | 거래대금: 135.5억 달러
-뚜렷한 재료 없음 (TradingKey는 기업용 AI 수익화 및 애저 클라우드 모멘텀에 대한 기관 신뢰를 언급했으나 구체적 신규 발표는 없음)
 
-아마존닷컴(AMZN) | +2.94% | 거래대금: 133.4억 달러
-JP모건이 아마존을 Analyst Focus List의 AI 최선호주로 선정했다. JP모건 더그 앤머스 애널리스트는 아마존이 2027년과 2028년 모두 AWS 매출 성장률 40% 이상을 기대하고 있으며, AWS가 향후 5~10년 내 연 매출 1조 달러에 도달할 궤도에 있다고 밝혔다.
+3. 한줄 요약평
 
-테슬라(TSLA) | +5.54% | 거래대금: 127.5억 달러
-TradingKey는 완전자율주행(FSD) 플랫폼 관련 진전과 자율주행 상용화 규제 간소화 기대 등 AI·자율주행 로드맵에 대한 낙관론 속에 기관 자금이 유입되었다고 분석했다. 구체적인 신규 발표는 확인되지 않았다.
+사상 최대 IPO인 앤트로픽의 상장이 오히려 AI 트레이드의 차익실현 신호가 되며 3대 지수가 2%대 급락했고, 사이버보안과 인수합병·실적 재료가 있는 일부 종목만 상승했다.
 
-메타(META) | +5.12% | 거래대금: 120.2억 달러
-JP모건이 메타를 Analyst Focus List에 추가해 아마존과 함께 인터넷 최선호주로 지정했다. JP모건은 알파벳을 리스트에서 제외하고 메타를 편입했으며, 최근 실적에서 디지털 광고 부문의 운영 성과 격차가 확대되고 있다고 평가했다.
 
-샌디스크(SNDK) | +6.16% | 거래대금: 119.4억 달러
-뚜렷한 재료 없음
+4. 경제 지표 및 거시 경제
 
-브로드컴(AVGO) | +8.78% | 거래대금: 115.2억 달러
-뚜렷한 재료 없음 (지난주 급락했던 반도체주 전반 반등 속 9% 가까이 상승)
+- 미 국채 10년물 금리는 5.07%로 소폭 하락했다.
+- 금 선물은 1.7% 내린 온스당 3,675달러로, 수개월간 이어진 하락세를 연장하며 2025년 9월 이후 최저 수준을 기록했다.
+- WTI 원유 선물은 0.5% 오른 배럴당 83.70달러를 기록했다.
+- 비트코인은 장중 고점인 약 64,000달러에서 내려와 62,800달러에 거래됐다.
 
-알파벳 A(GOOGL) | +1.18% | 거래대금: 104.0억 달러
-8세대 맞춤형 칩 라인업에 TPU 8i Max와 TPU 8tx 두 가지 신규 TPU 시스템을 추가한다고 발표했다. 장 초반 3.4%까지 올랐으나 상승폭을 상당 부분 반납했다. 같은 날 JP모건은 Analyst Focus List에서 알파벳을 제외하고 메타를 편입했다.
+출처
+- Stock Market Today: Major Indexes Plunge as Anthropic IPO Fails to Stem Broad Sell-Off; Dow Sinks 800 Points, S&P 500 Pacing for 6th Straight Decline (us_economy_news.md 마감시황 2번 원문)
 
-인텔(INTC) | +5.49% | 거래대금: 83.2억 달러
-뚜렷한 재료 없음 (반도체주 전반 반등 흐름)
 
-TSMC ADR(TSM) | +3.51% | 거래대금: 60.2억 달러
-뚜렷한 재료 없음
+5. 투자자 동향 및 시장 분위기
 
-마벨 테크놀로지(MRVL) | +9.49% | 거래대금: 50.6억 달러
-뚜렷한 재료 없음 (반도체주 전반 반등 흐름)
+- VIX는 앤트로픽 거래 시작 직후 투자자들이 기술주에서 빠져나가면서 29 가까이 올라 3월 이후 최고치를 기록했다.
+- 최근 주식시장은 수년간 증시를 연이은 사상 최고치로 끌어올린 AI 주도 상승의 지속 가능성에 대한 우려 속에 큰 타격을 받고 있으며, S&P 500은 6거래일 연속 하락 흐름을 보였다.
+- 시장은 AI 인프라 구축에 대한 막대한 지출이 의미 있는 이익으로 이어질지에 주목하며 AI에 대해 더 신중해진 상태다. BAI ETF는 이달 10% 하락했고, 코어위브는 11월 들어 16% 하락했다.
 
-어플라이드 머티어리얼즈(AMAT) | +11.37% | 거래대금: 39.6억 달러
-뚜렷한 재료 없음 (이번 주 실적 발표 예정)
+출처
+- Dow closes below 50,000; Nasdaq falls 2% as Anthropic IPO fails to resuscitate AI trade
+- Stock Market Today: Major Indexes Plunge as Anthropic IPO Fails to Stem Broad Sell-Off
 
-팔란티어(PLTR) | +5.5% | 거래대금: 38.6억 달러
-TradingKey는 3분기 실적 소화 이후 매수세가 유입되었으며, 미국 내 상업 부문 매출이 정부 계약 매출을 넘어선 점이 핵심 동력이라고 분석했다.
 
-램 리서치(LRCX) | +10.41% | 거래대금: 35.7억 달러
-뚜렷한 재료 없음 (반도체 장비주 전반 강세)
+6. 섹터별(산업별) 뉴스
 
-코히런트(COHR) | +16.79% | 거래대금: 32.5억 달러
-뚜렷한 재료 없음
+반도체
+- 앤트로픽의 공모가 상향 확정 소식에 오전장에서 반도체주가 상승했으나 이후 상승분을 반납했다. 아이셰어즈 반도체 ETF(SOXX)는 1% 넘게 하락했고, 브로드컴, 마벨, 마이크론이 모두 밀렸다. 인텔은 상승했다.
+- AMD는 장 초반 급등했으나, 공매도 기관 헌터브룩 캐피털이 공매도 포지션을 공개하며 중국 관련 수출통제 위반 의혹을 제기한 뒤 7.72% 급락 마감했다.
+- 엔비디아는 장중 5% 가까이 올랐다가 -3.3%로 마감했다. 젠슨 황의 CEO 사임으로 이어진 사생활 관련 폭로 이후 2주도 안 돼 주가가 20% 가까이 하락했으며, 이번 주 견조한 실적 발표도 주가를 끌어올리지 못했다.
 
-캐터필러(CAT) | +7.21% | 거래대금: 21.7억 달러
-뚜렷한 재료 없음 (CNBC는 골드만삭스와 함께 다우 상승을 떠받친 종목으로 언급)
+빅테크
+- 마이크로소프트, 메타, 아마존, 알파벳, 애플, 테슬라 등 대형 기술주가 일제히 하락했다. 스페이스X도 하락했다.
 
-모놀리식 파워 시스템즈(MPWR) | +16.6% | 거래대금: 22.0억 달러
-당일 새로운 호재는 없었으나, 3분기 매출이 처음으로 10억 달러를 넘어 약 12억 달러(전년 대비 63.1% 증가)를 기록한 강한 실적과 2027년까지 기업용 데이터 수요가 이어질 것이라는 경영진 코멘트, 실적 후 월가의 목표가 상향 등에 대한 매수세가 이어지고 있다는 분석(Quiver Quantitative)이 나왔다.
+사이버보안
+- 시스템 취약성과 사이버 공격 가능성에 대한 우려가 커지며 사이버보안주가 전날에 이어 강세를 보였다. 팔로알토 네트웍스는 호실적과 가이던스 상향으로 상승했고, 크라우드스트라이크도 올랐다.
 
-골드만삭스(GS) | +4.67% | 거래대금: 19.3억 달러
-뚜렷한 재료 없음 (CNBC는 다우 상승을 떠받친 종목으로 언급)
+헬스케어 및 소비재
+- 경기소비재와 헬스케어 섹터가 2% 넘게 하락하며 S&P 500 섹터 중 낙폭이 가장 컸다.
+- 유나이티드헬스와 나이키가 각각 약 5% 하락하며 다우 하락을 주도했다.
+- 월마트는 시장 예상에 부합하는 분기 실적을 발표하고 연간 전망을 상향했으나 1% 하락했다.
+- 인스메드는 사노피의 인수 검토 보도에 20.58% 급등했다.
 
-콘스텔레이션 에너지(CEG) | +10.46% | 거래대금: 18.0억 달러
-분기 실적 발표 후 상승했다(Investopedia).
+에너지
+- 다우 구성 종목 중 셰브론만 상승권을 유지했다.
 
-아스테라 랩스(ALAB) | +13.72% | 거래대금: 15.0억 달러
-뚜렷한 재료 없음
+출처
+- Stock Market Today: Major Indexes Plunge as Anthropic IPO Fails to Stem Broad Sell-Off (us_economy_news.md 마감시황 2번 원문)
+- Dow closes below 50,000; Nasdaq falls 2% as Anthropic IPO fails to resuscitate AI trade (us_economy_news.md 마감시황 1번 원문)
+- [Nvidia's Third-Quarter Earnings, Outlook Top Wall Street Expectations - Investopedia](https://www.investopedia.com/nvidia-stock-rises-after-fy27-q3-revenue-net-profit-beat-expectations-nvda-earnings-12258779)
+- [Sanofi Reportedly Gears Up For The Biggest Biotech Deal In Years - Investor's Business Daily](https://www.investors.com/news/technology/insmed-stock-sanofi-takeover-deal-rumor/)
 
-출처:
-- TradingView(StockStory): Why Nvidia (NVDA) shares are trading lower today - https://www.tradingview.com/news/stockstory:52e8a846a094b:0-why-nvidia-nvda-shares-are-trading-lower-today/
-- The Globe and Mail(StockStory): Why AMD (AMD) stock is up today - https://www.theglobeandmail.com/investing/markets/stocks/AMD/pressreleases/8737525/why-amd-amd-stock-is-up-today/
-- TradingKey: Micron Technology Inc Stock (MU) Moved Up by 5.73% on Nov 9 - https://www.tradingkey.com/news/market-movers/262296511-market-movers-mu-20261109
-- TradingKey: Microsoft Corp Stock (MSFT) Moved Up by 3.24% on Nov 9 - https://www.tradingkey.com/news/market-movers/262296988-market-movers-msft-20261109
-- TradingView(StockStory): Why Amazon (AMZN) stock is up today - https://www.tradingview.com/news/stockstory:ee9f694bf094b:0-why-amazon-amzn-stock-is-up-today/
-- TradingKey: Tesla Inc Stock (TSLA) Moved Up by 5.03% on Nov 9 - https://www.tradingkey.com/news/market-movers/262296510-market-movers-tsla-20261109
-- TradingView(StockStory): Meta (META) stock is up, what you need to know - https://www.tradingview.com/news/stockstory:127143f69094b:0-meta-meta-stock-is-up-what-you-need-to-know/
-- TradingView(StockStory): Alphabet (GOOGL) stock is up, what you need to know - https://www.tradingview.com/news/stockstory:d9a9b05e0094b:0-alphabet-googl-stock-is-up-what-you-need-to-know/
-- TradingKey: Palantir Technologies Inc Stock (PLTR) Moved Up by 5.87% on Nov 9 - https://www.tradingkey.com/news/market-movers/262296657-market-movers-pltr-20261109
-- Quiver Quantitative: MPWR jumps as investors appear to keep rewarding a strong Q3 beat and AI-data-center growth outlook - https://www.quiverquant.com/news/MPWR+jumps+as+investors+appear+to+keep+rewarding+a+strong+Q3+beat+and+AI-data-center+growth+outlook
-- CNBC / Investopedia 마감시황 (us_economy_news.md 수록 원문)
 
+7. 월가의 시각
 
-4. 한줄 요약평
+- 보가트 웰스의 알렉스 스펜서 CIO는 "이번 상장은 기술 섹터에 결정적인 시험대가 될 수밖에 없었다. 특히 엔비디아 관련 헤드라인 이후 앤트로픽이 AI 트레이드의 새로운 상징이 될 수 있다"며 "처리하고 소화해야 할 것이 많고, 이것이 불확실성과 변동성의 시기로 이어지고 있다"고 말했다. 또한 "열기가 들어오는 순간은 랠리에 매도하고 차익을 실현하기 좋은 때"라고 덧붙였다.
+- 베어드의 테드 모턴슨 기술 전략가는 앤트로픽의 첫날 움직임을 카지노에 비유하며 "오늘은 중요하지 않다. 그들의 여정에서 눈 깜짝할 순간에 불과하다. 중요한 이벤트이지만 밸류에이션을 결정하는 것은 향후 3년을 어떻게 헤쳐나가느냐"라고 평가했다.
 
-지난주 AI 매도 폭풍 뒤 유가 하락과 반도체 반등으로 3대 지수가 2% 넘게 급등했지만, 엔비디아는 CEO 조사 이슈로 홀로 하락하며 매그니피센트7 중 유일하게 소외된 하루였다.
+출처
+- Dow closes below 50,000; Nasdaq falls 2% as Anthropic IPO fails to resuscitate AI trade (us_economy_news.md 마감시황 1번 원문)
 
 
-5. 경제 지표 및 거시 경제
+8. 인포그래픽 작성용 특징주 요약 (테마별)
 
-유가: WTI 선물은 4.38% 하락한 배럴당 86.85달러, 브렌트유는 5.85% 하락한 92.57달러에 마감했다(CNBC). Investopedia는 WTI가 이란 전쟁 긴장 완화 기대 속에 8월 말 이후 최저 수준 부근에서 거래되었다고 전했다.
-
-금리: 소비자 대출 금리에 영향을 미치는 미국 10년물 국채금리는 4.88%로 소폭 상승했다(Investopedia, 장중 기준).
-
-금·비트코인: 금 선물은 1% 오른 온스당 4,115달러, 비트코인은 주말 고점인 76,000달러 이상에서 내려온 74,500달러에 거래되었다(Investopedia, 장중 기준).
-
-물가 지표 일정: 투자자들은 연준의 다음 행보에 대한 단서를 찾기 위해 화요일 소비자물가지수(CPI)와 금요일 생산자물가지수(PPI) 발표를 주시할 예정이다(CNBC).
-
-출처:
-- CNBC: Dow surges 1,100 points, Nasdaq climbs more than 2% as tech rebounds from last week's tumult (us_economy_news.md 수록 원문)
-- Investopedia: Stock Market Today: Dow Climbs 1,100 Points as Market Rebounds from Last Week's AI Meltdown; Nvidia Shares Sink Amid CEO Probe (us_economy_news.md 수록 원문)
-
-
-6. 투자자 동향 및 시장 분위기
-
-StockStory는 지난주 AI 종목 주도의 급락 이후 저가 매수세(dip buyers)가 유입되면서 나스닥이 장 초반 2% 넘게 반등했다고 전했다. CNBC에 따르면 유가 하락이 투자심리를 끌어올렸다.
-
-다만 우려도 남아 있다. CNBC는 민주당의 중간선거 선전 이후 데이터센터 건설, 에너지 사용, 개발 비용 관련 규제 강화가 AI 인프라 붐을 늦출 수 있다는 투자자들의 우려가 지속되고 있다고 전했다. 엔비디아 관련 StockStory 기사에 따르면, 지난주 반도체 반등 당시 트럼프 대통령이 트루스소셜에 AI 인프라를 100% 지지한다며 데이터센터를 "금(GOLD)"이라고 표현하고 각 주의 용량 확대를 돕겠다고 밝힌 것이 민주당 승리와 데이터센터 프로젝트 중단 요구로 인한 우려를 완화한 바 있다.
-
-출처:
-- TradingView(StockStory): Why Nvidia (NVDA) shares are trading lower today - https://www.tradingview.com/news/stockstory:52e8a846a094b:0-why-nvidia-nvda-shares-are-trading-lower-today/
-- The Globe and Mail(StockStory): Why AMD (AMD) stock is up today - https://www.theglobeandmail.com/investing/markets/stocks/AMD/pressreleases/8737525/why-amd-amd-stock-is-up-today/
-- CNBC 마감시황 (us_economy_news.md 수록 원문)
-
-
-7. 섹터별 뉴스
-
-반도체: 지난주 매도세의 중심이었던 반도체주가 대부분 반등했다. AMD 13%, 브로드컴·마벨 9% 이상, 인텔·램 리서치 8% 상승했고 iShares 반도체 ETF(SOXX)는 7% 넘게 올랐다(Investopedia). 반면 엔비디아는 CEO 관련 이사회 조사 착수 소식에 약 4% 하락했다.
-
-빅테크·클라우드: 엔비디아를 제외한 M7 종목이 모두 상승했다. JP모건은 아마존과 메타를 Analyst Focus List에 올리고 알파벳을 제외했다. 알파벳은 TPU 8i Max와 TPU 8tx 등 신규 TPU 시스템을 발표했고, AMD는 자사 EPYC CPU가 구글 클라우드 TPU 8tx의 호스트 기반으로 쓰인다고 밝혔다.
-
-에너지·원자재: WTI와 브렌트유가 각각 4.38%, 5.85% 하락했다(CNBC). 금 선물은 1% 상승했고, 세계 최대 금광업체 중 하나인 배릭 마이닝은 분기 실적 발표 후 5% 올랐다(Investopedia).
-
-전력·원전: 원전 대기업 콘스텔레이션 에너지가 분기 실적 발표 후 10% 상승했다(Investopedia).
-
-산업재·금융: 골드만삭스와 캐터필러가 다우지수 상승을 떠받쳤다(CNBC).
-
-출처:
-- CNBC / Investopedia 마감시황 (us_economy_news.md 수록 원문)
-- TradingView(StockStory) 아마존·메타·알파벳 기사, The Globe and Mail(StockStory) AMD 기사 (3번 섹션 링크 참조)
-
-
-8. 월가의 시각 및 향후 일정
-
-인프라스트럭처 캐피털 어드바이저스의 제이 햇필드 CEO는 최근 반도체 매도세가 "과도했다"고 평가했다. 다만 단기적으로, 그리고 더 중요하게는 2028년을 향한 장기적으로 민주당발 정책 부담이 "분명히 존재한다"며 매도세가 "부분적으로는 옳았다"고 덧붙였다. 그럼에도 그는 결국 미국에서 데이터센터가 "지어질 것"이라고 보고 있다.
-
-햇필드는 월요일 반등에도 "안심할 상황은 아니다"라며, S&P 500이 연말까지 박스권에 머물 것으로 예상했다. 그는 중동 분쟁으로 높아진 유가와 연준의 금리 전망을 시장의 부담 요인으로 지목했다.
-
-이번 주 일정
-- AI 관련 실적: 코어위브, 시스코, 어플라이드 머티어리얼즈
-- 화요일: 소비자물가지수(CPI)
-- 금요일: 생산자물가지수(PPI)
-
-출처:
-- CNBC: Dow surges 1,100 points, Nasdaq climbs more than 2% as tech rebounds from last week's tumult (us_economy_news.md 수록 원문)
-
-
-9. 인포그래픽 작성용 특징주 요약 (테마별)
+AI 신규 상장
+- 앤트로픽(ANT) | +17.07% | 858.1억 달러 | 사상 최대 IPO, 공모가 83달러 대비 상승 마감
 
 M7
-- 엔비디아(NVDA) | -4.27% | 803.2억 달러 | 이사회의 젠슨 황 CEO 관련 독립 조사 착수
-- 애플(AAPL) | +2.43% | 160.6억 달러 | 뚜렷한 재료 없음, M7 동반 상승
-- 마이크로소프트(MSFT) | +2.75% | 135.5억 달러 | 뚜렷한 재료 없음, M7 동반 상승
-- 아마존닷컴(AMZN) | +2.94% | 133.4억 달러 | JP모건 AI 최선호주 선정, AWS 성장 기대
-- 테슬라(TSLA) | +5.54% | 127.5억 달러 | 자율주행·AI 로드맵 낙관론(TradingKey)
-- 메타(META) | +5.12% | 120.2억 달러 | JP모건 Analyst Focus List 편입
-- 알파벳 A(GOOGL) | +1.18% | 104.0억 달러 | 신규 TPU 8i Max·8tx 발표
+- 엔비디아(NVDA) | -3.3% | 465.1억 달러 | 장중 5% 가까이 올랐다가 상승분 반납
+- 마이크로소프트(MSFT) | -1.78% | 143.9억 달러 | 오전 상승분 반납, 빅테크 동반 약세
+- 애플(AAPL) | -0.92% | 139.2억 달러 | 빅테크 동반 약세
+- 아마존(AMZN) | -3.87% | 136.2억 달러 | 빅테크 동반 약세
+- 알파벳 A(GOOGL) | -3.46% | 135.4억 달러 | 빅테크 동반 약세
+- 테슬라(TSLA) | -2.43% | 96.1억 달러 | 빅테크 동반 약세
+- 메타(META) | -3.27% | 91.5억 달러 | 오전 상승분 반납, 빅테크 동반 약세
 
-AI 반도체
-- AMD(AMD) | +13.26% | 251.4억 달러 | 구글 클라우드 TPU 8tx 채택 발표, 오펜하이머 매수 상향
-- 브로드컴(AVGO) | +8.78% | 115.2억 달러 | 반도체주 전반 반등
-- 마벨 테크놀로지(MRVL) | +9.49% | 50.6억 달러 | 반도체주 전반 반등
-- 인텔(INTC) | +5.49% | 83.2억 달러 | 반도체주 전반 반등
-- TSMC ADR(TSM) | +3.51% | 60.2억 달러 | 뚜렷한 재료 없음
-- 아스테라 랩스(ALAB) | +13.72% | 15.0억 달러 | 뚜렷한 재료 없음
-- 모놀리식 파워 시스템즈(MPWR) | +16.6% | 22.0억 달러 | 사상 첫 분기 매출 10억 달러 돌파 실적 후 매수세 지속
+반도체
+- AMD(AMD) | -7.72% | 350.6억 달러 | 헌터브룩 공매도 및 중국 수출통제 위반 의혹 제기
+- 마이크론(MU) | -2.1% | 246.7억 달러 | 오전 상승분 반납
+- 인텔(INTC) | +1.92% | 71.0억 달러 | 파운드리·공정 로드맵 낙관론
+- 퀄컴(QCOM) | +1.38% | 21.2억 달러 | 비스마트폰 사업 중심 장기 성장 목표 제시
 
-메모리·스토리지
-- 마이크론 테크놀로지(MU) | +6.25% | 229.0억 달러 | HBM 수요·AI 인프라 기대(TradingKey)
-- 샌디스크(SNDK) | +6.16% | 119.4억 달러 | 뚜렷한 재료 없음
+스토리지
+- 씨게이트(STX) | +1.06% | 27.1억 달러 | AI·데이터 인프라주 반등
+- 웨스턴 디지털(WDC) | +2.98% | 24.9억 달러 | AI 인프라용 고용량 HDD 수요
 
-반도체 장비
-- 어플라이드 머티어리얼즈(AMAT) | +11.37% | 39.6억 달러 | 뚜렷한 재료 없음, 이번 주 실적 발표
-- 램 리서치(LRCX) | +10.41% | 35.7억 달러 | 반도체 장비주 전반 강세
+사이버보안
+- 팔로알토 네트웍스(PANW) | +6.42% | 67.9억 달러 | 호실적 및 가이던스 상향
+- 크라우드스트라이크(CRWD) | +2.71% | 28.6억 달러 | 사이버 공격 우려 속 보안주 강세
+- 옥타(OKTA) | +5.75% | 12.6억 달러 | 디지털 인프라 취약성 우려 속 랠리
 
-광통신
-- 코히런트(COHR) | +16.79% | 32.5억 달러 | 뚜렷한 재료 없음
+바이오·헬스케어
+- 인스메드(INSM) | +20.58% | 20.3억 달러 | 사노피 인수 검토 보도
+- 유나이티드헬스(UNH) | -5.55% | 64.2억 달러 | 다우 하락 주도
 
-AI 소프트웨어
-- 팔란티어(PLTR) | +5.5% | 38.6억 달러 | 3분기 실적 소화, 상업 매출이 정부 매출 추월(TradingKey)
+중국 이커머스
+- 핀둬둬(PDD) | +11.04% | 19.2억 달러 | 예상 상회 3분기 실적
 
-우주항공
-- 스페이스X(SPCX) | +5.81% | 143.9억 달러 | 뚜렷한 재료 없음
-
-전력·원전
-- 콘스텔레이션 에너지(CEG) | +10.46% | 18.0억 달러 | 분기 실적 발표 후 상승
-
-다우 견인주(산업재·금융)
-- 캐터필러(CAT) | +7.21% | 21.7억 달러 | 다우 상승 견인 종목
-- 골드만삭스(GS) | +4.67% | 19.3억 달러 | 다우 상승 견인 종목
-
-출처:
-- us_economy_news.md 거래대금 상위 100 데이터 및 3번 섹션 기재 기사
+출처
+- us_economy_news.md 거래대금 상위 100 표 및 특징주 관련 뉴스
+- Stock Market Today: Major Indexes Plunge as Anthropic IPO Fails to Stem Broad Sell-Off (us_economy_news.md 마감시황 2번 원문)
+- Dow closes below 50,000; Nasdaq falls 2% as Anthropic IPO fails to resuscitate AI trade (us_economy_news.md 마감시황 1번 원문)
